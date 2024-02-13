@@ -250,6 +250,9 @@ const ColocarPromesas=(props)=>{
                     document.getElementById("whatsApp").value="";
                     document.getElementById("adicional").value="";
                     document.getElementById("tipoLlamadaAutocomplete").value="";
+                    setObservaciones(null);
+                    setAdicional(null);
+
                 }else{
                     handleCloseSiNo();
                     handleOpenInfo("No se pudo inser el registo, favor de notificar a tu supervisor(a)");
