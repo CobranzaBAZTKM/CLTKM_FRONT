@@ -773,6 +773,8 @@ const SupervisarPP=(props)=>{
     }
 
     const asignarServices=()=>{
+        handleCloseModalSiNoCuTxt()
+        handleOpen();
         if(cookieAsignar!==null){
             let endPoint="service/gestores/asignarClientesAGestores";
             let json={
@@ -782,13 +784,22 @@ const SupervisarPP=(props)=>{
             }
             servicio.consumirServicios(json,endPoint).then(
                 data=>{
+                    if(data.code===1){
+                        obtenerPromesas();
+                        handleClose();
+                        handleOpenInfo(data.data);
+
+                    }else{
+                        handleClose();
+                        handleOpenInfo("Sucedio algo inesperado, favor de notificar");
+                    }
                     console.log(data);
                 
                 }            
             )
 
 
-            handleCloseModalSiNoCuTxt()
+            
         }else{
             handleOpenInfo("Falta poner la cookie");
         }

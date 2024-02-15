@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import {TextField, Button, Grid,Autocomplete} from '@mui/material';
+import {TextField, Button, Grid,Autocomplete,Input,InputLabel,FormControl} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {ModalEspera,ModalInfo,ModalSiNo} from '../../services/modals';
 import Servicios from '../../services/servicios';
 import { useNavigate  } from "react-router-dom"
+import { IMaskInput } from 'react-imask';
 
 
 const servicio=new Servicios();
@@ -198,7 +199,7 @@ const ColocarPromesas=(props)=>{
     const handleClickGuardar=()=>{
         handleOpen();
         
-    
+        let cus=clienteUnico!==null?clienteUnico.split("-"):null;
 
         if(String(telefono).length!==10){
             handleClose();
@@ -206,7 +207,11 @@ const ColocarPromesas=(props)=>{
         }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
-        }else{
+        }
+        // else if(cus===null||cus[0]){
+
+        // }
+        else{
             handleClose();
             handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
         }
@@ -215,6 +220,17 @@ const ColocarPromesas=(props)=>{
     }
 
     const handleOnClickInsertarPromesa=()=>{
+        let cuDivi=clienteUnico.split("-");
+        let sucursalCU=cuDivi[1];
+        let folioCU=cuDivi.length===3?cuDivi[2]:cuDivi[2]+cuDivi[3]
+        let paisCanalCUDiv=cuDivi[0].split("");
+        let paisCU=paisCanalCUDiv[1];
+        let canalCU=paisCanalCUDiv[2]==="0"?paisCanalCUDiv[3]:paisCanalCUDiv[2]+paisCanalCUDiv[3];
+
+        let clienteUnicoCom=paisCU+"-"+canalCU+"-"+sucursalCU+"-"+folioCU;
+
+
+
         let endPoint="service/promesas/insertarPromesas";
         let json={
             "fechaIngesoPP":fechaIngPP,
@@ -223,7 +239,7 @@ const ColocarPromesas=(props)=>{
             "folio":folio,
             "montoPago":montoPago,
             "nombreCliente":nombreCliente,
-            "clienteUnico":clienteUnico,
+            "clienteUnico":clienteUnicoCom,
             "telefono":telefono,
             "idGestorSCL":idGestorSCL,
             "nombreGestor":nombreGestor,
@@ -398,11 +414,19 @@ const ColocarPromesas=(props)=>{
                             <p><strong>CLIENTE UNICO</strong></p>
                         </Grid>
                         <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
+                            {/* <TextField 
                                 id="clienteUnico" 
                                 label="Cliente Unico" 
                                 onChange={handleOnChangeClienteUnico}    
-                            />
+                            /> */}
+                            <FormControl variant="outlined">
+                                <InputLabel htmlFor="formatted-text-mask-input">Cliente Unico</InputLabel>
+                                <Input                                                                   
+                                    onChange={handleOnChangeClienteUnico}                                   
+                                    id="clienteUnico"
+                                    inputComponent={TextMaskCustom}
+                                />
+                            </FormControl>
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid> 
@@ -545,3 +569,19 @@ const ColocarPromesas=(props)=>{
         </div>
     )
 }
+
+
+const TextMaskCustom = (props) => {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="0000-0000-0000-0000"
+        definitions={{
+          "#": /[1-9]/,
+        }}
+        onAccept={(value) => onChange({ target: { name: props.name, value } })}
+        overwrite
+      />
+    );
+  };
