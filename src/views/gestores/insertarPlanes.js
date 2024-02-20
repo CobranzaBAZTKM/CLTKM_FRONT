@@ -249,8 +249,8 @@ const ColocarPromesas=(props)=>{
             "asignado":0,
             "idGestorTKM":parseInt(idGestorTKM),
             "inserto":parseInt(idGestorTKM),
-            "tipoLlamada":tipoLlamada
-
+            "tipoLlamada":tipoLlamada,
+            "pagoFinal":0
         }
         servicio.consumirServicios(json,endPoint).then(
             data=>{
@@ -576,7 +576,7 @@ const TextMaskCustom = (props) => {
     return (
       <IMaskInput
         {...other}
-        mask="0000-0000-0000-0000"
+        mask="0000-00000-0000-0000"
         definitions={{
           "#": /[1-9]/,
         }}
