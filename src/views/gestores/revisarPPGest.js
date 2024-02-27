@@ -7,7 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Servicios from '../../services/servicios';
-import {ModalInfo} from '../../services/modals';
+import {ModalInfo,Modal10i2e} from '../../services/modals';
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -102,6 +102,12 @@ const columnas=[
         headerName: "Adicional",
         width:150,
         editable:false,
+    },
+    {
+        field:"pagoFinal",
+        headerName: "Pago",
+        width:150,
+        editable:false,
     }
 
  ]
@@ -156,8 +162,32 @@ const RevisarPromesasGes=(props)=>{
     const [fechaYearBusq,setFechaYearBusq]=useState(null);
     const [tipoFechaBusq, setTipoFechaBusq]=useState(null);
 
+    const [idAct, setIdAct]=useState(null);
+    const [estatusAct, setEstatusAct]=useState(null);
+    const [pagoAct, setPagoAct]=useState(null);
+
+
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
+
+    const [openModal10i2e, setOpenModal10i2e]= React.useState(false);
+    const [mensaje110i2e, setMensaje110i2e]=useState(null);
+    const [mensaje210i2e, setMensaje210i2e]=useState(null);
+    const [mensaje310i2e, setMensaje310i2e]=useState(null);
+    const [mensaje410i2e, setMensaje410i2e]=useState(null);
+    const [mensaje510i2e, setMensaje510i2e]=useState(null);
+    const [mensaje610i2e, setMensaje610i2e]=useState(null);
+    const [mensaje710i2e, setMensaje710i2e]=useState(null);
+    const [mensaje810i2e, setMensaje810i2e]=useState(null);
+    const [mensaje910i2e, setMensaje910i2e]=useState(null);
+    const [mensaje1010i2e, setMensaje1010i2e]=useState(null);
+    const [mensaje1110i2e, setMensaje1110i2e]=useState(null);
+    const [mensaje1210i2e, setMensaje1210i2e]=useState(null);
+    const [elegible110i2e, setElegible110i2e]=useState("");
+    const [elegible210i2e, setElegible210i2e]=useState("");
+    const [opcion112i2e, setOpcion112i2e]=useState(null);
+
+
 
     const handleOpenInfo = (mensaje) => {
         setMensajeModalInfo(mensaje);
@@ -166,6 +196,29 @@ const RevisarPromesasGes=(props)=>{
     const handleCloseInfo = () => {
         setOpenModalInfo(false);
     };
+
+    const handleOpen10i2e=(sms1,sms2,sms3,sms4,sms5,sms6,sms7,sms8,sms9,sms10,sms11,sms12,ele1,ele2)=>{
+        setMensaje110i2e(sms1);
+        setMensaje210i2e(sms2);
+        setMensaje310i2e(sms3);
+        setMensaje410i2e(sms4);
+        setMensaje510i2e(sms5);
+        setMensaje610i2e(sms6);
+        setMensaje710i2e(sms7);
+        setMensaje810i2e(sms8);
+        setMensaje910i2e(sms9);
+        setMensaje1010i2e(sms10);
+        setMensaje1110i2e(sms11);
+        setMensaje1210i2e(sms12);
+        setElegible110i2e(ele1);
+        setElegible210i2e(ele2);
+        setOpcion112i2e("Actualizar")
+        setOpenModal10i2e(true)
+    }
+
+    const handleClose10i2e=()=>{
+        setOpenModal10i2e(false);
+    }
 
 
 
@@ -380,6 +433,75 @@ const RevisarPromesasGes=(props)=>{
         }
     }
 
+    const handleRowClick = (params) => {
+        setIdAct(params.row.id);
+        let mensaje1="FECHA INGRESO PP: "+params.row.fechaIngesoPP;
+        let mensaje2="FECHA PAGO: "+params.row.fechaPago;
+        let mensaje3="FECHA VENCIMIENTO: "+params.row.fechaVencimientoPP;
+        let mensaje4="FOLIO: "+params.row.folio;
+        let mensaje5="MONTO PAGO: "+params.row.montoPago;
+        let mensaje6="NOMBRE DE CLIENTE: "+params.row.nombreCliente;
+        let mensaje7="CLIENTE UNICO:"+params.row.clienteUnico;
+        let mensaje8="TELEFONO: "+params.row.telefono;
+        let mensaje9="OBSERVACIONES: "+params.row.observaciones;
+        let mensaje10="WHATSAPP: "+params.row.whatsApp;
+        let mensaje11="ESTATUS: ";
+        let mensaje12="PAGO: ";
+
+        let elegible1=params.row.nota;
+        let elegible2=params.row.pagoFinal;
+        
+        handleOpen10i2e(mensaje1,mensaje2,mensaje3,mensaje4,mensaje5,mensaje6,mensaje7,mensaje8,mensaje9,mensaje10,mensaje11,mensaje12, elegible1,elegible2);    
+    }
+
+    const handleOnChangeEstatus=(event)=>{
+        setEstatusAct(event.target.value);
+    }
+
+    const handleOnChangePago=(event)=>{
+        setPagoAct(event.target.value);
+    }
+
+    const actualizarEstPag=()=>{
+        let json=null;
+        let endPoint="service/promesas/actualizarPromesasEstPag";
+
+        if(estatusAct===null&&pagoAct===null){
+            handleOpenInfo("No se ha modificado ningun dato");
+        }else if(estatusAct!==null&&pagoAct===null){
+            json={
+                "id":idAct,
+                "nota":estatusAct,
+                "pagoFinal":elegible210i2e
+            }
+        }else if(estatusAct===null&&pagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":elegible110i2e,
+                "pagoFinal":pagoAct
+            }
+        }else if(estatusAct!==null&&pagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":estatusAct,
+                "pagoFinal":pagoAct
+            }
+        }
+
+        servicio.consumirServicios(json,endPoint).then(
+            data=>{
+                if(data.code===1){
+                    handleClose10i2e();
+                    handleOpenInfo("Cambios actualizados correctamente");
+                    handleClickBuscar();
+                }else{
+                    handleOpenInfo("Los cambios no se  actualizaron, favor de notificar a tu supervisor");
+                }
+            }
+        )
+    }
+
+
 
     const handleClickRegresasr=()=>{
         navigate("/CLTKM_FRONT/gestores/menu");
@@ -507,11 +629,10 @@ const RevisarPromesasGes=(props)=>{
                 <Grid item xl={11} lg={11} md={11} sm={11} hidden={mostarTabla}>
                     <DataGrid
                         id="tablaDatosPP"
-                        // rows={ejemploRows}
                         rows={promesas}
                         columns={columnas}
                         pageZise={5}
-                        // onRowClick={handleRowClick} 
+                        onRowClick={handleRowClick} 
                         initialState={{
                             pagination: {
                               paginationModel: { page: 0, pageSize: 5 },
@@ -540,6 +661,28 @@ const RevisarPromesasGes=(props)=>{
 
             <div>
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
+                <Modal10i2e 
+                    open={openModal10i2e}
+                    handleClose={handleClose10i2e}
+                    mensaje1={mensaje110i2e}
+                    mensaje2={mensaje210i2e}
+                    mensaje3={mensaje310i2e}
+                    mensaje4={mensaje410i2e}
+                    mensaje5={mensaje510i2e}
+                    mensaje6={mensaje610i2e}
+                    mensaje7={mensaje710i2e}
+                    mensaje8={mensaje810i2e}
+                    mensaje9={mensaje910i2e}
+                    mensaje10={mensaje1010i2e}
+                    mensaje11={mensaje1110i2e}
+                    mensaje12={mensaje1210i2e}
+                    valor1={elegible110i2e}
+                    valor2={elegible210i2e}
+                    opcion={opcion112i2e}
+                    handleOnChangeValorCuadro1={handleOnChangeEstatus}
+                    handleOnChangeValorCuadro2={handleOnChangePago}
+                    handleCloseBtn1={actualizarEstPag}
+                />
             </div>
         </div>
     )

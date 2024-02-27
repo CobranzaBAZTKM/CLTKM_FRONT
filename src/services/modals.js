@@ -421,11 +421,11 @@ export function Modal11Actualizacines(props){
 
 export function ModalSiNoCuadroText(props){
   return (
-      <Modal
-          open={props.open}
-          onClose={props.handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
 
@@ -461,5 +461,93 @@ export function ModalSiNoCuadroText(props){
       </Box>
     </Modal>
   
+  )
+}
+
+
+export function Modal10i2e(props){
+  return(
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje1}
+        </Typography>
+        {/* &nbsp;&nbsp;&nbsp; */}
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje2}
+        </Typography>
+        {/* <br/> */}
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje3}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje4}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje5}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje6}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje7}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje8}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje9}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje10}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje11}
+        
+          <TextField
+            id="valor1" 
+            label={props.mensaje11}
+            defaultValue={props.valor1}
+            onChange={props.handleOnChangeValorCuadro1}
+          />
+
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje12}
+        
+          <TextField
+            // type="number"
+            id="valor2" 
+            label={props.mensaje12}
+            defaultValue={props.valor2}
+            onChange={props.handleOnChangeValorCuadro2}
+          />
+        </Typography>
+        <br/>
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={()=>{props.handleCloseBtn1()}}
+        >
+          {props.opcion}
+        </Button>
+
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          variant="contained"
+          color="error"
+          size="large"
+          onClick={()=>{props.handleClose()}}
+        >
+          Cancelar
+        </Button>
+      </Box>
+    </Modal>
   )
 }

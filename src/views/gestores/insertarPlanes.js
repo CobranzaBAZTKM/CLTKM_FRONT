@@ -32,7 +32,15 @@ const tipoLlamadaOpcion=[
     {
         id:"Sa",
         valor:"Salida"
-    }
+    },
+    {
+        id:"Bla",
+        valor:"Blaster"
+    },
+    {
+        id:"Sms",
+        valor:"Mensaje"
+    },
 ]
 
 export default class InsertarPlanes extends React.Component{
@@ -87,7 +95,7 @@ const ColocarPromesas=(props)=>{
     const [nombreGestor, setNombreGestor]=useState(null);
     const [observaciones, setObservaciones]=useState(null);
     const [conWhatsApp, setConWhatsApp]=useState(1);
-    const [adicional, setAdicional]=useState(null);
+    const [adicional, setAdicional]=useState("");
     const [tipoLlamada,setTipoLlamada]=useState(null);
 
     const [openModal, setOpenModal] = React.useState(false);
@@ -182,9 +190,9 @@ const ColocarPromesas=(props)=>{
         setConWhatsApp(event.target.value);        
     }
 
-    const handleOnChangeAdicional=(event)=>{
-        setAdicional(event.target.value);
-    }
+    // const handleOnChangeAdicional=(event)=>{
+    //     setAdicional(event.target.value);
+    // }
 
     const handleOnChangeTipoLlamada=(event,newValue)=>{
         if(newValue===null){
@@ -502,7 +510,7 @@ const ColocarPromesas=(props)=>{
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>
                     <br/>
-                    <Grid container spacing={1}>
+                    {/* <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>ADICIONAL</strong></p>
                         </Grid>
@@ -515,7 +523,7 @@ const ColocarPromesas=(props)=>{
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>
-                    <br/>
+                    <br/> */}
                     <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>TIPO LLAMADA</strong></p>

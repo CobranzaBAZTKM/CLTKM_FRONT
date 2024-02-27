@@ -72,7 +72,7 @@ const columnas=[
     {
         field:"nombreCliente",
         headerName: "Nombre del Cliente",
-        width:150,
+        width:300,
         editable:false,
     },
     {
@@ -141,6 +141,12 @@ const columnas=[
         width:200,
         editable:false,
     },
+    {
+        field:"pagoFinal",
+        headerName: "Pago",
+        width:150,
+        editable:false,
+    }
 
  ]
 
@@ -788,6 +794,7 @@ const SupervisarPP=(props)=>{
                         obtenerPromesas();
                         handleClose();
                         handleOpenInfo(data.data);
+                        setAsignarPpLista([]);
 
                     }else{
                         handleClose();
