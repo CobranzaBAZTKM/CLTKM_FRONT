@@ -272,7 +272,7 @@ const ColocarPromesas=(props)=>{
                     document.getElementById("telefono").value="";
                     document.getElementById("observaciones").value="";
                     document.getElementById("whatsApp").value="";
-                    document.getElementById("adicional").value="";
+                    // document.getElementById("adicional").value="";
                     document.getElementById("tipoLlamadaAutocomplete").value="";
                     setObservaciones(null);
                     setAdicional(null);
