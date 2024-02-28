@@ -197,6 +197,7 @@ const SupervisarPP=(props)=>{
     const [login, setLogin]=useState(false);
     const [idLogin, setIdLogin]=useState(null);
     const [passLogin, setPassLogin]=useState(null);
+    const [turnoLogin, setTurnoLogin]=useState(null);
     const [showPassword, setShowPassword] = React.useState(false);
 
     const [mostarTabla, setMostrarTabla]=useState(true);
@@ -337,6 +338,7 @@ const SupervisarPP=(props)=>{
   
         handleOpen();
         let nombre=null;
+        let turno=null;
 
         if(idLogin!==null&&idLogin!==""&&passLogin!==null&&passLogin!==""){
             props.personal.forEach(function(element){
@@ -344,6 +346,7 @@ const SupervisarPP=(props)=>{
                     if(element.idTkm===parseInt(idLogin)){
                         if(element.password===passLogin){
                             nombre=element.nombreGestor;
+                            setTurnoLogin(element.turno);
                         }
                         // }else{
                         //     handleClose();
@@ -450,7 +453,18 @@ const SupervisarPP=(props)=>{
         servicio.consumirServiciosGET("service/promesas/consultarPromesasPP").then(
             data=>{
                 if(data.code===1){
-                    revisarPromesas(data.data)
+                    if(turnoLogin!=="C"){
+                        let prom=[];
+                        data.data.forEach(function(element){
+                            if(element.turnoGestor===turnoLogin){
+                                prom.push(element);
+                            }
+                        })
+
+                        revisarPromesas(prom);
+                    }else{
+                        revisarPromesas(data.data);
+                    }
                 }
             }
         )

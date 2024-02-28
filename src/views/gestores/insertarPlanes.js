@@ -93,6 +93,7 @@ const ColocarPromesas=(props)=>{
     const [idGestorTKM, setIdGestorTKM]=useState(null);
     const [idGestorSCL, setIdGestorSCL]=useState(null);
     const [nombreGestor, setNombreGestor]=useState(null);
+    const [turnoGestor, setTurnoGestor]=useState(null);
     const [observaciones, setObservaciones]=useState(null);
     const [conWhatsApp, setConWhatsApp]=useState(1);
     const [adicional, setAdicional]=useState("");
@@ -174,11 +175,13 @@ const ColocarPromesas=(props)=>{
             setIdGestorTKM(null);
             setIdGestorSCL(null);
             setNombreGestor(null);
+            setTurnoGestor(null);
         }
         else{
             setIdGestorTKM(newValue.idTkm)
             setIdGestorSCL(newValue.idGestor);
             setNombreGestor(newValue.nombreGestor);
+            setTurnoGestor(newValue.turno)
         }
     }
 
@@ -258,7 +261,8 @@ const ColocarPromesas=(props)=>{
             "idGestorTKM":parseInt(idGestorTKM),
             "inserto":parseInt(idGestorTKM),
             "tipoLlamada":tipoLlamada,
-            "pagoFinal":0
+            "pagoFinal":0,
+            "turnoGestor":turnoGestor
         }
         servicio.consumirServicios(json,endPoint).then(
             data=>{
