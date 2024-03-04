@@ -551,3 +551,58 @@ export function Modal10i2e(props){
     </Modal>
   )
 }
+
+
+export function ModalSiNo2CuadroTextPass(props){
+  return (
+    <Modal
+      open={props.open}
+      onClose={props.handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje}
+        </Typography>
+        <br/>
+        <TextField 
+          id="valor1" 
+          label={props.encabezadoCuadroText}
+          onChange={props.handleOnChangeValorCuadro}
+        />
+        <br/><br/>
+        <TextField 
+          id="valor2" 
+          type="password"
+          label={props.encabezadoCuadroPass}
+          onChange={props.handleOnChangeValorPass}
+        />
+        
+
+
+        <br/><br/>
+        <Button
+          variant="contained"
+          color="success"
+          size="large"
+          onClick={()=>{props.handleCloseSi()}}
+        >
+          Si
+        </Button>
+
+        &nbsp;&nbsp;&nbsp;
+        <Button
+          variant="contained"
+          color="error"
+          size="large"
+          onClick={()=>{props.handleClose()}}
+        >
+          No
+        </Button>
+      </Box>
+    </Modal>
+  
+  )
+}

@@ -33,6 +33,17 @@ const opcionesFecha=[
     }
 ]
 
+const opcionesTurno=[
+    {
+        id:"M",
+        valor:"Matutino"
+    },
+    {
+        id:"V",
+        valor:"Vespertino"
+    }
+]
+
 const columnas=[
     { 
         field: 'id', 
@@ -198,6 +209,7 @@ const SupervisarPP=(props)=>{
     const [idLogin, setIdLogin]=useState(null);
     const [passLogin, setPassLogin]=useState(null);
     const [turnoLogin, setTurnoLogin]=useState(null);
+    const [nivelLogin,setNiveLogin]=useState(null);
     const [showPassword, setShowPassword] = React.useState(false);
 
     const [mostarTabla, setMostrarTabla]=useState(true);
@@ -347,6 +359,7 @@ const SupervisarPP=(props)=>{
                         if(element.password===passLogin){
                             nombre=element.nombreGestor;
                             setTurnoLogin(element.turno);
+                            setNiveLogin(element.puesto);
                         }
                         // }else{
                         //     handleClose();
@@ -440,6 +453,14 @@ const SupervisarPP=(props)=>{
 
     const handleOnChangeBusqCookie=(event,newValue)=>{
         setCookieBusq(event.target.value);
+    }
+
+    const handleOnChangeTurno=(event,newValue)=>{
+        if(newValue===null){
+            setTurnoLogin("C")
+        }else{
+            setTurnoLogin(newValue.id);
+        }
     }
 
 
@@ -952,7 +973,23 @@ const SupervisarPP=(props)=>{
 
 
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2} hidden={!login}>
+
+                {
+                    nivelLogin===1?(
+                        <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
+
+                            <Autocomplete 
+                                id="Turno"          
+                                options={opcionesTurno}
+                                getOptionLabel={(option) => option.valor}
+                                renderInput={(params) => <TextField {...params} label="Turno" variant="outlined" />}
+                                onChange={handleOnChangeTurno}
+                            />
+
+                        </Grid>
+                    ):(<></>)
+                }
+                <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
                      <Button
                         variant="contained"
                         color="success"

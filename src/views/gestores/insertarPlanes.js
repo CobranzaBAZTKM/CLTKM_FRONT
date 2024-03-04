@@ -4,7 +4,7 @@ import {TextField, Button, Grid,Autocomplete,Input,InputLabel,FormControl} from 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {ModalEspera,ModalInfo,ModalSiNo} from '../../services/modals';
+import {ModalEspera,ModalInfo,ModalSiNo,ModalSiNo2CuadroTextPass} from '../../services/modals';
 import Servicios from '../../services/servicios';
 import { useNavigate  } from "react-router-dom"
 import { IMaskInput } from 'react-imask';
@@ -99,12 +99,21 @@ const ColocarPromesas=(props)=>{
     const [adicional, setAdicional]=useState("");
     const [tipoLlamada,setTipoLlamada]=useState(null);
 
+    const [clienteUnicoInser,setClienteUnicoInser]=useState(null);
+
+    const [idSuperAut, setIdSuperAut]=useState(null);
+    const [passSuperAut,setPassSuperAut]=useState(null);
+
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
 
     const [openModalSiNo, setOpenModalSiNo]= React.useState(false);
     const [mensajeModalSiNo,setMensajeModalSiNo]=useState(null);
+
+    const [openModelSiNoCuPas, setOpenModelSiNoCuPas]= React.useState(false);
+    const [mensajeModalSiNoCuaPas, setMensajeModalSiNoCuaPas]= React.useState(false);
+
     
     const handleOpen = () => {
         setOpenModal(true);
@@ -128,6 +137,15 @@ const ColocarPromesas=(props)=>{
 
     const handleCloseSiNo=()=>{
         setOpenModalSiNo(false);
+    }
+
+    const handleOpenSiNoCuaPass=(mensaje)=>{
+        setMensajeModalSiNoCuaPas(mensaje);
+        setOpenModelSiNoCuPas(true);
+    }
+
+    const handleCloseSiNoCuaPass=()=>{
+        setOpenModelSiNoCuPas(false);
     }
 
 
@@ -210,7 +228,8 @@ const ColocarPromesas=(props)=>{
     const handleClickGuardar=()=>{
         handleOpen();
         
-        let cus=clienteUnico!==null?clienteUnico.split("-"):null;
+
+
 
         if(String(telefono).length!==10){
             handleClose();
@@ -219,18 +238,26 @@ const ColocarPromesas=(props)=>{
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
         }
-        // else if(cus===null||cus[0]){
 
-        // }
         else{
-            handleClose();
-            handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
+            let cuDiv=clienteUnico.split("-");
+            let sucursalCU=cuDiv[1].split("");
+
+            if(sucursalCU[0]!=="0"&&sucursalCU[0]!==0){
+                handleClose();
+                handleOpenInfo("Favor de revisar que el Cliente Unico tenga el formato correcto");
+            }else{
+                handleClose();
+                handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
+            }
+
+
         }
 
         
     }
 
-    const handleOnClickInsertarPromesa=()=>{
+    const handleOnClickInsertarPromesa=()=>{ 
         let cuDivi=clienteUnico.split("-");
         let sucursalCU=cuDivi[1];
         let folioCU=cuDivi.length===3?cuDivi[2]:cuDivi[2]+cuDivi[3]
@@ -239,9 +266,66 @@ const ColocarPromesas=(props)=>{
         let canalCU=paisCanalCUDiv[2]==="0"?paisCanalCUDiv[3]:paisCanalCUDiv[2]+paisCanalCUDiv[3];
 
         let clienteUnicoCom=paisCU+"-"+canalCU+"-"+sucursalCU+"-"+folioCU;
+        setClienteUnicoInser(clienteUnicoCom);
 
 
+        servicio.consumirServiciosGET("service/promesas/consultarPromesasPP").then(
+            data=>{
+                if(data.code===1){
+                    let coincidencia=0;
+                    data.data.forEach(function(element){
+                        console.log(element)
+                        if(element.clienteUnico===clienteUnicoCom){
+                            coincidencia=1;
+                        }
+                    })
 
+                    if(coincidencia===0){
+                        insertarPromesa(clienteUnicoCom)
+                    }else{
+                        handleCloseSiNo();
+                        handleOpenSiNoCuaPass("Se encontra una similitud en Cliente Unico, solicita autorización de tu Supervisor para insertar promesa")
+                    }
+
+                }else{
+                    handleCloseSiNo();
+                    handleOpenInfo("Ocurrio algo inesperado, favor de notificar a tu supervisor(a)");
+                }
+            }
+        )
+    }
+
+    const validarSupervisor=()=>{
+
+
+        servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
+            data=>{
+                if(data.code===1){
+                    let supervisor=0;
+                    data.data.forEach(function(element){
+                        if(element.puesto===1||element.puesto===2){
+                            if(element.idTkm===parseInt(idSuperAut)){
+                                if(element.password===passSuperAut){
+                                    supervisor=1;
+                                }
+                            } 
+                        }
+
+                    })
+
+                    if(supervisor===1){
+                        insertarPromesa(clienteUnicoInser);
+                        handleCloseSiNoCuaPass();
+                    }else{
+                        handleOpenInfo("Favor de validar tu usario y contraseña");
+                    }
+                }
+            }
+        )
+    }
+
+
+    const insertarPromesa=(clienteUnico)=>{
         let endPoint="service/promesas/insertarPromesas";
         let json={
             "fechaIngesoPP":fechaIngPP,
@@ -250,12 +334,13 @@ const ColocarPromesas=(props)=>{
             "folio":folio,
             "montoPago":montoPago,
             "nombreCliente":nombreCliente,
-            "clienteUnico":clienteUnicoCom,
+            "clienteUnico":clienteUnico,
             "telefono":telefono,
             "idGestorSCL":idGestorSCL,
             "nombreGestor":nombreGestor,
             "observaciones":observaciones,
-            "whatsApp":conWhatsApp,
+            // "whatsApp":conWhatsApp,
+            "whatsApp":0,
             "nota":adicional,
             "asignado":0,
             "idGestorTKM":parseInt(idGestorTKM),
@@ -275,7 +360,7 @@ const ColocarPromesas=(props)=>{
                     document.getElementById("clienteUnico").value="";
                     document.getElementById("telefono").value="";
                     document.getElementById("observaciones").value="";
-                    document.getElementById("whatsApp").value="";
+                    // document.getElementById("whatsApp").value="";
                     // document.getElementById("adicional").value="";
                     document.getElementById("tipoLlamadaAutocomplete").value="";
                     setObservaciones(null);
@@ -283,10 +368,20 @@ const ColocarPromesas=(props)=>{
 
                 }else{
                     handleCloseSiNo();
-                    handleOpenInfo("No se pudo inser el registo, favor de notificar a tu supervisor(a)");
+                    handleOpenInfo("No se pudo insertar el registo, favor de notificar a tu supervisor(a)");
                 }
             }
         )
+    }
+
+    const handleOnChangeIdAutoriza=(event)=>{
+        setIdSuperAut(event.target.value);
+
+    }
+
+    const handleOnChangePasswAutoriza=(event)=>{
+        setPassSuperAut(event.target.value);
+        
     }
 
     const handleClickRegresasr=()=>{
@@ -488,7 +583,7 @@ const ColocarPromesas=(props)=>{
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>
                     <br/>
-                    <Grid container spacing={1}>
+                    {/* <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>CON WHATSAPP</strong></p>
                         </Grid>
@@ -513,7 +608,7 @@ const ColocarPromesas=(props)=>{
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>
-                    <br/>
+                    <br/> */}
                     {/* <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>ADICIONAL</strong></p>
@@ -574,6 +669,16 @@ const ColocarPromesas=(props)=>{
                 <ModalEspera open={openModal} handleClose={handleClose} />
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
                 <ModalSiNo open={openModalSiNo} handleClose={handleCloseSiNo} mensaje={mensajeModalSiNo} handleCloseSi={handleOnClickInsertarPromesa} />
+                <ModalSiNo2CuadroTextPass
+                    open={openModelSiNoCuPas}
+                    handleClose={handleCloseSiNoCuaPass}
+                    mensaje={mensajeModalSiNoCuaPas}
+                    encabezadoCuadroText={"Id Supervisor"}
+                    handleOnChangeValorCuadro={handleOnChangeIdAutoriza}
+                    encabezadoCuadroPass={"Contraseña"}
+                    handleOnChangeValorPass={handleOnChangePasswAutoriza}
+                    handleCloseSi={validarSupervisor}
+                />
             </div>
 
             {/* className="bordeTarjeta" style={{textAlign:'center'}} */}
