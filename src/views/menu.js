@@ -9,9 +9,8 @@ import Grid from '@mui/material/Grid';
 import { Button } from "@mui/material";
 import Container  from '@mui/material/Container'
 // import Container  from "@material-ui/core/Container";
-import BajarListasBlaster from './supervisores/bajarListasBlaster'
 import { useNavigate  } from "react-router-dom"
-
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export default class Menu extends React.Component{
     render(){
@@ -37,10 +36,10 @@ const Opciones=(props)=>{
 
         }
         else if(opcion===3){
-
+            navigate("/CLTKM_FRONT/supervisores/reportePagos");
         }
         else if(opcion===4){
-            navigate("/CLTKM_FRONT/supervisores/bajarListasBlasters");
+            navigate("/CLTKM_FRONT/supervisores/tipificaciones");
         }
         else if(opcion===5){
             navigate("/CLTKM_FRONT/supervisores/personal");
@@ -89,6 +88,9 @@ const Opciones=(props)=>{
                         color="success"
                         style={{height:"120px",width:"200px"}}
                         startIcon={<AttachMoneyIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(3);
+                        }}
                     >
                         Descargar Reporte de Pagos
                     </Button>
@@ -104,12 +106,12 @@ const Opciones=(props)=>{
                         size="large"
                         color="success"
                         style={{height:"120px",width:"200px"}}
-                        startIcon={<AutoAwesomeMotionOutlinedIcon style={{height:"40px",width:"50px"}} />}
+                        startIcon={<AssignmentIcon style={{height:"40px",width:"50px"}} />}
                         onClick={()=>{
                             handleClick(4);
                         }}
                     >
-                        Descargar Listas para Blaster
+                        Tipificaciones
                     </Button>
                 </Grid>
                 <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
