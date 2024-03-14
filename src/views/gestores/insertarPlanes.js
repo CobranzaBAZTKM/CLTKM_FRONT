@@ -8,7 +8,7 @@ import {ModalEspera,ModalInfo,ModalSiNo,ModalSiNo2CuadroTextPass} from '../../se
 import Servicios from '../../services/servicios';
 import { useNavigate  } from "react-router-dom"
 import { IMaskInput } from 'react-imask';
-
+import dayjs, { Dayjs } from 'dayjs';
 
 const servicio=new Servicios();
 
@@ -82,7 +82,9 @@ const ColocarPromesas=(props)=>{
 
     const navigate = useNavigate();
 
-    const [fechaIngPP, setFechaIngPP]=useState(null);
+    const hoyDate = dayjs().add(0, 'day');
+    const tresDiasDate=dayjs().add(3, 'day');
+
     const [fechaPago, setFechaPago]=useState(null);
     const [fechaVencePlan, setFechaVencePlan]=useState(null);
     const [folio, setFolio]=useState(null);
@@ -150,11 +152,11 @@ const ColocarPromesas=(props)=>{
 
 
     
-    const handleOnChangeFechaIngresoPago=(event)=>{
-        let fechaRecuperado=String(event)
-        let preparandoFecha =fechaRecuperado.split(" ");
-        setFechaIngPP(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
-    }
+    // const handleOnChangeFechaIngresoPago=(event)=>{
+    //     let fechaRecuperado=String(event)
+    //     let preparandoFecha =fechaRecuperado.split(" ");
+    //     setFechaIngPP(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
+    // }
 
     const handleOnChangeFechaPago=(event)=>{
         let fechaRecuperado=String(event)
@@ -228,27 +230,40 @@ const ColocarPromesas=(props)=>{
     const handleClickGuardar=()=>{
         handleOpen();
         
-
-
-
         if(String(telefono).length!==10){
             handleClose();
             handleOpenInfo("Favor de revisar que el campo telefono cuente con 10 digitos");
-        }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
+        // }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
+        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){    
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
         }
 
         else{
-            let cuDiv=clienteUnico.split("-");
-            let sucursalCU=cuDiv[1].split("");
+            let valHoy = dayjs().add(0, 'day').format("DD/MMM/YYYY");
+            let valD1=dayjs().add(1, 'day').format("DD/MMM/YYYY");
+            let valD2=dayjs().add(2, 'day').format("DD/MMM/YYYY");
+            let valD3=dayjs().add(3, 'day').format("DD/MMM/YYYY");
 
-            if(sucursalCU[0]!=="0"&&sucursalCU[0]!==0){
-                handleClose();
-                handleOpenInfo("Favor de revisar que el Cliente Unico tenga el formato correcto");
+            if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
+                if(parseFloat(montoPago)>=800){
+                    let cuDiv=clienteUnico.split("-");
+                    let sucursalCU=cuDiv[1].split("");
+
+                    if(sucursalCU[0]!=="0"&&sucursalCU[0]!==0){
+                        handleClose();
+                        handleOpenInfo("Favor de revisar que el Cliente Unico tenga el formato correcto");
+                    }else{
+                        handleClose();
+                        handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
+                    }
+                }else{
+                    handleClose();
+                    handleOpenInfo("La promesa no puede ser menor a 800 pesos");
+                }
             }else{
                 handleClose();
-                handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
+                handleOpenInfo("Favor de revisar la fecha de pago, no puede ser mayor al "+valD3);
             }
 
 
@@ -326,9 +341,10 @@ const ColocarPromesas=(props)=>{
 
 
     const insertarPromesa=(clienteUnico)=>{
+        let fechaIngreso=dayjs().format("DD/MMM/YYYY");
         let endPoint="service/promesas/insertarPromesas";
         let json={
-            "fechaIngesoPP":fechaIngPP,
+            "fechaIngesoPP":fechaIngreso,
             "fechaPago":fechaPago,
             "fechaVencimientoPP":fechaVencePlan,
             "folio":folio,
@@ -425,7 +441,7 @@ const ColocarPromesas=(props)=>{
                 <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
 
                 <Grid item xl={8} lg={8} md={8} sm={8}>
-                    <Grid container spacing={1}>
+                    {/* <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>FECHA QUE SE INGRESO PP</strong></p>
                         </Grid>
@@ -433,14 +449,16 @@ const ColocarPromesas=(props)=>{
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker                       
                                     label="Selecciona Fecha" 
+                                    // defaultValue={today}
+                                    // shouldDisableMonth={isInCurrentMonth}
                                     // onChange={(dateIngPP)=>setFechaIngPP(dateIngPP)}
                                     onChange={handleOnChangeFechaIngresoPago}
                                 />
-                            </LocalizationProvider>
+                            </LocalizationProvider>date
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>                  
-                    <br/>
+                    <br/> */}
                     <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>FECHA DE PAGO</strong></p>
@@ -449,6 +467,8 @@ const ColocarPromesas=(props)=>{
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker 
                                     label="Selecciona Fecha" 
+                                    minDate={hoyDate}
+                                    maxDate={tresDiasDate}
                                     onChange={handleOnChangeFechaPago}
                                     // onChange={(datePago)=>setFechaPago(datePago)}
                                 />
@@ -464,6 +484,7 @@ const ColocarPromesas=(props)=>{
                         <Grid item xl={4} lg={4} md={4} sm={4}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker 
+                                    disablePast
                                     label="Selecciona Fecha" 
                                     onChange={handleOnChangeFechaVencePlan}
                                     //onChange={(dateVencePP)=>setFechaVencePlan(dateVencePP)}
