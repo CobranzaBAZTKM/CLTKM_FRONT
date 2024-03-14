@@ -25,7 +25,6 @@ export default class Operacion extends React.Component{
         this.state={
             personal:[],
             tipificaciones:[]
-            //Aqui tambien iran las tipificaciones
         }
     }
 

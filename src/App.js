@@ -12,6 +12,7 @@ import PersonalBazTkm from './views/supervisores/personalBazTkm';
 import MenuGestores from './views/gestores/menuGestores';
 import RevisarPPGest from './views/gestores/revisarPPGest';
 import ReportePagos from './views/supervisores/reportePagos';
+import DescargaGestiones from './views/supervisores/descargaGestiones';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route exact path='/CLTKM_FRONT/supervisores/revisarPP' Component={RevisarPP}/>
             <Route exact path='/CLTKM_FRONT/supervisores/personal' Component={PersonalBazTkm}/>
             <Route exact path='/CLTKM_FRONT/supervisores/reportePagos' Component={ReportePagos}/>
+            <Route exact path='/CLTKM_FRONT/supervisores/gestiones' Component={DescargaGestiones}/>
 
             <Route exact path='/CLTKM_FRONT/gestores/menu' Component={MenuGestores}/>
             <Route exact path='/CLTKM_FRONT/gestores/insertarPlanPago' Component={InsertarPlanes}/>

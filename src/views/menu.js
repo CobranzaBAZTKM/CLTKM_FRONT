@@ -7,10 +7,10 @@ import Diversity3Icon from '@mui/icons-material/Diversity3'; //Asignar Gestores 
 import AddchartIcon from '@mui/icons-material/Addchart';
 import Grid from '@mui/material/Grid';
 import { Button } from "@mui/material";
-import Container  from '@mui/material/Container'
-// import Container  from "@material-ui/core/Container";
 import { useNavigate  } from "react-router-dom"
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+
 
 export default class Menu extends React.Component{
     render(){
@@ -46,6 +46,9 @@ const Opciones=(props)=>{
         }
         else if(opcion===6){
             navigate("/CLTKM_FRONT/supervisores/revisarPP");
+        }
+        else if(opcion===7){
+            navigate("/CLTKM_FRONT/supervisores/gestiones")
         }
     }
 
@@ -146,6 +149,30 @@ const Opciones=(props)=>{
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
             </Grid>
+            <br/><br/><br/><br/>
+            <Grid container spacing={1}>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        color="success"
+                        style={{height:"120px",width:"200px"}}
+                        startIcon={<AppRegistrationIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(7);
+                        }}
+                    >
+                        Consultar Gestiones Llamadas
+                    </Button>
+                </Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+            </Grid>
+            <br/><br/><br/><br/>
         </div>
     )
 }
