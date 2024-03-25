@@ -10,7 +10,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {TextField, Button} from '@mui/material';
-import { Construction } from "@mui/icons-material";
 import * as XLSX from 'xlsx'
 import Servicios from '../../services/servicios';
 import FechaHora from '../../services/fechaHora';
@@ -55,12 +54,12 @@ const BajarCartera=(props)=>{
     const [seg6, setSeg6]=useState(null);
     const [seg16, setSeg16]=useState(null);
     const [seg21, setSeg21]=useState(null);
-    const [normalidad, setNormalidad]=useState(null);
-    const [preventa, setPreventa]=useState(null);
-    const [italika, setItalika]=useState(null);
-    const [tor, setTor]=useState(null);
-    const [cdt, setCdt]=useState(null);
-    const [maz, setMaz]=useState(null);
+    // const [normalidad, setNormalidad]=useState(null);
+    // const [preventa, setPreventa]=useState(null);
+    // const [italika, setItalika]=useState(null);
+    // const [tor, setTor]=useState(null);
+    // const [cdt, setCdt]=useState(null);
+    // const [maz, setMaz]=useState(null);
     
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -89,25 +88,23 @@ const BajarCartera=(props)=>{
 
         if(event.target.checked==true){
             setSeg5("5");
-            // seg5="5";
         }
         else{
             setSeg5(null);
-            // seg5=null;
         }        
     }
 
-    const checkedSeg5SNNITC=(event)=>{
+    // const checkedSeg5SNNITC=(event)=>{
 
-        if(event.target.checked==true){
-            setSeg5("5SNNITC");
-            // seg5="5SNNITC";
-        }
-        else{
-            setSeg5(null);
-            // seg5=null;
-        }
-    }
+    //     if(event.target.checked==true){
+    //         setSeg5("5SNNITC");
+    //         // seg5="5SNNITC";
+    //     }
+    //     else{
+    //         setSeg5(null);
+    //         // seg5=null;
+    //     }
+    // }
 
 
     const checkedSeg28=(event)=>{
@@ -118,13 +115,13 @@ const BajarCartera=(props)=>{
         }
     }
 
-    const checkedSeg28SNNITC=(event)=>{
-        if(event.target.checked==true){
-            setSeg28("28SNNITC");
-        }else{
-            setSeg28(null);
-        }
-    }
+    // const checkedSeg28SNNITC=(event)=>{
+    //     if(event.target.checked==true){
+    //         setSeg28("28SNNITC");
+    //     }else{
+    //         setSeg28(null);
+    //     }
+    // }
 
     const checkedSeg06=(event)=>{
         if(event.target.checked==true){
@@ -134,13 +131,13 @@ const BajarCartera=(props)=>{
         }
     }
 
-    const checkedSeg06SNNITC=(event)=>{
-        if(event.target.checked==true){
-            setSeg6("6SNNITC");
-        }else{
-            setSeg6(null);
-        }
-    }
+    // const checkedSeg06SNNITC=(event)=>{
+    //     if(event.target.checked==true){
+    //         setSeg6("6SNNITC");
+    //     }else{
+    //         setSeg6(null);
+    //     }
+    // }
 
     const checkedSeg16=(event)=>{
         if(event.target.checked==true){
@@ -150,61 +147,61 @@ const BajarCartera=(props)=>{
         }
     }
 
-    const checkedSeg16SNNITC=(event)=>{
-        if(event.target.checked==true){
-            setSeg16("16SNNITC")
-        }else{
-            setSeg16(null)
-        }
-    }
+    // const checkedSeg16SNNITC=(event)=>{
+    //     if(event.target.checked==true){
+    //         setSeg16("16SNNITC")
+    //     }else{
+    //         setSeg16(null)
+    //     }
+    // }
 
-    const checkedSegNormalidad=(event)=>{
-        if(event.target.checked==true){
-            setNormalidad("Normalidad")
-        }else{
-            setNormalidad(null)
-        }
-    }
+    // const checkedSegNormalidad=(event)=>{
+    //     if(event.target.checked==true){
+    //         setNormalidad("Normalidad")
+    //     }else{
+    //         setNormalidad(null)
+    //     }
+    // }
 
-    const checkedSegPreventa=(event)=>{
-        if(event.target.checked==true){
-            setPreventa("Preventa")
-        }else{
-            setPreventa(null)
-        }
-    }
+    // const checkedSegPreventa=(event)=>{
+    //     if(event.target.checked==true){
+    //         setPreventa("Preventa")
+    //     }else{
+    //         setPreventa(null)
+    //     }
+    // }
 
-    const checkedSegItalika=(event)=>{
-        if(event.target.checked==true){
-            setItalika("ITALIKA")
-        }else{
-            setItalika(null)
-        }
-    }
+    // const checkedSegItalika=(event)=>{
+    //     if(event.target.checked==true){
+    //         setItalika("ITALIKA")
+    //     }else{
+    //         setItalika(null)
+    //     }
+    // }
 
-    const checkedSegTOR=(event)=>{
-        if(event.target.checked==true){
-            setTor("TOR")
-        }else{
-            setTor(null)
-        }
-    }
+    // const checkedSegTOR=(event)=>{
+    //     if(event.target.checked==true){
+    //         setTor("TOR")
+    //     }else{
+    //         setTor(null)
+    //     }
+    // }
 
-    const checkedSegCDT=(event)=>{
-        if(event.target.checked==true){
-            setCdt("CDT")
-        }else{
-            setCdt(null)
-        }
-    }
+    // const checkedSegCDT=(event)=>{
+    //     if(event.target.checked==true){
+    //         setCdt("CDT")
+    //     }else{
+    //         setCdt(null)
+    //     }
+    // }
 
-    const checkedSegMAZ=(event)=>{
-        if(event.target.checked==true){
-            setMaz("MAZ")
-        }else{
-            setMaz(null)
-        }
-    }
+    // const checkedSegMAZ=(event)=>{
+    //     if(event.target.checked==true){
+    //         setMaz("MAZ")
+    //     }else{
+    //         setMaz(null)
+    //     }
+    // }
 
     const checkedSeg21=(event)=>{
         if(event.target.checked==true){
@@ -221,73 +218,74 @@ const BajarCartera=(props)=>{
 
     const handleClickDescarga=()=>{
         handleOpen();
-        let segmentos="";
         let nombreArchivo="";
-        let endPoint="service/cartera/carteraSegmentoEleg";
+        let endPoint="service/carteraLocal/carteraCompletaDia";
 
         if(carteraCompleta!==null){
-            endPoint="service/cartera/carteraCompleta";
-            nombreArchivo="Cartera_Completa";
+            if(carteraCompleta==="CCD"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar";
+                nombreArchivo="Cartera_Completa_Descarte";
+            }else if(carteraCompleta==="CCSFSCL"){
+                endPoint="service/cartera/carteraCompleta";
+                nombreArchivo="Cartera_Completa_SF_SCL";
+            }else if(carteraCompleta==="CCCFL"){
+                nombreArchivo="Cartera_Completa_CF_Local";
+            }else if(carteraCompleta==="CCSFL"){
+                nombreArchivo="Cartera_Completa_SF_Local";
+            }
+            setSeg5(null);
+            setSeg28(null);
+            setSeg6(null);
+            setSeg16(null);
+
         }
         if(seg5!==null){
-            segmentos=segmentos+"|"+seg5;
             nombreArchivo=nombreArchivo+"Seg05";
         }
         if(seg28!==null){
-            segmentos=segmentos+"|"+seg28;
-            // endPoint="service/cartera/carteraCompleta";
-            nombreArchivo=nombreArchivo+"Seg28_VIP";
+            nombreArchivo=nombreArchivo+"Seg28";
         }
         if(seg6!==null){
-            segmentos=segmentos+"|"+seg6;
             nombreArchivo=nombreArchivo+"Seg06";
         }
         if(seg16!==null){
-            if(seg16==="16SNNITC"){
-                segmentos="|5|6|16";
-                nombreArchivo=nombreArchivo+"16SNNITC";
-            }
-            else{
-                segmentos=segmentos+"|"+seg16;
-                nombreArchivo=nombreArchivo+"Seg16";
-            }            
+            nombreArchivo=nombreArchivo+"Seg16";        
         }
-        if(normalidad!==null){
-            // segmentos=segmentos+"|"+normalidad;
-            segmentos="|5|6|16";
-            nombreArchivo=nombreArchivo+"Normalidad";
-        }
-        if(preventa!==null){
-            // segmentos=segmentos+"|"+preventa;
-            segmentos="|5|6|16";
-            nombreArchivo=nombreArchivo+"Preventa";
-        }
-        if(italika!==null){
-            // segmentos=segmentos+"|"+italika;
-            segmentos="|5|6|16";
-            nombreArchivo=nombreArchivo+"Italika";
-        }
-        if(tor!==null){
-            // segmentos=segmentos+"|"+tor;
-            segmentos="|5|6|16";
-            nombreArchivo=nombreArchivo+"TOR";
-        }
-        if(cdt!==null){
-            segmentos=segmentos+"|"+cdt;
-            nombreArchivo=nombreArchivo+"CDT";
-        }
-        if(maz!==null){
-            segmentos=segmentos+"|"+maz;
-            nombreArchivo=nombreArchivo+"TOR_MAZ";
-        }
+        // if(normalidad!==null){
+        //     // segmentos=segmentos+"|"+normalidad;
+        //     segmentos="|5|6|16";
+        //     nombreArchivo=nombreArchivo+"Normalidad";
+        // }
+        // if(preventa!==null){
+        //     // segmentos=segmentos+"|"+preventa;
+        //     segmentos="|5|6|16";
+        //     nombreArchivo=nombreArchivo+"Preventa";
+        // }
+        // if(italika!==null){
+        //     // segmentos=segmentos+"|"+italika;
+        //     segmentos="|5|6|16";
+        //     nombreArchivo=nombreArchivo+"Italika";
+        // }
+        // if(tor!==null){
+        //     // segmentos=segmentos+"|"+tor;
+        //     segmentos="|5|6|16";
+        //     nombreArchivo=nombreArchivo+"TOR";
+        // }
+        // if(cdt!==null){
+        //     segmentos=segmentos+"|"+cdt;
+        //     nombreArchivo=nombreArchivo+"CDT";
+        // }
+        // if(maz!==null){
+        //     segmentos=segmentos+"|"+maz;
+        //     nombreArchivo=nombreArchivo+"TOR_MAZ";
+        // }
         if(seg21!==null){
-            segmentos=segmentos+"|"+seg21;
             nombreArchivo=nombreArchivo+"Seg21";
         }
 
         let json={
             "cookie":cokkie,
-            "tipoArchivo":segmentos
+            "tipoArchivo":""
         }
 
 
@@ -300,27 +298,38 @@ const BajarCartera=(props)=>{
                     let dia=fechaHora.ObtenerDia();
                     let mes=fechaHora.ObtenerMes();
                     let year=fechaHora.ObtenerYear();
-                    if(carteraCompleta==="CCI"){
-                        carteraSinFiltros(data.data);
-                    }else{
-                        descartarNumerosSinDatos(data.data);
+                    if(carteraCompleta!=null){
+                        if(carteraCompleta==="CCSFL"||carteraCompleta==="CCSFSCL"){
+                            carteraSinFiltros(data.data);
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+                    }else if(seg5!==null){
+                        obtenerSeg05(data.data);
+                    }else if(seg28!==null){
+                        obtenerSeg28(data.data);
+                    }else if(seg6!==null){
+                        obtenerSeg06(data.data);
+                    }else if(seg16!==null){
+                        obtenerSeg16(data.data);
                     }
+
 
                     // if(nombreArchivo.includes("Seg28_VIP")){
                     //     normalidadOrden(datosCartera);
                     // }
-                    if(nombreArchivo.includes("Normalidad")){
-                        normalidadOrden(datosCartera);
-                    }
-                    else if(nombreArchivo.includes("Preventa")){
-                        preventaOrden(datosCartera);
-                    }else if(nombreArchivo.includes("Italika")){
-                        italikaOrden(datosCartera);
-                    }else if(nombreArchivo.includes("TOR")){
-                        tormazOrden(datosCartera);
-                    }else if(nombreArchivo.includes("16SNNITC")){
-                        carteraSobrante(datosCartera);
-                    }
+                    // if(nombreArchivo.includes("Normalidad")){
+                    //     normalidadOrden(datosCartera);
+                    // }
+                    // else if(nombreArchivo.includes("Preventa")){
+                    //     preventaOrden(datosCartera);
+                    // }else if(nombreArchivo.includes("Italika")){
+                    //     italikaOrden(datosCartera);
+                    // }else if(nombreArchivo.includes("TOR")){
+                    //     tormazOrden(datosCartera);
+                    // }else if(nombreArchivo.includes("16SNNITC")){
+                    //     carteraSobrante(datosCartera);
+                    // }
                     
                     if(datosCartera.length<=80000){
                         const workSheet=XLSX.utils.json_to_sheet(datosCartera);
@@ -570,68 +579,117 @@ const BajarCartera=(props)=>{
             "ESTATUS_PROMESA_PAGO":typeof element.estatus_PROMESA_PAGO !== "undefined" ? element.estatus_PROMESA_PAGO : element.ESTATUS_PROMESA_PAGO,
             "MONTO_PROMESA_PAGO":typeof element.monto_PROMESA_PAGO !== "undefined" ? element.monto_PROMESA_PAGO : element.MONTO_PROMESA_PAGO,
             "SEGMENTO":typeof element.segmento !== "undefined" ? element.segmento : element.SEGMENTO,
-                                      
+            "SALDO ATRASADO":"N/A",
+            "SALDO REQUERIDO":"N/A",
+            "STATUSCYBER":"N/A",
+            "ID GRUPO":"N/A",
+            "PROXIMO_VENCER":"N/A",
+            "TUVO_REESTRUCTURA":"N/A",   
+            "FECHA_REESTRUCTURA":"N/A",  
+            "TELEFONO ADICIONAL 1":"N/A",   
+            "TELEFONO ADICIONAL 2":"N/A",
+            "GESTOR":"N/A",
         }
 
         datosCartera.push(elementoArray)
     }
 
-    const normalidadOrden=(cartera)=>{
+    const obtenerSeg05=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            // if(element.SEGMENTO===28||element.SEGMENTO==="28"){
-            //     llenarArreglo(element);
-            // }else{
-                if(element.CAMPANIA.includes("Normalidad")){
-                    llenarArreglo(element);
-                }
-            // }
+            if(element.SEGMENTO.includes("5")){
+                llenarArreglo(element);
+            }
+
         })
     }
 
-    const preventaOrden=(cartera)=>{
+    const obtenerSeg28=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.CAMPANIA.includes("Preventa")){
-                if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
-                    llenarArreglo(element);
-                }
+            if(element.SEGMENTO.includes("5")){
+                llenarArreglo(element);
             }
+
         })
     }
 
-    const italikaOrden=(cartera)=>{
+    const obtenerSeg06=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-                if(element.PRODUCTO==="ITALIKA"){
-                    llenarArreglo(element);
-                }
+            if(element.SEGMENTO.includes("5")){
+                llenarArreglo(element);
             }
+
         })
     }
 
-    const tormazOrden=(cartera)=>{
+    const obtenerSeg16=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-                if(element.PRODUCTO==="TOR"||element.PRODUCTO==="MAZ"){
-                    llenarArreglo(element);
-                }
+            if(element.SEGMENTO.includes("5")){
+                llenarArreglo(element);
             }
+
         })
     }
+
+    // const normalidadOrden=(cartera)=>{
+    //     datosCartera=[];
+    //     cartera.forEach(function(element){
+    //         // if(element.SEGMENTO===28||element.SEGMENTO==="28"){
+    //         //     llenarArreglo(element);
+    //         // }else{
+    //             if(element.CAMPANIA.includes("Normalidad")){
+    //                 llenarArreglo(element);
+    //             }
+    //         // }
+    //     })
+    // }
+
+    // const preventaOrden=(cartera)=>{
+    //     datosCartera=[];
+    //     cartera.forEach(function(element){
+    //         if(element.CAMPANIA.includes("Preventa")){
+    //             if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
+    //                 llenarArreglo(element);
+    //             }
+    //         }
+    //     })
+    // }
+
+    // const italikaOrden=(cartera)=>{
+    //     datosCartera=[];
+    //     cartera.forEach(function(element){
+    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
+    //             if(element.PRODUCTO==="ITALIKA"){
+    //                 llenarArreglo(element);
+    //             }
+    //         }
+    //     })
+    // }
+
+    // const tormazOrden=(cartera)=>{
+    //     datosCartera=[];
+    //     cartera.forEach(function(element){
+    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
+    //             if(element.PRODUCTO==="TOR"||element.PRODUCTO==="MAZ"){
+    //                 llenarArreglo(element);
+    //             }
+    //         }
+    //     })
+    // }
     
-    const carteraSobrante=(cartera)=>{
-        datosCartera=[];
-        cartera.forEach(function(element){
-            if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-                if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
-                    llenarArreglo(element);
-                }
-            }
-        })
-    }
+    // const carteraSobrante=(cartera)=>{
+    //     datosCartera=[];
+    //     cartera.forEach(function(element){
+    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
+    //             if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
+    //                 llenarArreglo(element);
+    //             }
+    //         }
+    //     })
+    // }
 
     const enviarCorreoCarteras=(cartera,nombreArchivo)=>{
         let cantidadCartera=cartera.length;
@@ -690,8 +748,14 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Turno</FormLabel>
                         <RadioGroup>
-                            <FormControlLabel value="carteraCompleta" control={<Radio onClick={()=>{{setCarteraCompleta("CC")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa" />
-                            <FormControlLabel value="carteraCompletaSF" control={<Radio onClick={()=>{{setCarteraCompleta("CCI")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Sin Filtros" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompleta("CCD")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCCFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaSFSCL" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFSCL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Sin Filtros SCL" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaSFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
@@ -703,7 +767,7 @@ const BajarCartera=(props)=>{
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
-                        <FormLabel id="demo-radio-buttons-group-label_1">Segmento 05 (0 a 25 semanas)</FormLabel>
+                        <FormLabel id="demo-radio-buttons-group-label_1">Segmento 05 (00 a 25 semanas)</FormLabel>
                         {/* <RadioGroup>
                             <br/>
                             <FormControlLabel value="Seg05P" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg5("5")}}/>} label="Segmento 05 Puro" />
@@ -713,10 +777,10 @@ const BajarCartera=(props)=>{
                         </RadioGroup> */}
                         
                             <br/>
-                            <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null || seg5==="5SNNITC"} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
+                            <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg16!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
                             <br/>
-                            <FormControlLabel value="Seg05SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg5==="5"} onClick={checkedSeg5SNNITC}/>} label="Segmento 05 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
+                            {/* <FormControlLabel value="Seg05SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg5==="5"} onClick={checkedSeg5SNNITC}/>} label="Segmento 05 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
+                            <br/> */}
                    
 
                     </FormControl>
@@ -733,10 +797,10 @@ const BajarCartera=(props)=>{
                             <br/>
                         </RadioGroup> */}
                             <br/>
-                            <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null || seg28==="28SNNITC"} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
+                            <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||seg5!==null||seg6!==null||seg16!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
                             <br/>
-                            <FormControlLabel value="Seg28SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg28==="28"} onClick={checkedSeg28SNNITC}/>} label="Segmento 28 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
+                            {/* <FormControlLabel value="Seg28SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg28==="28"} onClick={checkedSeg28SNNITC}/>} label="Segmento 28 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
+                            <br/> */}
                     </FormControl>
                 </Grid>
 
@@ -752,10 +816,10 @@ const BajarCartera=(props)=>{
                         </RadioGroup> */}
 
                             <br/>
-                            <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null || seg6==="6SNNITC"} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
+                            <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg5!==null||seg16!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
                             <br/>
-                            <FormControlLabel value="Seg06SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg6==="6" } onClick={checkedSeg06SNNITC} />} label="Segmento 06 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
+                            {/* <FormControlLabel value="Seg06SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg6==="6" } onClick={checkedSeg06SNNITC} />} label="Segmento 06 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
+                            <br/> */}
                     </FormControl>
                 </Grid>
 
@@ -768,30 +832,34 @@ const BajarCartera=(props)=>{
                             <FormControlLabel value="Seg16SNITCPM" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg16("16SNNITC")}}/>} label="Segmento 16 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
                             <br/>
                         </RadioGroup> */}
-                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null || seg16==="16SNNITC"} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
                         <br/>
-                        <FormControlLabel value="Seg16SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg16==="16"} onClick={checkedSeg16SNNITC}/>} label="Segmento 16 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
+                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg5!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
                         <br/>
+                        {/* <FormControlLabel value="Seg16SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg16==="16"} onClick={checkedSeg16SNNITC}/>} label="Segmento 16 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
+                        <br/> */}
                     </FormControl>
                 </Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmentos Elegibles</FormLabel>
-                        {/* <FormControlLabel value="normalidad" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={()=>{setNormalidad("Normalidad")}}/>} label="NORMALIDAD" /> */}
-                        <FormControlLabel value="normalidad" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegNormalidad}/>} label="NORMALIDAD" />
-                        {/* <FormControlLabel value="preventa" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setPreventa("Preventa")}}/>} label="PREVENTA" /> */}
+                        
+                        {/* <FormControlLabel value="normalidad" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegNormalidad}/>} label="NORMALIDAD" />
+                        
                         <FormControlLabel value="preventa" control={<Checkbox disabled={carteraCompleta!=null  || normalidad==="Normalidad" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegPreventa}/>} label="PREVENTA" />
-                        {/* <FormControlLabel value="italika" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setItalika("ITALIKA")}}/>} label="ITALIKA" /> */}
+                       
                         <FormControlLabel value="italika" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || normalidad==="Normalidad" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegItalika}/>} label="ITALIKA" />
-                        {/* <FormControlLabel value="tor" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setTor("TOR")}}/>} label="TOR" /> */}
+                        
                         <FormControlLabel value="tor" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || normalidad==="Normalidad" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegTOR}/>} label="TOR" />
-                        {/* <FormControlLabel value="cdt" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setCdt("CDT")}}/>} label="CDT" /> */}
+                       
                         <FormControlLabel value="cdt" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || normalidad==="Normalidad" || maz==="MAZ" || seg21==="21"} onClick={checkedSegCDT}/>} label="CDT" />
-                        {/* <FormControlLabel value="maz" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setMaz("MAZ")}}/>} label="MAZ" /> */}
+                        
                         <FormControlLabel value="maz" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" ||  normalidad==="Normalidad" || seg21==="21"} onClick={checkedSegMAZ}/>} label="MAZ" />
-                        {/* <FormControlLabel value="21" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg21("21")}}/>} label="JUDICIAL" /> */}
-                        <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" />
+                        
+                        <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
+                       
+                       {/* <FormControlLabel value="nueva" control={<Checkbox  onClick={checked}/>} label="CuentasNuevas" /> */}
+                       {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
 
                     </FormControl>
                 </Grid>
@@ -850,7 +918,3 @@ const BajarCartera=(props)=>{
 }
 
 
-// import ReactExport from "react-export-excel";
-// const ExcelFile = ReactExport.ExcelFile;
-// const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-// const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;

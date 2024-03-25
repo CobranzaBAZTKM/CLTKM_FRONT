@@ -13,6 +13,7 @@ import MenuGestores from './views/gestores/menuGestores';
 import RevisarPPGest from './views/gestores/revisarPPGest';
 import ReportePagos from './views/supervisores/reportePagos';
 import DescargaGestiones from './views/supervisores/descargaGestiones';
+import OperacionGestion from './views/gestores/operacionGestion';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route exact path='/CLTKM_FRONT/gestores/operacion' Component={Operacion}/>
             {/* <Route exact path='/CLTKM_FRONT/gestores/operacion/:clienteUnico' Component={Operacion}/> */}
             <Route exact path='/CLTKM_FRONT/gestores/revisarPPGestor' Component={RevisarPPGest}/>
+            <Route exact path='/CLTKM_FRONT/gestores/operacionGestion/:clienteUnico/:telefonoTitular' Component={OperacionGestion}/>
             
             
           </Routes>

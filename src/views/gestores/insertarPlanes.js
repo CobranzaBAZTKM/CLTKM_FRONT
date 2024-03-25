@@ -12,17 +12,17 @@ import dayjs, { Dayjs } from 'dayjs';
 
 const servicio=new Servicios();
 
-const siNo=[
-    {
-        id:1,
-        valor:"Si"
-    },
-    {
-        id:0,
-        valor:"No"
-    }
+// const siNo=[
+//     {
+//         id:1,
+//         valor:"Si"
+//     },
+//     {
+//         id:0,
+//         valor:"No"
+//     }
 
-]
+// ]
 
 const tipoLlamadaOpcion=[
     {
@@ -52,7 +52,6 @@ export default class InsertarPlanes extends React.Component{
     }
 
     componentWillMount(){
-        let gestores=[];
         servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
                 data=>{
                     if(data.code===1){
@@ -97,7 +96,8 @@ const ColocarPromesas=(props)=>{
     const [nombreGestor, setNombreGestor]=useState(null);
     const [turnoGestor, setTurnoGestor]=useState(null);
     const [observaciones, setObservaciones]=useState(null);
-    const [conWhatsApp, setConWhatsApp]=useState(1);
+    // const [conWhatsApp, setConWhatsApp]=useState(1);
+    const [conWhatsApp]=useState(1);
     const [adicional, setAdicional]=useState("");
     const [tipoLlamada,setTipoLlamada]=useState(null);
 
@@ -209,9 +209,9 @@ const ColocarPromesas=(props)=>{
         setObservaciones(event.target.value);
     }
 
-    const handleOnChangeConWhatsApp=(event)=>{
-        setConWhatsApp(event.target.value);        
-    }
+    // const handleOnChangeConWhatsApp=(event)=>{
+    //     setConWhatsApp(event.target.value);        
+    // }
 
     // const handleOnChangeAdicional=(event)=>{
     //     setAdicional(event.target.value);
@@ -229,7 +229,6 @@ const ColocarPromesas=(props)=>{
 
     const handleClickGuardar=()=>{
         handleOpen();
-        
         if(String(telefono).length!==10){
             handleClose();
             handleOpenInfo("Favor de revisar que el campo telefono cuente con 10 digitos");
@@ -246,7 +245,7 @@ const ColocarPromesas=(props)=>{
             let valD3=dayjs().add(3, 'day').format("DD/MMM/YYYY");
 
             if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
-                if(parseFloat(montoPago)>=800){
+                if(parseFloat(montoPago)>=800||idGestorTKM===3||idGestorTKM===7||idGestorTKM===12||idGestorTKM===14||idGestorTKM===15||idGestorTKM===16||idGestorTKM===19||idGestorTKM===20||idGestorTKM===40||idGestorTKM===46){
                     let cuDiv=clienteUnico.split("-");
                     let sucursalCU=cuDiv[1].split("");
 
