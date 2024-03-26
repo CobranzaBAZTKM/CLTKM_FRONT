@@ -36,7 +36,6 @@ function App() {
             <Route exact path='/CLTKM_FRONT/gestores/menu' Component={MenuGestores}/>
             <Route exact path='/CLTKM_FRONT/gestores/insertarPlanPago' Component={InsertarPlanes}/>
             <Route exact path='/CLTKM_FRONT/gestores/operacion' Component={Operacion}/>
-            {/* <Route exact path='/CLTKM_FRONT/gestores/operacion/:clienteUnico' Component={Operacion}/> */}
             <Route exact path='/CLTKM_FRONT/gestores/revisarPPGestor' Component={RevisarPPGest}/>
             <Route exact path='/CLTKM_FRONT/gestores/operacionGestion/:clienteUnico/:telefonoTitular' Component={OperacionGestion}/>
             
