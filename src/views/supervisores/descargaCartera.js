@@ -54,12 +54,12 @@ const BajarCartera=(props)=>{
     const [seg6, setSeg6]=useState(null);
     const [seg16, setSeg16]=useState(null);
     const [seg21, setSeg21]=useState(null);
-    // const [normalidad, setNormalidad]=useState(null);
-    // const [preventa, setPreventa]=useState(null);
-    // const [italika, setItalika]=useState(null);
-    // const [tor, setTor]=useState(null);
-    // const [cdt, setCdt]=useState(null);
-    // const [maz, setMaz]=useState(null);
+    const [descarte, setDescarte]=useState(null);
+    const [credimax, setCredimax]=useState(null);
+    const [italika, setItalika]=useState(null);
+    const [tor, setTor]=useState(null);
+    const [tazcdt, setTazCdt]=useState(null);
+    const [general, setGeneral]=useState(null);
     
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -80,10 +80,6 @@ const BajarCartera=(props)=>{
         setOpenModalInfo(false);
     };
 
-    
-    // const [datosCartera, setDatosCartera]=useState([]);
-
-
     const checkedSeg5=(event)=>{
 
         if(event.target.checked==true){
@@ -94,19 +90,6 @@ const BajarCartera=(props)=>{
         }        
     }
 
-    // const checkedSeg5SNNITC=(event)=>{
-
-    //     if(event.target.checked==true){
-    //         setSeg5("5SNNITC");
-    //         // seg5="5SNNITC";
-    //     }
-    //     else{
-    //         setSeg5(null);
-    //         // seg5=null;
-    //     }
-    // }
-
-
     const checkedSeg28=(event)=>{
         if(event.target.checked==true){
             setSeg28("28");
@@ -114,14 +97,6 @@ const BajarCartera=(props)=>{
             setSeg28(null);
         }
     }
-
-    // const checkedSeg28SNNITC=(event)=>{
-    //     if(event.target.checked==true){
-    //         setSeg28("28SNNITC");
-    //     }else{
-    //         setSeg28(null);
-    //     }
-    // }
 
     const checkedSeg06=(event)=>{
         if(event.target.checked==true){
@@ -131,14 +106,6 @@ const BajarCartera=(props)=>{
         }
     }
 
-    // const checkedSeg06SNNITC=(event)=>{
-    //     if(event.target.checked==true){
-    //         setSeg6("6SNNITC");
-    //     }else{
-    //         setSeg6(null);
-    //     }
-    // }
-
     const checkedSeg16=(event)=>{
         if(event.target.checked==true){
             setSeg16("16")
@@ -147,61 +114,53 @@ const BajarCartera=(props)=>{
         }
     }
 
-    // const checkedSeg16SNNITC=(event)=>{
-    //     if(event.target.checked==true){
-    //         setSeg16("16SNNITC")
-    //     }else{
-    //         setSeg16(null)
-    //     }
-    // }
+    const checkedSegDescarte=(event)=>{
+        if(event.target.checked==true){
+            setDescarte("DESCARTE")
+        }else{
+            setDescarte(null)
+        }
+    }
 
-    // const checkedSegNormalidad=(event)=>{
-    //     if(event.target.checked==true){
-    //         setNormalidad("Normalidad")
-    //     }else{
-    //         setNormalidad(null)
-    //     }
-    // }
+    const checkedSegCredimax=(event)=>{
+        if(event.target.checked==true){
+            setCredimax("CREDIMAX")
+        }else{
+            setCredimax(null)
+        }
+    }
 
-    // const checkedSegPreventa=(event)=>{
-    //     if(event.target.checked==true){
-    //         setPreventa("Preventa")
-    //     }else{
-    //         setPreventa(null)
-    //     }
-    // }
+    const checkedSegItalika=(event)=>{
+        if(event.target.checked==true){
+            setItalika("ITALIKA")
+        }else{
+            setItalika(null)
+        }
+    }
 
-    // const checkedSegItalika=(event)=>{
-    //     if(event.target.checked==true){
-    //         setItalika("ITALIKA")
-    //     }else{
-    //         setItalika(null)
-    //     }
-    // }
+    const checkedSegTOR=(event)=>{
+        if(event.target.checked==true){
+            setTor("TOR")
+        }else{
+            setTor(null)
+        }
+    }
 
-    // const checkedSegTOR=(event)=>{
-    //     if(event.target.checked==true){
-    //         setTor("TOR")
-    //     }else{
-    //         setTor(null)
-    //     }
-    // }
+    const checkedSegTAZCDT=(event)=>{
+        if(event.target.checked==true){
+            setTazCdt("TAZCDT")
+        }else{
+            setTazCdt(null)
+        }
+    }
 
-    // const checkedSegCDT=(event)=>{
-    //     if(event.target.checked==true){
-    //         setCdt("CDT")
-    //     }else{
-    //         setCdt(null)
-    //     }
-    // }
-
-    // const checkedSegMAZ=(event)=>{
-    //     if(event.target.checked==true){
-    //         setMaz("MAZ")
-    //     }else{
-    //         setMaz(null)
-    //     }
-    // }
+    const checkedSegGeneral=(event)=>{
+        if(event.target.checked==true){
+            setGeneral("GENERAL")
+        }else{
+            setGeneral(null)
+        }
+    }
 
     const checkedSeg21=(event)=>{
         if(event.target.checked==true){
@@ -237,6 +196,12 @@ const BajarCartera=(props)=>{
             setSeg28(null);
             setSeg6(null);
             setSeg16(null);
+            setDescarte(null);
+            setCredimax(null);
+            setItalika(null);
+            setTor(null);
+            setTazCdt(null);
+            setGeneral(null);
 
         }
         if(seg5!==null){
@@ -251,34 +216,30 @@ const BajarCartera=(props)=>{
         if(seg16!==null){
             nombreArchivo=nombreArchivo+"Seg16";        
         }
-        // if(normalidad!==null){
-        //     // segmentos=segmentos+"|"+normalidad;
-        //     segmentos="|5|6|16";
-        //     nombreArchivo=nombreArchivo+"Normalidad";
-        // }
-        // if(preventa!==null){
-        //     // segmentos=segmentos+"|"+preventa;
-        //     segmentos="|5|6|16";
-        //     nombreArchivo=nombreArchivo+"Preventa";
-        // }
-        // if(italika!==null){
-        //     // segmentos=segmentos+"|"+italika;
-        //     segmentos="|5|6|16";
-        //     nombreArchivo=nombreArchivo+"Italika";
-        // }
-        // if(tor!==null){
-        //     // segmentos=segmentos+"|"+tor;
-        //     segmentos="|5|6|16";
-        //     nombreArchivo=nombreArchivo+"TOR";
-        // }
-        // if(cdt!==null){
-        //     segmentos=segmentos+"|"+cdt;
-        //     nombreArchivo=nombreArchivo+"CDT";
-        // }
-        // if(maz!==null){
-        //     segmentos=segmentos+"|"+maz;
-        //     nombreArchivo=nombreArchivo+"TOR_MAZ";
-        // }
+        if(descarte!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia";
+        }
+        if(credimax!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"CREDIMAX";
+        }
+        if(italika!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"Italika";
+        }
+        if(tor!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"TOR";
+        }
+        if(tazcdt!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"TAZCDT";
+        }
+        if(general!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"General";
+        }
         if(seg21!==null){
             nombreArchivo=nombreArchivo+"Seg21";
         }
@@ -312,24 +273,19 @@ const BajarCartera=(props)=>{
                         obtenerSeg06(data.data);
                     }else if(seg16!==null){
                         obtenerSeg16(data.data);
+                    }else if(descarte!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(credimax!==null){
+                        obtenerCredimax(data.data);
+                    }else if(italika!==null){
+                        obtenerItalika(data.data);
+                    }else if(tor!==null){
+                        obtenerTOR(data.data);
+                    }else if(tazcdt!==null){
+                        obtenerTAZCDT(data.data);
+                    }else if(general!==null){
+                        obtenerGeneral(data.data);
                     }
-
-
-                    // if(nombreArchivo.includes("Seg28_VIP")){
-                    //     normalidadOrden(datosCartera);
-                    // }
-                    // if(nombreArchivo.includes("Normalidad")){
-                    //     normalidadOrden(datosCartera);
-                    // }
-                    // else if(nombreArchivo.includes("Preventa")){
-                    //     preventaOrden(datosCartera);
-                    // }else if(nombreArchivo.includes("Italika")){
-                    //     italikaOrden(datosCartera);
-                    // }else if(nombreArchivo.includes("TOR")){
-                    //     tormazOrden(datosCartera);
-                    // }else if(nombreArchivo.includes("16SNNITC")){
-                    //     carteraSobrante(datosCartera);
-                    // }
                     
                     if(datosCartera.length<=80000){
                         const workSheet=XLSX.utils.json_to_sheet(datosCartera);
@@ -449,7 +405,6 @@ const BajarCartera=(props)=>{
                     handleClose();
                     handleOpenInfo("No se obtuvo la base favor de volver a intentar");
                 }
-                // handleClose();
             })
 
     }
@@ -607,7 +562,7 @@ const BajarCartera=(props)=>{
     const obtenerSeg28=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("5")){
+            if(element.SEGMENTO.includes("28")){
                 llenarArreglo(element);
             }
 
@@ -617,7 +572,7 @@ const BajarCartera=(props)=>{
     const obtenerSeg06=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("5")){
+            if(element.SEGMENTO.includes("6")){
                 llenarArreglo(element);
             }
 
@@ -627,81 +582,76 @@ const BajarCartera=(props)=>{
     const obtenerSeg16=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("5")){
+            if(element.SEGMENTO.includes("16")){
                 llenarArreglo(element);
             }
 
         })
     }
 
-    // const normalidadOrden=(cartera)=>{
-    //     datosCartera=[];
-    //     cartera.forEach(function(element){
-    //         // if(element.SEGMENTO===28||element.SEGMENTO==="28"){
-    //         //     llenarArreglo(element);
-    //         // }else{
-    //             if(element.CAMPANIA.includes("Normalidad")){
-    //                 llenarArreglo(element);
-    //             }
-    //         // }
-    //     })
-    // }
+    const obtenerCredimax=(cartera)=>{
+        datosCartera=[];
+        let carteraCredimax=[]
+        cartera.forEach(function(element){
+            if(element.producto==="Credimax"){
+                carteraCredimax.push(element)
+            }
+        })
+        descartarNumerosSinDatos(carteraCredimax);
+    }
 
-    // const preventaOrden=(cartera)=>{
-    //     datosCartera=[];
-    //     cartera.forEach(function(element){
-    //         if(element.CAMPANIA.includes("Preventa")){
-    //             if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
-    //                 llenarArreglo(element);
-    //             }
-    //         }
-    //     })
-    // }
+    const obtenerItalika=(cartera)=>{
+        datosCartera=[];
+        let carteraItalika=[]
+        cartera.forEach(function(element){
+            if(element.producto==="ITALIKA"){
+                carteraItalika.push(element)
+            }
+        })
+        descartarNumerosSinDatos(carteraItalika);
+    }
 
-    // const italikaOrden=(cartera)=>{
-    //     datosCartera=[];
-    //     cartera.forEach(function(element){
-    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-    //             if(element.PRODUCTO==="ITALIKA"){
-    //                 llenarArreglo(element);
-    //             }
-    //         }
-    //     })
-    // }
+    const obtenerTOR=(cartera)=>{
+        datosCartera=[];
+        let carteraTOR=[]
+        cartera.forEach(function(element){
+            if(element.producto==="TOR"){
+                carteraTOR.push(element)
+            }
+        })
+        descartarNumerosSinDatos(carteraTOR);
+    }
 
-    // const tormazOrden=(cartera)=>{
-    //     datosCartera=[];
-    //     cartera.forEach(function(element){
-    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-    //             if(element.PRODUCTO==="TOR"||element.PRODUCTO==="MAZ"){
-    //                 llenarArreglo(element);
-    //             }
-    //         }
-    //     })
-    // }
-    
-    // const carteraSobrante=(cartera)=>{
-    //     datosCartera=[];
-    //     cartera.forEach(function(element){
-    //         if(!element.CAMPANIA.includes("Preventa")&&!element.CAMPANIA.includes("Normalidad")){
-    //             if(element.PRODUCTO!=="ITALIKA"&&element.PRODUCTO!=="TOR"&&element.PRODUCTO!=="MAZ"){
-    //                 llenarArreglo(element);
-    //             }
-    //         }
-    //     })
-    // }
+    const obtenerTAZCDT=(cartera)=>{
+        datosCartera=[];
+        let carteraTAZCDT=[]
+        cartera.forEach(function(element){
+            if(element.producto==="TAZ"||element.producto==="CDT"){
+                carteraTAZCDT.push(element)
+            }
+        })
+        descartarNumerosSinDatos(carteraTAZCDT);
+    }
+
+    const obtenerGeneral=(cartera)=>{
+        datosCartera=[];
+        let carteraGeneral=[]
+        cartera.forEach(function(element){
+            if(element.producto!=="TAZ"&&element.producto!=="CDT"&&element.producto!=="TOR"&&element.producto!=="ITALIKA"&&element.producto!=="Credimax"){
+                carteraGeneral.push(element)
+            }
+        })
+        descartarNumerosSinDatos(carteraGeneral);
+    }
+
 
     const enviarCorreoCarteras=(cartera,nombreArchivo)=>{
         let cantidadCartera=cartera.length;
-        // let cantidad=0.0;
-        // cartera.forEach(function(element){
-        //     cantidad=cantidad+parseFloat(element.SALDO);        
-        // })
 
         let json={
             "asunto":"Cartera "+nombreArchivo,
             "mensaje":"Se encontraron "+cantidadCartera+" cuentas de la cartera "+nombreArchivo,
-            // "mensaje":"Se encontraron "+cantidadCartera+" de la cartera "+nombreArchivo+ "con un saldo de "+cantidad,
+           
         }
 
         servicio.consumirServicios(json,"service/notificaciones/enviarCorreoGenerico").then(
@@ -768,99 +718,51 @@ const BajarCartera=(props)=>{
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Segmento 05 (00 a 25 semanas)</FormLabel>
-                        {/* <RadioGroup>
-                            <br/>
-                            <FormControlLabel value="Seg05P" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg5("5")}}/>} label="Segmento 05 Puro" />
-                            <br/>
-                            <FormControlLabel value="Seg05SNITCPM" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg5("5SNNITC")}}/>} label="Segmento 05 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
-                        </RadioGroup> */}
-                        
-                            <br/>
-                            <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg16!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
-                            <br/>
-                            {/* <FormControlLabel value="Seg05SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg5==="5"} onClick={checkedSeg5SNNITC}/>} label="Segmento 05 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/> */}
-                   
-
+                        <br/>
+                        <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
+                        <br/>
                     </FormControl>
                 </Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_2">Segmento 28 (26 a 39 semanas)</FormLabel>
-                        {/* <RadioGroup>
-                            <br/>
-                            <FormControlLabel value="Seg28P" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg28("28")}}/>} label="Segmento 28 Puro" />
-                            <br/>
-                            <FormControlLabel value="Seg28SNITCPM" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg28("28SNNITC")}}/>} label="Segmento 28 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
-                        </RadioGroup> */}
-                            <br/>
-                            <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||seg5!==null||seg6!==null||seg16!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
-                            <br/>
-                            {/* <FormControlLabel value="Seg28SNITCPM" control={<Checkbox  disabled={carteraCompleta!=null || seg28==="28"} onClick={checkedSeg28SNNITC}/>} label="Segmento 28 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/> */}
+                        <br/>
+                        <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
+                        <br/>
                     </FormControl>
                 </Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_3">Segmento 06 (40 a 55 semanas)</FormLabel>
-                        {/* <RadioGroup>
-                            <br/>
-                            <FormControlLabel value="Seg06P" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg6("6")}}/>} label="Segmento 06 Puro" />
-                            <br/>
-                            <FormControlLabel value="Seg06SNITCPM" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg6("6SNNITC")}} />} label="Segmento 06 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
-                        </RadioGroup> */}
-
-                            <br/>
-                            <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg5!==null||seg16!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
-                            <br/>
-                            {/* <FormControlLabel value="Seg06SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg6==="6" } onClick={checkedSeg06SNNITC} />} label="Segmento 06 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/> */}
+                        <br/>
+                        <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
+                        <br/>
                     </FormControl>
                 </Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmento 16 (mas de 55 semanas)</FormLabel>
-                        {/* <RadioGroup>
-                            <FormControlLabel value="Seg16P" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg16("16")}}/>} label="Segmento 16 Puro" />
-                            <br/>
-                            <FormControlLabel value="Seg16SNITCPM" control={<Radio disabled={carteraCompleta!=null} onClick={()=>{setSeg16("16SNNITC")}}/>} label="Segmento 16 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                            <br/>
-                        </RadioGroup> */}
                         <br/>
-                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg5!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
+                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg5!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
                         <br/>
-                        {/* <FormControlLabel value="Seg16SNITCPM" control={<Checkbox disabled={carteraCompleta!=null || seg16==="16"} onClick={checkedSeg16SNNITC}/>} label="Segmento 16 sin Normalidad, Italika, TOR, CDT, MAZ y Preventa" />
-                        <br/> */}
                     </FormControl>
                 </Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmentos Elegibles</FormLabel>
-                        
-                        {/* <FormControlLabel value="normalidad" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegNormalidad}/>} label="NORMALIDAD" />
-                        
-                        <FormControlLabel value="preventa" control={<Checkbox disabled={carteraCompleta!=null  || normalidad==="Normalidad" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegPreventa}/>} label="PREVENTA" />
-                       
-                        <FormControlLabel value="italika" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || normalidad==="Normalidad" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegItalika}/>} label="ITALIKA" />
-                        
-                        <FormControlLabel value="tor" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || normalidad==="Normalidad" || cdt==="CDT" || maz==="MAZ" || seg21==="21"} onClick={checkedSegTOR}/>} label="TOR" />
-                       
-                        <FormControlLabel value="cdt" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || normalidad==="Normalidad" || maz==="MAZ" || seg21==="21"} onClick={checkedSegCDT}/>} label="CDT" />
-                        
-                        <FormControlLabel value="maz" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" ||  normalidad==="Normalidad" || seg21==="21"} onClick={checkedSegMAZ}/>} label="MAZ" />
-                        
-                        <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
-                       
-                       {/* <FormControlLabel value="nueva" control={<Checkbox  onClick={checked}/>} label="CuentasNuevas" /> */}
+                    
                        {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
 
+                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte" />
+                       <FormControlLabel value="credimax" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegCredimax}/>} label="CREDIMAX" />
+                       <FormControlLabel value="tazcdt" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || general!==null} onClick={checkedSegTAZCDT}/>} label="TAZCDT" />
+                       <FormControlLabel value="italika" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegItalika}/>} label="Italika" />
+                       <FormControlLabel value="tor" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tazcdt!==null || general!==null} onClick={checkedSegTOR}/>} label="TOR" />
+                       <FormControlLabel value="general" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null} onClick={checkedSegGeneral}/>} label="General" />
                     </FormControl>
                 </Grid>
 
@@ -896,16 +798,6 @@ const BajarCartera=(props)=>{
             </Grid>
             
 
-            
-            {/* {
-            banderDesExc!=0?(
-            <>
-                <CSVLink data={datosCartera}> Bajar Cartera Excel</CSVLink>
-            </>
-            ):(<><p>No se pudieron obtener campañas</p></>)
-
-            } */}
-                
             <div>
                 <ModalEspera open={openModal} handleClose={handleClose} />
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
