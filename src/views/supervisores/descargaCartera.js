@@ -60,6 +60,8 @@ const BajarCartera=(props)=>{
     const [tor, setTor]=useState(null);
     const [tazcdt, setTazCdt]=useState(null);
     const [general, setGeneral]=useState(null);
+    const [cartManana, setCartManana]=useState(null);
+    const [cartTarde, setCartTarde]=useState(null);
     
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -170,6 +172,22 @@ const BajarCartera=(props)=>{
         }
     }
 
+    const checkedManana=(event)=>{
+        if(event.target.checked==true){
+            setCartManana("M")
+        }else{
+            setCartManana(null)
+        }
+    }
+
+    const checkedTarde=(event)=>{
+        if(event.target.checked==true){
+            setCartTarde("T")
+        }else{
+            setCartTarde(null)
+        }
+    }
+
 
     const handleOnChanceCookie=(event)=>{
         setCokkie(event.target.value);
@@ -192,16 +210,6 @@ const BajarCartera=(props)=>{
             }else if(carteraCompleta==="CCSFL"){
                 nombreArchivo="Cartera_Completa_SF_Local";
             }
-            setSeg5(null);
-            setSeg28(null);
-            setSeg6(null);
-            setSeg16(null);
-            setDescarte(null);
-            setCredimax(null);
-            setItalika(null);
-            setTor(null);
-            setTazCdt(null);
-            setGeneral(null);
 
         }
         if(seg5!==null){
@@ -243,6 +251,15 @@ const BajarCartera=(props)=>{
         if(seg21!==null){
             nombreArchivo=nombreArchivo+"Seg21";
         }
+        if(cartManana!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"CarteraCompleta_Matutino";
+        }
+        if(cartTarde!==null){
+            endPoint="service/carteraLocal/carteraConDescarte";
+            nombreArchivo=nombreArchivo+"CarteraCompleta_Vespertino";
+        }
+
 
         let json={
             "cookie":cokkie,
@@ -285,6 +302,10 @@ const BajarCartera=(props)=>{
                         obtenerTAZCDT(data.data);
                     }else if(general!==null){
                         obtenerGeneral(data.data);
+                    }else if(cartManana!==null){
+                        obtenerCarteraManana(data.data);
+                    }else if(cartTarde!==null){
+                        obtenerCarteraTarde(data.data);
                     }
                     
                     if(datosCartera.length<=80000){
@@ -544,6 +565,7 @@ const BajarCartera=(props)=>{
             "TELEFONO ADICIONAL 1":"N/A",   
             "TELEFONO ADICIONAL 2":"N/A",
             "GESTOR":"N/A",
+            "TURNO": typeof element.turno !== "undefined" ? element.turno:element.TURNO
         }
 
         datosCartera.push(elementoArray)
@@ -644,6 +666,31 @@ const BajarCartera=(props)=>{
         descartarNumerosSinDatos(carteraGeneral);
     }
 
+    const obtenerCarteraManana=(cartera)=>{
+        datosCartera=[];
+        let carteraManana=[]
+        cartera.forEach(function(element){
+            if(element.turno==="M"){
+                carteraManana.push(element);
+            }
+        })
+
+        descartarNumerosSinDatos(carteraManana);
+    }
+
+    const obtenerCarteraTarde=(cartera)=>{
+        datosCartera=[];
+        let carteraTarde=[]
+        cartera.forEach(function(element){
+            if(element.turno==="V"){
+                carteraTarde.push(element);
+            }
+
+        })
+
+        descartarNumerosSinDatos(carteraTarde)
+    }
+
 
     const enviarCorreoCarteras=(cartera,nombreArchivo)=>{
         let cantidadCartera=cartera.length;
@@ -699,13 +746,13 @@ const BajarCartera=(props)=>{
                         <FormLabel id="demo-radio-buttons-group-label_1">Turno</FormLabel>
                         <RadioGroup>
                             <br/>
-                            <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompleta("CCD")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Con Descarte" />
+                            <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompleta("CCD")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setCartManana(null)}{setCartTarde(null)}{setDescarte(null)}{setCredimax(null)}{setItalika(null)}{setTor(null)}{setTazCdt(null)}{setGeneral(null)}}}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCCFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCCFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setCartManana(null)}{setCartTarde(null)}{setDescarte(null)}{setCredimax(null)}{setItalika(null)}{setTor(null)}{setTazCdt(null)}{setGeneral(null)}}}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCL" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFSCL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Sin Filtros SCL" />
+                            <FormControlLabel value="carteraCompletaSFSCL" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFSCL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setCartManana(null)}{setCartTarde(null)}{setDescarte(null)}{setCredimax(null)}{setItalika(null)}{setTor(null)}{setTazCdt(null)}{setGeneral(null)}}}/>} label="Cartera Completa Sin Filtros SCL" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}}}/>} label="Cartera Completa Sin Filtros Local" />
+                            <FormControlLabel value="carteraCompletaSFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFL")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setCartManana(null)}{setCartTarde(null)}{setDescarte(null)}{setCredimax(null)}{setItalika(null)}{setTor(null)}{setTazCdt(null)}{setGeneral(null)}}}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
@@ -719,7 +766,7 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Segmento 05 (00 a 25 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
+                        <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -728,7 +775,7 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_2">Segmento 28 (26 a 39 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
+                        <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -737,7 +784,7 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_3">Segmento 06 (40 a 55 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
+                        <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -746,7 +793,7 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmento 16 (mas de 55 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg5!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
+                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||seg28!==null||seg6!==null||seg5!==null|| descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -757,12 +804,14 @@ const BajarCartera=(props)=>{
                     
                        {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
 
-                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte" />
-                       <FormControlLabel value="credimax" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || italika!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegCredimax}/>} label="CREDIMAX" />
-                       <FormControlLabel value="tazcdt" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || general!==null} onClick={checkedSegTAZCDT}/>} label="TAZCDT" />
-                       <FormControlLabel value="italika" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || tor!==null || tazcdt!==null || general!==null} onClick={checkedSegItalika}/>} label="Italika" />
-                       <FormControlLabel value="tor" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tazcdt!==null || general!==null} onClick={checkedSegTOR}/>} label="TOR" />
-                       <FormControlLabel value="general" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null} onClick={checkedSegGeneral}/>} label="General" />
+                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte" />
+                       <FormControlLabel value="credimax" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || italika!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegCredimax}/>} label="CREDIMAX" />
+                       <FormControlLabel value="tazcdt" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegTAZCDT}/>} label="TAZCDT" />
+                       <FormControlLabel value="italika" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || tor!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegItalika}/>} label="Italika" />
+                       <FormControlLabel value="tor" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tazcdt!==null || general!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegTOR}/>} label="TOR" />
+                       <FormControlLabel value="general" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null || cartTarde!==null} onClick={checkedSegGeneral}/>} label="General" />
+                       <FormControlLabel value="carteraManana" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartTarde!==null} onClick={checkedManana}/>} label="Cartera Mañana" />
+                       <FormControlLabel value="carteraVespertino" control={<Checkbox disabled={carteraCompleta!==null || seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null} onClick={checkedTarde}/>} label="Cartera Tarde" />
                     </FormControl>
                 </Grid>
 
