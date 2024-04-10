@@ -15,7 +15,7 @@ export default class OperacionGestion extends React.Component{
         this.state={
             personal:[],
             tipificaciones:[],
-            cartera:[]
+            // cartera:[]
         }
     }
 
@@ -41,33 +41,34 @@ export default class OperacionGestion extends React.Component{
             }
         )
 
-        let json={
-            "":""
-        }
+        // let json={
+        //     "":""
+        // }
 
-        servicio.consumirServicios(json,"service/carteraLocal/carteraCompletaDia").then(
-            data=>{  
-                if(data.code===1){
-                    this.setState({
-                        cartera:data.data
-                    })
-                }
-            }
+        // servicio.consumirServicios(json,"service/carteraLocal/carteraCompletaDia").then(
+        //     data=>{  
+        //         if(data.code===1){
+        //             this.setState({
+        //                 cartera:data.data
+        //             })
+        //         }
+        //     }
             
-        )
+        // )
 
 
 
     }
 
     render(){
-        if(this.state.personal.length!==0&&this.state.tipificaciones.length!==0&&this.state.cartera.length!==0){
+        // if(this.state.personal.length!==0&&this.state.tipificaciones.length!==0&&this.state.cartera.length!==0){
+        if(this.state.personal.length!==0&&this.state.tipificaciones.length!==0){
             return(
                 <div>
                     <Gestion
                         personal={this.state.personal}
                         tipificaciones={this.state.tipificaciones}
-                        cartera={this.state.cartera}
+                        // cartera={this.state.cartera}
                     />
                 </div>
             )
@@ -93,12 +94,20 @@ const Gestion=(props)=>{
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
 
     useEffect(()=>{
-        props.cartera.forEach(function(element){
-            if(element.cliente_UNICO===params.clienteUnico){
-                setCuenta(element);
-                console.log(element);
+        servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+params.clienteUnico).then(
+            data=>{
+                if(data.code===1){
+                    setCuenta(data.data);
+                    console.log(data.data);
+                }
             }
-        })
+        )
+        // props.cartera.forEach(function(element){
+        //     if(element.cliente_UNICO===params.clienteUnico){
+        //         setCuenta(element);
+        //         console.log(element);
+        //     }
+        // })
     })
 
     const handleOpenInfo = (mensaje) => {
@@ -186,29 +195,29 @@ const Gestion=(props)=>{
                 <Grid container spacing={1} className="bordeTarjeta">
                     <Grid item xl={1} lg={1} md={1} sm={1}/>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
-                        <p><strong>CLIENTE UNICO: </strong>{cuenta.cliente_UNICO}</p>
+                        <p><strong style={{color:'#06AA0D'}}>CLIENTE UNICO: </strong>{cuenta.cliente_UNICO}</p>
                         <br/>
-                        <p><strong>NOMBRE: </strong>{cuenta.nombre_CTE}</p>
+                        <p><strong style={{color:'#06AA0D'}}>NOMBRE: </strong>{cuenta.nombre_CTE}</p>
                     </Grid>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
-                        <p><strong>SALDO: </strong>{cuenta.saldo}</p>
+                        <p ><strong style={{color:'#06AA0D'}}>SALDO TOTAL: </strong>{cuenta.saldo_TOTAL}</p>
                         <br/>
-                        <p><strong>SALDO TOTAL: </strong>{cuenta.saldo_TOTAL}</p>
+                        <p><strong style={{color:'#06AA0D'}}>DIAS ATRASO: </strong>{cuenta.dias_ATRASO}</p>                        
                     </Grid>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
-                        <p><strong>DIAS ATRASO: </strong>{cuenta.dias_ATRASO}</p>
+                        <p><strong style={{color:'#06AA0D'}}>TELEFONO 1: </strong>{cuenta.telefono1}</p>
                         <br/>
-                        <p><strong>PRODUCTO: </strong>{cuenta.producto}</p>
+                        <p><strong style={{color:'#06AA0D'}}>TELEFONO 2: </strong>{cuenta.telefono2}</p>
                     </Grid>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
-                        <p><strong>TELEFONO 1: </strong>{cuenta.telefono1}</p>
+                        <p><strong style={{color:'#06AA0D'}}>TELEFONO 3: </strong>{cuenta.telefono3}</p>
                         <br/>
-                        <p><strong>TELEFONO 2: </strong>{cuenta.telefono2}</p>
+                        <p><strong style={{color:'#06AA0D'}}>TELEFONO 4: </strong>{cuenta.telefono4}</p>
                     </Grid>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
-                        <p><strong>TELEFONO 3: </strong>{cuenta.telefono3}</p>
+                        <p><strong  style={{color:'#06AA0D'}}>FE_ULT_PAG: </strong>{cuenta.fecha_ULTIMO_PAGO}</p>
                         <br/>
-                        <p><strong>TELEFONO 4: </strong>{cuenta.telefono4}</p>
+                        <p><strong style={{color:'#06AA0D'}}>PRODUCTO: </strong>{cuenta.producto}</p>
                     </Grid>
                     <Grid item xl={1} lg={1} md={1} sm={1}/>
 
