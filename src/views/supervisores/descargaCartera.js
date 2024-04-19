@@ -308,7 +308,7 @@ const BajarCartera=(props)=>{
                         obtenerCarteraTarde(data.data);
                     }
                     
-                    if(datosCartera.length<=80000){
+                    if(datosCartera.length<=75000){
                         const workSheet=XLSX.utils.json_to_sheet(datosCartera);
                         console.log("Creando Excel 1")
                         const workBook=XLSX.utils.book_new();
@@ -320,12 +320,12 @@ const BajarCartera=(props)=>{
                         // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
                         XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+".xlsx");
                         console.log("Creando Excel 5")
-                    }else if(datosCartera.length>80000&&datosCartera.length<=160000){
+                    }else if(datosCartera.length>75000&&datosCartera.length<=150000){
                         let valor=1;
                         let parte1=[];
                         let parte2=[];
                         datosCartera.forEach(function(element){
-                            if(valor<=80000){
+                            if(valor<=75000){
                                 parte1.push(element);
                             }else{
                                 parte2.push(element);
@@ -359,18 +359,18 @@ const BajarCartera=(props)=>{
                         // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
                         XLSX.writeFile(workBook2, dia+mes+year+"_"+nombreArchivo+"_2.xlsx");
                         console.log("Creando Excel 5")
-                    }else if(datosCartera.length>160000){
+                    }else if(datosCartera.length>150000){
                         let valor=1;
                         let parte1=[];
                         let parte2=[];
                         let parte3=[];
 
                         datosCartera.forEach(function(element){
-                            if(valor<=80000){
+                            if(valor<=75000){
                                 parte1.push(element);
-                            }else if(valor>80000&&valor<=160000){
+                            }else if(valor>75000&&valor<=150000){
                                 parte2.push(element);
-                            }else if(valor>160000){
+                            }else if(valor>150000){
                                 parte3.push(element);
                             }
                             console.log(valor);
