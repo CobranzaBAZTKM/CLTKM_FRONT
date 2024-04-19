@@ -4,6 +4,12 @@ import {TextField, Button, Grid} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import {ModalEspera,ModalInfo} from '../../services/modals';
+import Servicios from '../../services/servicios';
+import dayjs from "dayjs";
+import * as XLSX from 'xlsx';
+
+const servicio=new Servicios();
 
 export default class ReportePagos extends React.Component{
 
@@ -21,6 +27,7 @@ const Pagos=()=>{
 
     const [cookieBusq,setCookieBusq]=useState(null);
     const [fechaPagos,setFechaPagos]=useState(null);
+    const [fechaCorta,setFechaCorta]=useState(null);
 
     const [openModalCargando, setOpenModalCargando] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -47,16 +54,66 @@ const Pagos=()=>{
     }
 
     const handleOnChangeFechaPago=(event)=>{
+        
+        let fechaCorta=dayjs(event).format("DD/MM/YYYY");
         let fechaRecuperado=String(event)
         let preparandoFecha =fechaRecuperado.split(" ");
         setFechaPagos(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
+        setFechaCorta(fechaCorta);
     }
 
     const handleClickBuscarDescargaPagos=()=>{
-        let json={
-            "cookie":cookieBusq,
-            "fechaBusqueda":fechaPagos
+        if(cookieBusq!==null&&fechaPagos!==null){
+            handleOpenCargando();
+            let endPoint="service/pagos/pagosDia";
+            let json={     
+                "cookieGestores":cookieBusq,
+                "diaPago":fechaPagos,
+                "idPlanActivo":fechaCorta
+            }
+
+            servicio.consumirServicios(json,endPoint).then(
+                data=>{
+                    if(data.code===1){
+                        prepararExcel(data.data);
+                    }else{
+                        handleCloseCargando();
+                        handleOpenInfo("Fallo algo en la consulta");
+                    }
+                }
+            )
+
+
+        }else{
+            handleOpenInfo("Favor de validar que los campos de cookie y fecha contengan datos");
         }
+
+
+
+    }
+
+    const prepararExcel=(arregloPromesas)=>{
+        let layoutDescarga=[];
+        arregloPromesas.forEach(function(element){
+            let layoutArray={
+                "CLIENTE_UNICO":element.clienteUnico,
+                "NOMBRE_CLIENTE":element.nombreCliente,
+                "GESTOR":element.nombreGestor,
+                "MONTO_PROMETIDO":element.montoPago,
+                "MONTO_FINAL":element.pagoFinal,
+            }
+            layoutDescarga.push(layoutArray);
+        });
+
+        const workSheet=XLSX.utils.json_to_sheet(layoutDescarga);
+        const workBook=XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
+        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+        XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+        XLSX.writeFile(workBook, fechaCorta+"_ReportePagos.xlsx");
+        handleCloseCargando();
+        handleOpenInfo("Descarga Realizada");
     }
 
     return(
@@ -107,6 +164,9 @@ const Pagos=()=>{
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
             </Grid>
+
+            <ModalEspera open={openModalCargando} handleClose={handleCloseCargando} />
+            <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
         </div>
     )
 }
