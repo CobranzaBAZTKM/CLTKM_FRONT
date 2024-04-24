@@ -8,6 +8,8 @@ import {ModalEspera,ModalInfo} from '../../services/modals';
 import Servicios from '../../services/servicios';
 import dayjs from "dayjs";
 import * as XLSX from 'xlsx';
+import { useNavigate  } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const servicio=new Servicios();
 
@@ -24,6 +26,8 @@ export default class ReportePagos extends React.Component{
 }
 
 const Pagos=()=>{
+
+    const navigate = useNavigate();
 
     const [cookieBusq,setCookieBusq]=useState(null);
     const [fechaPagos,setFechaPagos]=useState(null);
@@ -116,6 +120,11 @@ const Pagos=()=>{
         handleOpenInfo("Descarga Realizada");
     }
 
+    const handleClickRegresasr=()=>{
+        navigate("/CLTKM_FRONT/menu");
+    }
+
+
     return(
         <div>
            <Grid container spacing={1}>
@@ -133,6 +142,7 @@ const Pagos=()=>{
             </Grid> 
             <br/>
             <Grid container spacing={1}>
+
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
                 <Grid item xl={4} lg={4} md={4} sm={4} style={{textAlign:'center'}}>
                     <TextField 
@@ -164,6 +174,19 @@ const Pagos=()=>{
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
             </Grid>
+
+            <Grid container spacing={1}>
+                <Grid item xl={1} lg={1} md={1} sm={1} />
+                <Grid item xl={2} lg={2} md={2} sm={2} >
+                    <ArrowBackIcon
+                        style={{height:"80px",width:"200px"}}
+                        onClick={()=>{handleClickRegresasr()}}
+                    />
+                </Grid>
+                <Grid item xl={9} lg={9} md={9} sm={9} />
+            </Grid>
+
+            
 
             <ModalEspera open={openModalCargando} handleClose={handleCloseCargando} />
             <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
