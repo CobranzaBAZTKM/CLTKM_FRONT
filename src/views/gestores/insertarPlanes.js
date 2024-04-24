@@ -55,8 +55,15 @@ export default class InsertarPlanes extends React.Component{
         servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
                 data=>{
                     if(data.code===1){
+                        let arreglo=[];
+                        data.data.forEach(function(element){
+                            if(element.estado===1){
+                                arreglo.push(element);
+                            }
+                        })
+
                         this.setState({
-                            gestores:data.data
+                            gestores:arreglo
                         })
                     }
                 }
@@ -320,7 +327,9 @@ const ColocarPromesas=(props)=>{
                         if(element.puesto===1||element.puesto===2){
                             if(element.idTkm===parseInt(idSuperAut)){
                                 if(element.password===passSuperAut){
-                                    supervisor=1;
+                                    if(element.estado===1){
+                                        supervisor=1;
+                                    }
                                 }
                             } 
                         }

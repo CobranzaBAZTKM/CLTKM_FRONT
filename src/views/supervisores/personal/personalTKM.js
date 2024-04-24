@@ -6,17 +6,58 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
 import {ModalInfo,ModalInsertarGestores,ModalSiNo} from '../../../services/modals';
+import { DataGrid } from "@mui/x-data-grid";
 
 
 const servicio=new Servicios();
 
-export default class PersonalSCL extends React.Component{
+const columnas=[
+    { 
+        field: 'id', 
+        headerName: 'ID', 
+        width: 100 
+    },
+    {
+        field:"idSCL",
+        headerName: "ID SCL",
+        width:100,
+        editable:false, 
+    },
+    {
+        field:"nombreGestor",
+        headerName: "Nombre de Gestor",
+        width:500,
+        editable:false, 
+    },
+    {
+        field:"puesto",
+        headerName: "Nombre de Gestor",
+        width:150,
+        editable:false, 
+    },
+    {
+        field:"turno",
+        headerName: "Turno",
+        width:150,
+        editable:false, 
+    },
+    {
+        field:"estado",
+        headerName: "Estado",
+        width:150,
+        editable:false, 
+    },
+]
+
+export default class PersonalTKM extends React.Component{
     constructor(props){
         super(props);
     
         this.state={
             personal:props.personal,
+            personal2:props.personal2,
             idSuper:props.idSuper,
+            personalTabla:[],
             opciones:[
                 {
                     id:1,
@@ -45,18 +86,57 @@ export default class PersonalSCL extends React.Component{
                     valor:"Vespertino"
                 }
 
+            ],
+            estadoOpciones:[
+                {
+                    id:0,
+                    valor:"Inhabilitado",
+                },
+                {
+                    id:1,
+                    valor:"Habilitado",
+                },
             ]
         }
     }
+
+    componentWillMount(){
+        let arreglos=[];
+        
+        this.props.personal2.forEach(function(element){
+            console.log(element);
+            let arreglo={
+                "id":element.idTkm,
+                "idSCL":element.idGestor,
+                "nombreGestor":element.nombreGestor,
+                "puesto":element.puesto===1?"Administrativo":element.puesto===2?"Supervisor":"Gestor",
+                "turno":element.turno===null?"Sin turno":element.turno==="C"?"Completo":element.turno==="M"?"Matutino":element.turno==="V"?"Vespertino":"",
+                "estado":element.estado===1?"Habilitado":"Inhabilitado"
+            }
+
+            arreglos.push(arreglo);
+        })
+
+
+        this.setState({
+            personalTabla:arreglos
+        })
+
+    }
+
 
     render(){
         return(
             <div>
                 <VisualizarPersonalTKM
                     personalTKM={this.state.personal}
+                    personalTKM2={this.state.personal2}
                     idSuper={this.state.idSuper}
                     puesto={this.state.opciones}
                     turno={this.state.turno}
+                    actualizarPersonal={this.props.actualizarPersonal}
+                    personalTabla={this.state.personalTabla}
+                    estadoOpciones={this.state.estadoOpciones}
                 />
 
             </div>        
@@ -75,6 +155,7 @@ const VisualizarPersonalTKM=(props)=>{
     const [idRegistro, setIdRegistro]=useState(null);
     const [idActualizo, setIdActualizo]=useState(null);
     const [turnoActualizar,setTurnoActualizar]=useState(null);
+    const [estadoActualiazar,setEstadoActualizar]=useState(null);
 
     const [openModalActualizar, setOpenModalActualizar]= React.useState(false);
     const [openModalBorrar, setOpenModalBorrar]= React.useState(false);
@@ -138,30 +219,38 @@ const VisualizarPersonalTKM=(props)=>{
             setTurnoActualizar(null);
         }
         else{
-            setTurnoActualizar(newValue.id)
+            setTurnoActualizar(newValue.id);
         }
         
     }
     
-
-
-
-    const handleOnClickActualizarGestores=(datos)=>{
-
-        setIdTKMActualizar(datos.idTkm);
-        setIdSCLActualizar(datos.idGestor);
-        setNombreActualizar(datos.nombreGestor);
-        setPasswordActualizar(datos.password);
-        setPuestoActualizar(datos.puesto);
-        setIdRegistro(datos.idRegistro);
-        setIdActualizo(props.idSuper)
-        setTurnoActualizar(datos.turno)
-        handleOpenActualizar();
-
+    const handleOnChangeEstado=(event,newValue)=>{
+        if(newValue===null){
+            setEstadoActualizar(null);
+        }
+        else{
+            setEstadoActualizar(newValue.id);
+        }
     }
 
+
+
+    // const handleOnClickActualizarGestores=(datos)=>{
+
+    //     setIdTKMActualizar(datos.idTkm);
+    //     setIdSCLActualizar(datos.idGestor);
+    //     setNombreActualizar(datos.nombreGestor);
+    //     setPasswordActualizar(datos.password);
+    //     setPuestoActualizar(datos.puesto);
+    //     setIdRegistro(datos.idRegistro);
+    //     setIdActualizo(props.idSuper)
+    //     setTurnoActualizar(datos.turno)
+    //     handleOpenActualizar();
+
+    // }
+
     const handleCloseActualizar=()=>{
-        if(nombreActualizar!==null&&passwordActualizar!==null&&puestoActualizar!==null&&turnoActualizar!==null){
+        if(nombreActualizar!==null&&passwordActualizar!==null&&puestoActualizar!==null&&turnoActualizar!==null&&estadoActualiazar!==null){
             let endPoint="service/gestores/actualizarGestorTKM";
             let json={
                 "idGestor": String(idSCLActualizar),
@@ -169,9 +258,9 @@ const VisualizarPersonalTKM=(props)=>{
                 "password": passwordActualizar,
                 "idTkm": parseInt(idTKMActualizar),
                 "puesto": parseInt(puestoActualizar),
-                "idRegistro": parseInt(idRegistro),
                 "idActualizo": parseInt(idActualizo),
-                "turno":turnoActualizar
+                "turno":turnoActualizar,
+                "estado":parseInt(estadoActualiazar),
             }
 
             servicio.consumirServicios(json,endPoint).then(
@@ -179,6 +268,8 @@ const VisualizarPersonalTKM=(props)=>{
                     if(data.code===1){
                         setOpenModalActualizar(false);
                         handleOpenInfo("Registro actualizado Correctamente");
+                        // props.actualizarPersonal(0)
+                        props.actualizarPersonal(3)
                     }
                     else{
                         handleOpenInfo("No se actualizo el registro");
@@ -212,12 +303,36 @@ const VisualizarPersonalTKM=(props)=>{
         )
     }
 
+    const handleRowClick = (params) => {
+    
+        console.log(params)
+        console.log(props)
+        props.personalTKM2.forEach(function(element){
+        
+            if(params.id===element.idTkm){
+                setIdTKMActualizar(element.idTkm);
+                setIdSCLActualizar(element.idGestor);
+                setNombreActualizar(element.nombreGestor);
+                setPasswordActualizar(element.password);
+                setPuestoActualizar(element.puesto);
+                setIdActualizo(props.idSuper)
+                setTurnoActualizar(element.turno)
+                setEstadoActualizar(element.estado)
+            }
+
+        })
+
+        handleOpenActualizar();
+    
+    }
+    
+
 
 
     return(
         <div>
             <br/>
-            <Grid container spacing={1}>
+            {/* <Grid container spacing={1}>
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5}></Grid> 
                 <Grid item xl={11} lg={11} md={11} sm={11} style={{textAlign:'center'}}>
                     <Table>
@@ -256,7 +371,33 @@ const VisualizarPersonalTKM=(props)=>{
                     </Table>
                 </Grid>
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5}></Grid>
-            </Grid>
+            </Grid> */}
+                
+            <Grid container spacing={1} >
+                
+                <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
+
+                <Grid item xl={11} lg={11} md={11} sm={11}>
+                    <DataGrid
+                        id="tablaDatosPP"
+                        rows={props.personalTabla}
+                        columns={columnas}
+                        pageZise={5}
+                        onRowClick={handleRowClick}
+                        initialState={{
+                            pagination: {
+                              paginationModel: { page: 0, pageSize: 10 },
+                            },
+                          }}
+                          pageSizeOptions={[10, 15]}
+              
+                    />
+
+                </Grid>
+
+                <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
+
+            </Grid>    
             <div>
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} /> 
                 <ModalSiNo open={openModalBorrar} handleClose={handleCloseBorrar} mensaje={mensajeModalSiNo} handleCloseSi={handleOnClickBorrar} />
@@ -267,10 +408,14 @@ const VisualizarPersonalTKM=(props)=>{
                     nombreInsertar={nombreActualizar} 
                     puesto={props.puesto} 
                     turno={props.turno}
+                    estadoOpciones={props.estadoOpciones}
+                    estado={estadoActualiazar}
                     handleOnChangePass={handleOnChangePass} 
                     handleCloseInsertar={handleCloseActualizar} 
                     handleOnChangePuesto={handleOnChangePuesto}
                     handleOnChangeTurno={handleOnChangeTurno} 
+                    handleOnChangeEstado={handleOnChangeEstado}
+                    // handleOnChangeBorrar={}
                     insertAct={2} 
                     password={passwordActualizar}
                     handleOnChangeNombre={handleOnChangeNombre}

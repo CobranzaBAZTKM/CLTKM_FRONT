@@ -21,7 +21,6 @@ export default class PersonalBazTkm extends React.Component{
     }
 
     componentWillMount(){
-    // componentDidMount(){
         servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
             data=>{
                 if(data.code===1){
@@ -67,6 +66,8 @@ const RevisarPersonal=(props)=>{
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
+
+    const [gestoresTKM, setGestoresTKM]= React.useState([]);
     
     const handleOpen = () => {
         setOpenModal(true);
@@ -86,7 +87,17 @@ const RevisarPersonal=(props)=>{
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleClickOpcionPersonal=(opcion)=>{
-        setBanderaSclTkm(opcion);
+        setBanderaSclTkm(0);
+        servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
+            data=>{
+                if(data.code===1){
+                    setGestoresTKM(data.data);
+                }
+                
+                setBanderaSclTkm(opcion);
+            }
+        )
+        // setBanderaSclTkm(opcion);
     }
 
     const handleOnChangeIdTKM=(event)=>{
@@ -108,7 +119,9 @@ const RevisarPersonal=(props)=>{
                 if(element.puesto===1||element.puesto===2){
                     if(element.idTkm===parseInt(idLogin)){
                         if(element.password===passLogin){
-                            nombre=element.nombreGestor;
+                            if(element.estado===1){
+                                nombre=element.nombreGestor;
+                            }
                         }
                         // }else{
                         //     handleClose();
@@ -242,7 +255,9 @@ const RevisarPersonal=(props)=>{
                 <div>
                     <PersonalTKM
                         personal={props.personal} 
+                        personal2={gestoresTKM}
                         idSuper={idLogin}
+                        actualizarPersonal={handleClickOpcionPersonal}
                     />
                 </div>
                 ):

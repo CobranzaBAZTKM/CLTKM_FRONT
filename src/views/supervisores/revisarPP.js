@@ -174,8 +174,14 @@ export default class RevisarPP extends React.Component{
         servicio.consumirServiciosGET("service/gestores/consultarGestoresTKM").then(
             data=>{
                 if(data.code===1){
+                    let arreglo=[];
+                    data.data.forEach(function(element){
+                        if(element.estado===1){
+                            arreglo.push(element);
+                        }
+                    })
                     this.setState({
-                        personal:data.data
+                        personal:arreglo
                     })
                 }
             }
