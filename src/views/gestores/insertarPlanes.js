@@ -253,6 +253,7 @@ const ColocarPromesas=(props)=>{
 
             if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
                 // if(parseFloat(montoPago)>=800||idGestorTKM===3||idGestorTKM===7||idGestorTKM===12||idGestorTKM===14||idGestorTKM===15||idGestorTKM===16||idGestorTKM===19||idGestorTKM===20||idGestorTKM===40||idGestorTKM===46){
+                if(parseFloat(montoPago)>=800){
                     let cuDiv=clienteUnico.split("-");
                     let sucursalCU=cuDiv[1].split("");
 
@@ -263,10 +264,10 @@ const ColocarPromesas=(props)=>{
                         handleClose();
                         handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
                     }
-                // }else{
-                //     handleClose();
-                //     handleOpenInfo("La promesa no puede ser menor a 800 pesos");
-                // }
+                }else{
+                    handleClose();
+                    handleOpenInfo("La promesa no puede ser menor a 800 pesos");
+                }
             }else{
                 handleClose();
                 handleOpenInfo("Favor de revisar la fecha de pago, no puede ser mayor al "+valD3);
