@@ -165,14 +165,19 @@ export function ModalInsertarGestores(props){
             renderInput={(params) => <TextField {...params} label="Turno" variant="outlined" />}
             onChange={props.handleOnChangeTurno}
           />
-        <br/><br/>
-          <Autocomplete 
-            id="seleccionEstado"          
-            options={props.estadoOpciones}
-            getOptionLabel={(option) => option.valor}
-            renderInput={(params) => <TextField {...params} label="Estado" variant="outlined" />}
-            onChange={props.handleOnChangeEstado}
-          />
+        {props.insertAct!==1?(
+          <>
+          <br/><br/>
+            <Autocomplete 
+              id="seleccionEstado"          
+              options={props.estadoOpciones}
+              getOptionLabel={(option) => option.valor}
+              renderInput={(params) => <TextField {...params} label="Estado" variant="outlined" />}
+              onChange={props.handleOnChangeEstado}
+            />
+          </>
+        ):(<></>)
+        }
         <br/><br/>
         <Button
             variant="contained"
@@ -197,7 +202,7 @@ export function ModalInsertarGestores(props){
               Borrar
           </Button>
           </>
-      ):(<></>)
+        ):(<></>)
 
       }
         &nbsp;&nbsp;&nbsp;

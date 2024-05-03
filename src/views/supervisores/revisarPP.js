@@ -14,8 +14,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DescargaExcel from "../descargarExcel";
 
 const servicio=new Servicios();
+const descargarExcel=new DescargaExcel();
 
 
 const opcionesFecha=[
@@ -217,6 +219,8 @@ const SupervisarPP=(props)=>{
     const [turnoLogin, setTurnoLogin]=useState(null);
     const [nivelLogin,setNiveLogin]=useState(null);
     const [showPassword, setShowPassword] = React.useState(false);
+    const [nombreSuper, setNombreSuper]=useState(null);
+    
 
     const [mostarTabla, setMostrarTabla]=useState(true);
     
@@ -366,6 +370,7 @@ const SupervisarPP=(props)=>{
                             nombre=element.nombreGestor;
                             setTurnoLogin(element.turno);
                             setNiveLogin(element.puesto);
+                            setNombreSuper(element.nombreGestor);
                         }
                         // }else{
                         //     handleClose();
@@ -854,14 +859,19 @@ const SupervisarPP=(props)=>{
     }
 
     const handleClickDescargaPromesas=()=>{
-        const workSheet=XLSX.utils.json_to_sheet(promesas);
-        const workBook=XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-        let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-        XLSX.writeFile(workBook, "Promesas.xlsx");
+
+        let archivo=descargarExcel.descargarExcel(promesas,"Promesas");
+        if(archivo!==null){
+            handleOpenInfo("Las promesas se descargaron correctamente");
+        }
+        // const workSheet=XLSX.utils.json_to_sheet(promesas);
+        // const workBook=XLSX.utils.book_new();
+        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
+        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+        // XLSX.writeFile(workBook, "Promesas.xlsx");
         
-        handleOpenInfo("Las promesas se descargaron correctamente");
+        // handleOpenInfo("Las promesas se descargaron correctamente");
     
     }
 
@@ -933,7 +943,9 @@ const SupervisarPP=(props)=>{
                 <Grid item xl={4} lg={4} md={4} sm={4} hidden={login} />
 
 
-                
+                <Grid item xl={12} lg={12} md={12} sm={12} hidden={!login} style={{textAlign:'center'}}>
+                    <p><strong>NOMBRE: </strong>{nombreSuper} &nbsp;&nbsp;&nbsp; <strong>ID: </strong>{idLogin}</p>       
+                </Grid>
                 <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker label={'Dia'} views={['day']} onChange={handleOnChangeBusqDia}/>

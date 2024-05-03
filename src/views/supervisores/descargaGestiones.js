@@ -10,8 +10,10 @@ import {Button,Grid} from '@mui/material';
 import Servicios from '../../services/servicios';
 import * as XLSX from 'xlsx'
 import {ModalInfo} from '../../services/modals';
+import DescargaExcel from '../descargarExcel';
 
 const servicio=new Servicios();
+const descargarExcel=new DescargaExcel();
 
 export default class DescargaGestiones extends React.Component{
    
@@ -109,21 +111,33 @@ const DescargaDia=(props)=>{
         setFechaEleg(preparandoFecha[1]+"-"+mes+"-"+preparandoFecha[3])
     }
 
-    const handleClickDescargaPromesas=()=>{
-        if(fechaEleg!==null){
-            servicio.consumirServiciosGET("service/operacion/gestionllamadas/consultarGestionLlamadas").then(
-                data=>{
-                    if(data.code===1){
-                        limpiarDia(data.data)
-                    }else{
-                        handleOpenInfo("Sucedio algo inesperado, favor de notificar")
-                    }
-                }
-            )
+    const handleClickDescargaPromesas=(opcion)=>{
+        if(opcion===1){
+            if(fechaEleg!==null){
+                consultarPromesas(opcion);
+            }else{
+                handleOpenInfo("Favor de elegir una fecha de descarga");
+            }
         }else{
-            handleOpenInfo("Favor de elegir una fecha de descarga");
+            consultarPromesas(opcion);
         }
     }
+
+    const consultarPromesas=(opcion)=>{
+        servicio.consumirServiciosGET("service/operacion/gestionllamadas/consultarGestionLlamadas").then(
+            data=>{
+                if(data.code===1){
+                    if(opcion===1){
+                        limpiarDia(data.data);
+                    }else{
+                        prepararLayoudDescarga(data.data);
+                    }
+                }else{
+                    handleOpenInfo("Sucedio algo inesperado, favor de notificar")
+                }
+            }
+        )
+    }    
 
     const limpiarDia=(gestiones)=>{
         let gestionesDia=[];
@@ -187,13 +201,12 @@ const DescargaDia=(props)=>{
 
 
     const descargaGestiones=(gestionesFinal)=>{
-        const workSheet=XLSX.utils.json_to_sheet(gestionesFinal);
-        const workBook=XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-        let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-        XLSX.writeFile(workBook, fechaEleg+"_Gestiones.xlsx");
-        handleOpenInfo("Descarga Realizada");
+        let nombreArchivo=fechaEleg+"_Gestiones";
+        let archivo=descargarExcel.descargarExcel(gestionesFinal,nombreArchivo);
+        if(archivo!==null){
+            handleOpenInfo("Descarga Realizada");
+        }
+        console.log(archivo);        
     }
 
     const handleClickRegresasr=()=>{
@@ -247,12 +260,24 @@ const DescargaDia=(props)=>{
                         variant="contained"
                         color="success"
                         size="large"
-                        style={{height:"50px",width:"180px"}}
+                        style={{height:"90px",width:"180px"}}
                         startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
-                        onClick={()=>{handleClickDescargaPromesas()}}
+                        onClick={()=>{handleClickDescargaPromesas(1)}}
         
                     >
-                        Descargar Gesiones    
+                        Descargar Gestiones del Dia
+                    </Button>
+                    &nbsp; &nbsp; &nbsp;
+                    <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        style={{height:"90px",width:"180px"}}
+                        startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{handleClickDescargaPromesas(2)}}
+        
+                    >
+                        Descargar Gestiones Completas
                     </Button>
                 </Grid>  
                 <Grid item xl={4} lg={4} md={4} sm={4}/>  

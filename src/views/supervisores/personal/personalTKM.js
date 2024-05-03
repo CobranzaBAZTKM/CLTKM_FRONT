@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import Grid from '@mui/material/Grid';
 import Servicios from '../../../services/servicios';
-import {Table , TableHead, TableCell, TableBody, TableRow} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit'; 
-import DeleteIcon from '@mui/icons-material/Delete';
+import DescargaExcel from "../../descargarExcel";
+// import {Table , TableHead, TableCell, TableBody, TableRow} from '@mui/material';
+// import EditIcon from '@mui/icons-material/Edit'; 
+// import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
 import {ModalInfo,ModalInsertarGestores,ModalSiNo} from '../../../services/modals';
 import { DataGrid } from "@mui/x-data-grid";
+import DownloadIcon from '@mui/icons-material/Download';
 
 
 const servicio=new Servicios();
+const descargarExcel=new DescargaExcel();
 
 const columnas=[
     { 
@@ -326,6 +329,13 @@ const VisualizarPersonalTKM=(props)=>{
     
     }
     
+    const handleClickDescargar=()=>{
+        let archivo=descargarExcel.descargarExcel(props.personalTabla,"Gestores");
+        if(archivo!==null){
+            handleOpenInfo("El archivo se descargo correctamente");
+        }
+        console.log(archivo);
+    }
 
 
 
@@ -397,6 +407,26 @@ const VisualizarPersonalTKM=(props)=>{
 
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
 
+            </Grid>
+            <br/>
+            <Grid container spacing={1}>            
+                <Grid item xl={5} lg={5} md={5} sm={5}/>
+                <Grid item xl={2} lg={2} md={2} sm={2} style={{textAlign:'center'}}>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        style={{height:"50px",width:"245px"}}
+                        startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{handleClickDescargar()}}
+        
+                    >
+                        Descargar Archivo        
+                    </Button>
+                          
+
+                </Grid>          
+                <Grid item xl={5} lg={5} md={5} sm={5}/>
             </Grid>    
             <div>
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} /> 

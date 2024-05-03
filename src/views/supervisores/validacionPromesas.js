@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import DownloadIcon from '@mui/icons-material/Download';
 import {TextField, Button, Grid} from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {ModalEspera,ModalInfo} from '../../services/modals';
+import DownloadIcon from '@mui/icons-material/Download';
 import Servicios from '../../services/servicios';
-import dayjs from "dayjs";
+import {ModalEspera,ModalInfo} from '../../services/modals';
 import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -15,30 +11,31 @@ import DescargaExcel from "../descargarExcel";
 const servicio=new Servicios();
 const descargarExcel=new DescargaExcel();
 
-export default class ReportePagos extends React.Component{
+export default class ValidacionPromesas extends React.Component{
 
     render(){
         return(
             <div>
-                <Pagos/>
+                <Validacion/>
             </div>
-
         )
     }
+
 }
 
-const Pagos=()=>{
+const Validacion=()=>{
 
     const navigate = useNavigate();
 
     const [cookieBusq,setCookieBusq]=useState(null);
-    const [fechaPagos,setFechaPagos]=useState(null);
-    const [fechaCorta,setFechaCorta]=useState(null);
 
     const [openModalCargando, setOpenModalCargando] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
 
+    const handleOnChangeBusqCookie=(event,newValue)=>{
+        setCookieBusq(event.target.value);
+    }
 
     const handleOpenCargando = () => {
         setOpenModalCargando(true);
@@ -55,27 +52,13 @@ const Pagos=()=>{
         setOpenModalInfo(false);
     };
 
-    const handleOnChangeBusqCookie=(event,newValue)=>{
-        setCookieBusq(event.target.value);
-    }
 
-    const handleOnChangeFechaPago=(event)=>{
-        
-        let fechaCorta=dayjs(event).format("DD/MM/YYYY");
-        let fechaRecuperado=String(event)
-        let preparandoFecha =fechaRecuperado.split(" ");
-        setFechaPagos(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
-        setFechaCorta(fechaCorta);
-    }
-
-    const handleClickBuscarDescargaPagos=()=>{
-        if(cookieBusq!==null&&fechaPagos!==null){
+    const handleClickBuscarDescargaValidacion=()=>{
+        if(cookieBusq!==null){
+            let endPoint="service/pagos/validacionPromesasLocal";
             handleOpenCargando();
-            let endPoint="service/pagos/pagosDia";
-            let json={     
-                "cookieGestores":cookieBusq,
-                "diaPago":fechaPagos,
-                "idPlanActivo":fechaCorta
+            let json={
+                "cokkie":cookieBusq
             }
 
             servicio.consumirServicios(json,endPoint).then(
@@ -89,43 +72,42 @@ const Pagos=()=>{
                 }
             )
 
-
         }else{
             handleOpenInfo("Favor de validar que los campos de cookie y fecha contengan datos");
         }
-
-
-
     }
 
     const prepararExcel=(arregloPromesas)=>{
-        let layoutDescarga=[];
+        let arreglo=[];
+
         arregloPromesas.forEach(function(element){
-            let layoutArray={
-                "CLIENTE_UNICO":element.clienteUnico,
-                "NOMBRE_CLIENTE":element.nombreCliente,
-                "GESTOR":element.nombreGestor,
-                "MONTO_PROMETIDO":element.montoPago,
-                "MONTO_FINAL":element.pagoFinal,
+            let json={
+                "CLIENTE_UNICO":element.cliente_UNICO,
+                "NOMBRE":element.nombre_CTE,
+                "MONTO":element.monto_PROMESA_PAGO,
+                "PRODUCTO":element.producto,
+                "CAMPAÑA":element.campania,
+                "SEGMENTO":element.segmento,
+                "FECHA_INSERCCION":element.fecha_INSER_LOCAL
             }
-            layoutDescarga.push(layoutArray);
-        });
+
+            arreglo.push(json);
+        })
 
 
-        let nombreArchivo=fechaCorta+"_ReportePagos";
-        let archivo=descargarExcel.descargarExcel(layoutDescarga,nombreArchivo);
+        let archivo=descargarExcel.descargarExcel(arreglo,"Reporte_Valiacion_Promesas");
         if(archivo!==null){
             handleCloseCargando();
             handleOpenInfo("Descarga Realizada");
         }
 
-        // const workSheet=XLSX.utils.json_to_sheet(layoutDescarga);
+        // const workSheet=XLSX.utils.json_to_sheet(arreglo);
         // const workBook=XLSX.utils.book_new();
         // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
         // // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
         // XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
         // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-        // XLSX.writeFile(workBook, fechaCorta+"_ReportePagos.xlsx");
+        // XLSX.writeFile(workBook, "Reporte_Valiacion_Promesas.xlsx");
         // handleCloseCargando();
         // handleOpenInfo("Descarga Realizada");
     }
@@ -137,7 +119,7 @@ const Pagos=()=>{
 
     return(
         <div>
-           <Grid container spacing={1}>
+            <Grid container spacing={1}>
                 <Grid item xl={12} lg={12} md={12} sm={12} style={{textAlign:'center'}}>
                     <h1 style={{
                         fontFamily: 'sans-serif',
@@ -146,7 +128,7 @@ const Pagos=()=>{
                         color: '#02761b',
                         
                     }}>
-                        Descargar Reporte de Pagos
+                        Descargar Validacion Promesas
                     </h1>
                 </Grid>
             </Grid> 
@@ -160,14 +142,7 @@ const Pagos=()=>{
                         label="Cookie"
                         style={{width:"250px"}}                        
                         onChange={handleOnChangeBusqCookie}
-                    />
-                    <br/><br/><br/>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker                       
-                            label="Selecciona Fecha Pago" 
-                            onChange={handleOnChangeFechaPago}
-                        />
-                    </LocalizationProvider>
+                    />                   
                     <br/><br/><br/>
                     <Button
                         variant="contained"
@@ -175,16 +150,15 @@ const Pagos=()=>{
                         size="large"
                         style={{height:"50px",width:"245px"}}
                         startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
-                        onClick={()=>{handleClickBuscarDescargaPagos()}}
+                        onClick={()=>{handleClickBuscarDescargaValidacion()}}
         
                     >
-                        Buscar y Exportar Pagos             
+                        Descargar Validacion        
                     </Button>
 
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
             </Grid>
-
             <Grid container spacing={1}>
                 <Grid item xl={1} lg={1} md={1} sm={1} />
                 <Grid item xl={2} lg={2} md={2} sm={2} >
@@ -195,8 +169,6 @@ const Pagos=()=>{
                 </Grid>
                 <Grid item xl={9} lg={9} md={9} sm={9} />
             </Grid>
-
-            
 
             <ModalEspera open={openModalCargando} handleClose={handleCloseCargando} />
             <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />

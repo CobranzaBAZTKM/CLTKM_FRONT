@@ -16,17 +16,15 @@ import FechaHora from '../../services/fechaHora';
 import {ModalEspera,ModalInfo} from '../../services/modals';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
-import { useNavigate  } from "react-router-dom"
+import { useNavigate  } from "react-router-dom";
+import DescargaExcel from "../descargarExcel";
 
 // import { CSVLink } from "react-csv";
 
 
-
-
 const servicio=new Servicios();
 const fechaHora=new FechaHora();
-
-
+const descargarExcel=new DescargaExcel();
 
 export default class DescargaCartera extends React.Component{
 
@@ -309,17 +307,21 @@ const BajarCartera=(props)=>{
                     }
                     
                     if(datosCartera.length<=75000){
-                        const workSheet=XLSX.utils.json_to_sheet(datosCartera);
-                        console.log("Creando Excel 1")
-                        const workBook=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+".xlsx");
-                        console.log("Creando Excel 5")
+                        let nombreArchivo=dia+mes+year+"_"+nombreArchivo;
+                        let archivo=descargarExcel.descargarExcel(datosCartera,nombreArchivo);
+                        console.log(archivo);
+
+                        // const workSheet=XLSX.utils.json_to_sheet(datosCartera);
+                        // console.log("Creando Excel 1")
+                        // const workBook=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+".xlsx");
+                        // console.log("Creando Excel 5")
                     }else if(datosCartera.length>75000&&datosCartera.length<=150000){
                         let valor=1;
                         let parte1=[];
@@ -335,30 +337,40 @@ const BajarCartera=(props)=>{
                             
                         })
 
-                        const workSheet=XLSX.utils.json_to_sheet(parte1);
-                        console.log("Creando Excel 1")
-                        const workBook=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+"_1.xlsx");
-                        console.log("Creando Excel 5")
+                        let nombreArchivo1=dia+mes+year+"_"+nombreArchivo+"_1";
+                        let archivo1=descargarExcel.descargarExcel(parte1,nombreArchivo1);
+                        console.log(archivo1);
+
+                        let nombreArchivo2=dia+mes+year+"_"+nombreArchivo+"_2";
+                        let archivo2=descargarExcel.descargarExcel(parte2,nombreArchivo2);
+                        console.log(archivo2);
+
+                        // const workSheet=XLSX.utils.json_to_sheet(parte1);
+                        // console.log("Creando Excel 1")
+                        // const workBook=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+"_1.xlsx");
+                        // console.log("Creando Excel 5")
 
                         
-                        const workSheet2=XLSX.utils.json_to_sheet(parte2);
-                        console.log("Creando Excel 1")
-                        const workBook2=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook2,workSheet2,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf2=XLSX.write(workBook2,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook2, dia+mes+year+"_"+nombreArchivo+"_2.xlsx");
-                        console.log("Creando Excel 5")
+                        // const workSheet2=XLSX.utils.json_to_sheet(parte2);
+                        // console.log("Creando Excel 1")
+                        // const workBook2=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook2,workSheet2,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf2=XLSX.write(workBook2,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook2, dia+mes+year+"_"+nombreArchivo+"_2.xlsx");
+                        // console.log("Creando Excel 5")
+
+
                     }else if(datosCartera.length>150000){
                         let valor=1;
                         let parte1=[];
@@ -378,42 +390,53 @@ const BajarCartera=(props)=>{
                             
                         })
 
-                        const workSheet=XLSX.utils.json_to_sheet(parte1);
-                        console.log("Creando Excel 1")
-                        const workBook=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+"_1.xlsx");
-                        console.log("Creando Excel 5")
+                        let nombreArchivo1=dia+mes+year+"_"+nombreArchivo+"_1";
+                        let archivo1=descargarExcel.descargarExcel(parte1,nombreArchivo1);
+                        console.log(archivo1);
 
-                        
-                        const workSheet2=XLSX.utils.json_to_sheet(parte2);
-                        console.log("Creando Excel 1")
-                        const workBook2=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook2,workSheet2,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf2=XLSX.write(workBook2,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook2, dia+mes+year+"_"+nombreArchivo+"_2.xlsx");
-                        console.log("Creando Excel 5")
+                        let nombreArchivo2=dia+mes+year+"_"+nombreArchivo+"_2";
+                        let archivo2=descargarExcel.descargarExcel(parte2,nombreArchivo2);
+                        console.log(archivo2);
 
-                        const workSheet3=XLSX.utils.json_to_sheet(parte3);
-                        console.log("Creando Excel 1")
-                        const workBook3=XLSX.utils.book_new();
-                        console.log("Creando Excel 2")
-                        XLSX.utils.book_append_sheet(workBook3,workSheet3,"Sheet0")
-                        console.log("Creando Excel 3")
-                        let buf3=XLSX.write(workBook3,{bookType:"xlsx", type:"buffer"})
-                        console.log("Creando Excel 4")
-                        // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-                        XLSX.writeFile(workBook3, dia+mes+year+"_"+nombreArchivo+"_3.xlsx");
-                        console.log("Creando Excel 5")
+                        let nombreArchivo3=dia+mes+year+"_"+nombreArchivo+"_3";
+                        let archivo3=descargarExcel.descargarExcel(parte3,nombreArchivo3);
+                        console.log(archivo3);
+
+                        // const workSheet=XLSX.utils.json_to_sheet(parte1);
+                        // console.log("Creando Excel 1")
+                        // const workBook=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook, dia+mes+year+"_"+nombreArchivo+"_1.xlsx");
+                        // console.log("Creando Excel 5")
+ 
+                        // const workSheet2=XLSX.utils.json_to_sheet(parte2);
+                        // console.log("Creando Excel 1")
+                        // const workBook2=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook2,workSheet2,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf2=XLSX.write(workBook2,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook2, dia+mes+year+"_"+nombreArchivo+"_2.xlsx");
+                        // console.log("Creando Excel 5")
+
+                        // const workSheet3=XLSX.utils.json_to_sheet(parte3);
+                        // console.log("Creando Excel 1")
+                        // const workBook3=XLSX.utils.book_new();
+                        // console.log("Creando Excel 2")
+                        // XLSX.utils.book_append_sheet(workBook3,workSheet3,"Sheet0")
+                        // console.log("Creando Excel 3")
+                        // let buf3=XLSX.write(workBook3,{bookType:"xlsx", type:"buffer"})
+                        // console.log("Creando Excel 4")
+                        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
+                        // XLSX.writeFile(workBook3, dia+mes+year+"_"+nombreArchivo+"_3.xlsx");
+                        // console.log("Creando Excel 5")
                     }
 
                     

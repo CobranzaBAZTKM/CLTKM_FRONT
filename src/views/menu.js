@@ -2,7 +2,7 @@ import React from "react";
 
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'; //pagos
 import AutoAwesomeMotionOutlinedIcon from '@mui/icons-material/AutoAwesomeMotionOutlined'; //Base
-import CallTwoToneIcon from '@mui/icons-material/CallTwoTone'; //Blaster
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Diversity3Icon from '@mui/icons-material/Diversity3'; //Asignar Gestores Masivo
 import AddchartIcon from '@mui/icons-material/Addchart';
 import Grid from '@mui/material/Grid';
@@ -33,7 +33,7 @@ const Opciones=(props)=>{
             navigate("/CLTKM_FRONT/supervisores/bajarCartera");
         }
         else if(opcion===2){
-
+            navigate("/CLTKM_FRONT/supervisores/validacionPromesas");
         }
         else if(opcion===3){
             navigate("/CLTKM_FRONT/supervisores/reportePagos");
@@ -78,9 +78,12 @@ const Opciones=(props)=>{
                         size="large"
                         color="success"
                         style={{height:"120px",width:"200px"}}
-                        startIcon={<CallTwoToneIcon style={{height:"40px",width:"50px"}} />}
+                        startIcon={<Diversity3Icon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(5);
+                        }}
                     >
-                        Blaster
+                        Personal 
                     </Button>
                 </Grid> 
                 <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
@@ -139,12 +142,12 @@ const Opciones=(props)=>{
                         size="large"
                         color="success"
                         style={{height:"120px",width:"200px"}}
-                        startIcon={<Diversity3Icon style={{height:"40px",width:"50px"}} />}
+                        startIcon={<CurrencyExchangeIcon style={{height:"40px",width:"50px"}} />}
                         onClick={()=>{
-                            handleClick(5);
+                            handleClick(2);
                         }}
                     >
-                        Personal Banco Azteca Cobranza Legal TKM
+                        Validacion Promesas
                     </Button>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
