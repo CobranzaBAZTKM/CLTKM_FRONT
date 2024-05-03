@@ -9,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import {Button,Grid} from '@mui/material';
 import Servicios from '../../services/servicios';
 import * as XLSX from 'xlsx'
-import {ModalInfo} from '../../services/modals';
+import {ModalInfo,ModalEspera} from '../../services/modals';
 import DescargaExcel from '../descargarExcel';
 
 const servicio=new Servicios();
@@ -64,10 +64,11 @@ export default class DescargaGestiones extends React.Component{
 
 const DescargaDia=(props)=>{
     const navigate = useNavigate();
-    const [fechaEleg,setFechaEleg]=useState(null);
+    const [fechaEleg,setFechaEleg]=useState("");
 
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
+    const [openModalEspera, setOpenModalEspera] = React.useState(false);
 
     const handleOpenInfo = (mensaje) => {
         setMensajeModalInfo(mensaje);
@@ -77,6 +78,12 @@ const DescargaDia=(props)=>{
         setOpenModalInfo(false);
     };
 
+    const handleOpenEspera = () => {
+        setOpenModalEspera(true);
+    };
+    const handleCloseEspera = () => {
+        setOpenModalEspera(false);
+    };
 
     const handleOnChangeFecha=(event)=>{
         let fechaRecuperado=String(event)
@@ -112,10 +119,12 @@ const DescargaDia=(props)=>{
     }
 
     const handleClickDescargaPromesas=(opcion)=>{
+        handleOpenEspera();
         if(opcion===1){
-            if(fechaEleg!==null){
+            if(fechaEleg!==null&&fechaEleg!==""){
                 consultarPromesas(opcion);
             }else{
+                handleCloseEspera();
                 handleOpenInfo("Favor de elegir una fecha de descarga");
             }
         }else{
@@ -194,6 +203,7 @@ const DescargaDia=(props)=>{
 
             descargaGestiones(layoutDescarga)
         }else{
+            handleCloseEspera();
             handleOpenInfo("No se obtuvieron gestiones de el dia "+fechaEleg);
         }
 
@@ -204,6 +214,7 @@ const DescargaDia=(props)=>{
         let nombreArchivo=fechaEleg+"_Gestiones";
         let archivo=descargarExcel.descargarExcel(gestionesFinal,nombreArchivo);
         if(archivo!==null){
+            handleCloseEspera();
             handleOpenInfo("Descarga Realizada");
         }
         console.log(archivo);        
@@ -285,6 +296,7 @@ const DescargaDia=(props)=>{
 
             <div>
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
+                <ModalEspera open={openModalEspera} handleClose={handleCloseEspera} />
             </div>
         </div>
     ) 
