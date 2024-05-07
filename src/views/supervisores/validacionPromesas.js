@@ -3,7 +3,6 @@ import {TextField, Button, Grid} from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Servicios from '../../services/servicios';
 import {ModalEspera,ModalInfo} from '../../services/modals';
-import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescargaExcel from "../descargarExcel";
@@ -101,15 +100,6 @@ const Validacion=()=>{
             handleOpenInfo("Descarga Realizada");
         }
 
-        // const workSheet=XLSX.utils.json_to_sheet(arreglo);
-        // const workBook=XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-        // // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-        // XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-        // XLSX.writeFile(workBook, "Reporte_Valiacion_Promesas.xlsx");
-        // handleCloseCargando();
-        // handleOpenInfo("Descarga Realizada");
     }
 
     const handleClickRegresasr=()=>{

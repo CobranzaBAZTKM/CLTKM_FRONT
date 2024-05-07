@@ -11,7 +11,7 @@ import Servicios from '../../services/servicios';
 import {ModalEspera,ModalInfo,Modal6Infos4Botones, ModalSiNo,Modal11Actualizacines,ModalSiNoCuadroText} from '../../services/modals';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescargaExcel from "../descargarExcel";

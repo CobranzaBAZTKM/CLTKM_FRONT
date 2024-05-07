@@ -3,12 +3,7 @@ import Grid from '@mui/material/Grid';
 import "../../assests/estilos.css"
 import {TextField, Button,InputLabel,OutlinedInput,IconButton} from '@mui/material';
 import { DataGrid } from "@mui/x-data-grid";
-import DownloadIcon from '@mui/icons-material/Download';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { useState } from "react";
 import Servicios from '../../services/servicios';
 import {ModalInfo} from '../../services/modals';
