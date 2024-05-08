@@ -52,4 +52,28 @@ export default class Servicios extends Component{
         return response;
 
     }
+
+    consultarCUServicioGET(cu){
+        const response=fetch("http://172.16.201.6:8080/api/v1/msvc-template/service/carteraLocal/consultarClienteUnico/"+cu,{
+            method:"GET",
+            cache: "no-cache",
+            // headers:{
+            //     // 'Access-Control-Allow-Origin': '*',
+            //     'Content-Type': 'application/json'
+            // },
+            referrerPolicy:'no-referrer',
+            
+            // body:JSON.stringify(parametros)
+        })
+            .then((response)=>response.json())
+            .then((data)=>{
+                return data;
+            })
+            .catch(error=>{
+                console.log(error);
+                return null;
+            });
+
+        return response;
+    }
 }

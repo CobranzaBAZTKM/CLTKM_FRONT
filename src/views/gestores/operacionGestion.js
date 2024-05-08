@@ -107,7 +107,7 @@ const Gestion=(props)=>{
             let telefonoOb=datosObtenidos[1].split("=");
             setClienteUnico(clienteUnicoOb[1]);
             setTelefono(telefonoOb[1])
-            servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+clienteUnicoOb[1]).then(
+            servicio.consultarCUServicioGET(clienteUnicoOb[1]).then(
                 data=>{
                     if(data.code===1){
                         setCuenta(data.data);
