@@ -92,8 +92,8 @@ const Gestion=(props)=>{
     const navigate = useNavigate();
     const [cuenta, setCuenta]=useState(null);
     const [idGestorTKM,setIdGestorTKM]=useState(null);
-    const [clienteUnico]=useState(params.clienteUnico);
-    const [telefono]=useState(params.telefonoTitular);
+    const [clienteUnico,setClienteUnico]=useState(null);
+    const [telefono,setTelefono]=useState(null);
     const [idTipificacion, setIdTipificacion]=useState(null);
     const [comentario, setComentario]=useState(null);
 
@@ -101,7 +101,12 @@ const Gestion=(props)=>{
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
 
     useEffect(()=>{
-        servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+params.clienteUnico).then(
+        let datosObtenidos=params.datos.split("&");
+        let clienteUnicoOb=datosObtenidos[0].split("=");
+        let telefonoOb=datosObtenidos[1].split("=");
+        setClienteUnico(clienteUnicoOb[1]);
+        setTelefono(telefonoOb[1])
+        servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+clienteUnicoOb[1]).then(
             data=>{
                 if(data.code===1){
                     setCuenta(data.data);
