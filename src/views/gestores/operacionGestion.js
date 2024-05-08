@@ -101,19 +101,21 @@ const Gestion=(props)=>{
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
 
     useEffect(()=>{
-        let datosObtenidos=params.datos.split("&");
-        let clienteUnicoOb=datosObtenidos[0].split("=");
-        let telefonoOb=datosObtenidos[1].split("=");
-        setClienteUnico(clienteUnicoOb[1]);
-        setTelefono(telefonoOb[1])
-        servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+clienteUnicoOb[1]).then(
-            data=>{
-                if(data.code===1){
-                    setCuenta(data.data);
-                    console.log(data.data);
+        if(clienteUnico===null){
+            let datosObtenidos=params.datos.split("&");
+            let clienteUnicoOb=datosObtenidos[0].split("=");
+            let telefonoOb=datosObtenidos[1].split("=");
+            setClienteUnico(clienteUnicoOb[1]);
+            setTelefono(telefonoOb[1])
+            servicio.consumirServiciosGET("service/carteraLocal/consultarClienteUnico/"+clienteUnicoOb[1]).then(
+                data=>{
+                    if(data.code===1){
+                        setCuenta(data.data);
+                        console.log(data.data);
+                    }
                 }
-            }
-        )
+            )
+        }
         // props.cartera.forEach(function(element){
         //     if(element.cliente_UNICO===params.clienteUnico){
         //         setCuenta(element);
