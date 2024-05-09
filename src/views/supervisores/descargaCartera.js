@@ -80,7 +80,7 @@ const BajarCartera=(props)=>{
 
     const checkedSeg5=(event)=>{
 
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setSeg5("5");
         }
         else{
@@ -89,7 +89,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSeg28=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setSeg28("28");
         }else{
             setSeg28(null);
@@ -97,7 +97,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSeg06=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setSeg6("6");
         }else{
             setSeg6(null);
@@ -105,7 +105,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSeg16=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setSeg16("16")
         }else{
             setSeg16(null)
@@ -113,7 +113,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegDescarte=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setDescarte("DESCARTE")
         }else{
             setDescarte(null)
@@ -121,7 +121,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegCredimax=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setCredimax("CREDIMAX")
         }else{
             setCredimax(null)
@@ -129,7 +129,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegItalika=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setItalika("ITALIKA")
         }else{
             setItalika(null)
@@ -137,7 +137,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegTOR=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setTor("TOR")
         }else{
             setTor(null)
@@ -145,7 +145,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegTAZCDT=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setTazCdt("TAZCDT")
         }else{
             setTazCdt(null)
@@ -153,7 +153,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSegGeneral=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setGeneral("GENERAL")
         }else{
             setGeneral(null)
@@ -161,7 +161,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedSeg21=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setSeg21("21")
         }else{
             setSeg21(null)
@@ -169,7 +169,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedManana=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setCartManana("M")
         }else{
             setCartManana(null)
@@ -177,7 +177,7 @@ const BajarCartera=(props)=>{
     }
 
     const checkedTarde=(event)=>{
-        if(event.target.checked==true){
+        if(event.target.checked===true){
             setCartTarde("T")
         }else{
             setCartTarde(null)
