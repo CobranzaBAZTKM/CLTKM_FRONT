@@ -11,7 +11,6 @@ import Servicios from '../../services/servicios';
 import {ModalEspera,ModalInfo,Modal6Infos4Botones, ModalSiNo,Modal11Actualizacines,ModalSiNoCuadroText} from '../../services/modals';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescargaExcel from "../descargarExcel";
@@ -864,14 +863,6 @@ const SupervisarPP=(props)=>{
         if(archivo!==null){
             handleOpenInfo("Las promesas se descargaron correctamente");
         }
-        // const workSheet=XLSX.utils.json_to_sheet(promesas);
-        // const workBook=XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(workBook,workSheet,"Sheet0")
-        // let buf=XLSX.write(workBook,{bookType:"xlsx", type:"buffer"})
-        // // XLSX.write(workBook,{bookType:"xlsx", type:"binary"})
-        // XLSX.writeFile(workBook, "Promesas.xlsx");
-        
-        // handleOpenInfo("Las promesas se descargaron correctamente");
     
     }
 
