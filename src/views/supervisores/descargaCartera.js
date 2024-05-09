@@ -307,8 +307,8 @@ const BajarCartera=(props)=>{
                     }
                     
                     if(datosCartera.length<=75000){
-                        let nombreArchivo=dia+mes+year+"_"+nombreArchivo;
-                        let archivo=descargarExcel.descargarExcel(datosCartera,nombreArchivo);
+                        let nombreArchivo1=dia+mes+year+"_"+nombreArchivo;
+                        let archivo=descargarExcel.descargarExcel(datosCartera,nombreArchivo1);
                         console.log(archivo);
 
                         // const workSheet=XLSX.utils.json_to_sheet(datosCartera);
