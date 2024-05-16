@@ -110,7 +110,7 @@ const ColocarPromesas=(props)=>{
 
     const [clienteUnicoInser,setClienteUnicoInser]=useState(null);
 
-    const [idSuperAut, setIdSuperAut]=useState(null);
+    const [idSuperAut, setIdSuperAut]=useState("0");
     const [passSuperAut,setPassSuperAut]=useState(null);
 
     const [openModal, setOpenModal] = React.useState(false);
@@ -372,8 +372,10 @@ const ColocarPromesas=(props)=>{
             "inserto":parseInt(idGestorTKM),
             "tipoLlamada":tipoLlamada,
             "pagoFinal":0,
-            "turnoGestor":turnoGestor
+            "turnoGestor":turnoGestor,
+            "idAutorizo":parseInt(idSuperAut)
         }
+
         servicio.consumirServicios(json,endPoint).then(
             data=>{
                 if(data.code===1){
