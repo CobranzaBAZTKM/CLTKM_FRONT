@@ -8,7 +8,8 @@ import {ModalEspera,ModalInfo,ModalSiNo,ModalSiNo2CuadroTextPass} from '../../se
 import Servicios from '../../services/servicios';
 import { useNavigate  } from "react-router-dom"
 import { IMaskInput } from 'react-imask';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+// import dayjs, { Dayjs } from 'dayjs';
 
 const servicio=new Servicios();
 
@@ -41,6 +42,22 @@ const tipoLlamadaOpcion=[
         id:"Sms",
         valor:"Mensaje"
     },
+]
+
+const tipoCarteraOpcion=[
+    {
+        id:1,
+        valor:"Normalidad"
+    },
+    {
+        id:2,
+        valor:"VIP"
+    },
+    {
+        id:3,
+        valor:"Ciceron"
+    },
+
 ]
 
 export default class InsertarPlanes extends React.Component{
@@ -89,7 +106,8 @@ const ColocarPromesas=(props)=>{
     const navigate = useNavigate();
 
     const hoyDate = dayjs().add(0, 'day');
-    const tresDiasDate=dayjs().add(3, 'day');
+    const dosDiasDate=dayjs().add(2, 'day');
+    // const tresDiasDate=dayjs().add(3, 'day');
 
     const [fechaPago, setFechaPago]=useState(null);
     const [fechaVencePlan, setFechaVencePlan]=useState(null);
@@ -107,6 +125,7 @@ const ColocarPromesas=(props)=>{
     const [conWhatsApp]=useState(1);
     const [adicional, setAdicional]=useState("");
     const [tipoLlamada,setTipoLlamada]=useState(null);
+    const [tipoCartera,setTipoCartera]=useState(null);
 
     const [clienteUnicoInser,setClienteUnicoInser]=useState(null);
 
@@ -231,6 +250,14 @@ const ColocarPromesas=(props)=>{
             setTipoLlamada(newValue.id)
         }
     }
+
+    const handleOnChangeTipoCartera=(event,newValue)=>{
+        if(newValue===null){
+            setTipoCartera(null);
+        }else{
+            setTipoCartera(newValue.valor);
+        }
+    }
     
 
 
@@ -240,7 +267,8 @@ const ColocarPromesas=(props)=>{
             handleClose();
             handleOpenInfo("Favor de revisar que el campo telefono cuente con 10 digitos");
         // }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
-        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){    
+        // }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){ 
+        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null||tipoCartera===null){       
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
         }
@@ -249,9 +277,10 @@ const ColocarPromesas=(props)=>{
             let valHoy = dayjs().add(0, 'day').format("DD/MMM/YYYY");
             let valD1=dayjs().add(1, 'day').format("DD/MMM/YYYY");
             let valD2=dayjs().add(2, 'day').format("DD/MMM/YYYY");
-            let valD3=dayjs().add(3, 'day').format("DD/MMM/YYYY");
+            // let valD3=dayjs().add(3, 'day').format("DD/MMM/YYYY");
 
-            if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
+            if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2){
+            // if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
                 // if(parseFloat(montoPago)>=800||idGestorTKM===3||idGestorTKM===7||idGestorTKM===12||idGestorTKM===14||idGestorTKM===15||idGestorTKM===16||idGestorTKM===19||idGestorTKM===20||idGestorTKM===40||idGestorTKM===46){
                 if(parseFloat(montoPago)>=800){
                     let cuDiv=clienteUnico.split("-");
@@ -270,7 +299,8 @@ const ColocarPromesas=(props)=>{
                 }
             }else{
                 handleClose();
-                handleOpenInfo("Favor de revisar la fecha de pago, no puede ser mayor al "+valD3);
+                // handleOpenInfo("Favor de revisar la fecha de pago, no puede ser mayor al "+valD3);
+                handleOpenInfo("Favor de revisar la fecha de pago, no puede ser mayor al "+valD2);
             }
 
 
@@ -373,7 +403,8 @@ const ColocarPromesas=(props)=>{
             "tipoLlamada":tipoLlamada,
             "pagoFinal":0,
             "turnoGestor":turnoGestor,
-            "idAutorizo":parseInt(idSuperAut)
+            "idAutorizo":parseInt(idSuperAut),
+            "tipoCartera":tipoCartera
         }
 
         servicio.consumirServicios(json,endPoint).then(
@@ -449,7 +480,7 @@ const ColocarPromesas=(props)=>{
             <br/>
 
             <Grid container spacing={1}>
-                <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1}/>
 
                 <Grid item xl={8} lg={8} md={8} sm={8}>
                     {/* <Grid container spacing={1}>
@@ -479,7 +510,8 @@ const ColocarPromesas=(props)=>{
                                 <DatePicker 
                                     label="Selecciona Fecha" 
                                     minDate={hoyDate}
-                                    maxDate={tresDiasDate}
+                                    // maxDate={tresDiasDate}
+                                    maxDate={dosDiasDate}
                                     onChange={handleOnChangeFechaPago}
                                     // onChange={(datePago)=>setFechaPago(datePago)}
                                 />
@@ -671,12 +703,28 @@ const ColocarPromesas=(props)=>{
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>  
                     <br/>
+                    <Grid container spacing={1}>
+                        <Grid item xl={2} lg={2} md={2} sm={2}>
+                            <p><strong>TIPO CARTERA</strong></p>
+                        </Grid>
+                        <Grid item xl={4} lg={4} md={4} sm={4}>
+                            <Autocomplete 
+                                id="tipoCarteraAutocomplete"          
+                                options={tipoCarteraOpcion}
+                                getOptionLabel={(option) => option.valor}
+                                renderInput={(params) => <TextField {...params} label="Tipo Cartera" variant="outlined" />}
+                                onChange={handleOnChangeTipoCartera}
+                            />
+                        </Grid>  
+                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                    </Grid>  
+                    <br/>
 
 
                   
                 </Grid>
 
-                <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
             </Grid>
 
             <Grid container spacing={1}>

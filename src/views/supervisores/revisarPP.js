@@ -154,6 +154,12 @@ const columnas=[
         editable:false,
     },
     {
+        field:"tipoCartera",
+        headerName: "Tipo Cartera",
+        width:200,
+        editable:false,
+    },
+    {
         field:"pagoFinal",
         headerName: "Pago",
         width:150,
