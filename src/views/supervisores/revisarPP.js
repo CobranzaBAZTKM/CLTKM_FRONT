@@ -8,7 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DataGrid } from "@mui/x-data-grid";
 import DownloadIcon from '@mui/icons-material/Download';
 import Servicios from '../../services/servicios';
-import {ModalEspera,ModalInfo,Modal6Infos4Botones, ModalSiNo,Modal11Actualizacines,ModalSiNoCuadroText} from '../../services/modals';
+import {ModalEspera,ModalInfo,Modal6Infos4Botones, ModalSiNo,Modal13Actualizacines,ModalSiNoCuadroText} from '../../services/modals';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate  } from "react-router-dom";
@@ -160,13 +160,52 @@ const columnas=[
         editable:false,
     },
     {
+        field:"recurrencia",
+        headerName: "Recurrencia",
+        width:150,
+        editable:false,
+    },
+    {
         field:"pagoFinal",
         headerName: "Pago",
         width:150,
         editable:false,
-    }
+    },
+    {
+        field:"montoSemanal",
+        headerName: "Pago Semanal",
+        width:150,
+        editable:false,
+    },
 
- ]
+
+]
+
+const opcionesTipoCartera=[
+    {
+        id:1,
+        valor: "Normalidad"
+    },
+    {
+        id:2,
+        valor: "VIP"
+    },
+    {
+        id:3,
+        valor: "Ciceron"
+    }
+]
+
+const opcionesRecurrencia=[
+    {
+        id:1,
+        valor: "Nuevo"
+    },
+    {
+        id:2,
+        valor: "Seguimiento"
+    }
+]
 
 export default class RevisarPP extends React.Component{
 
@@ -236,7 +275,8 @@ const SupervisarPP=(props)=>{
     const [tipoFechaBusq, setTipoFechaBusq]=useState(null);
     const [gestorBusq,setGestorBusq]=useState(null);
     const [cookieBusq,setCookieBusq]=useState(null);
-    
+    const [tipoCarteraBusq,setTipoCarteraBusq]=useState(null);
+    const [recurrenciaBusq,setRecurrenciaBusq]=useState(null);
 
 
 
@@ -262,6 +302,11 @@ const SupervisarPP=(props)=>{
     const [whatsAppAct,setWhatsAppAct]=useState(null);//11
     const [asignadoAct,setAsignadoAct]=useState(null);
     const [tipoLlamadaAct, setTipoLlamadaAct]=useState(null);
+    const [idGestorSCLVIPAct,setIdGestorSCLVIPAct]=useState(null);
+    const [montoSemanal, setMontoSemanal]=useState(null);
+    const [recurrenciaAct,setRecurrenciaAct]=useState(null);
+
+
 
 
     const [openModal2i4b, setOpenModal2i4b]= React.useState(false);
@@ -365,7 +410,6 @@ const SupervisarPP=(props)=>{
   
         handleOpen();
         let nombre=null;
-        let turno=null;
 
         if(idLogin!==null&&idLogin!==""&&passLogin!==null&&passLogin!==""){
             props.personal.forEach(function(element){
@@ -479,6 +523,22 @@ const SupervisarPP=(props)=>{
         }
     }
 
+    const handleOnChangeTipoCartera=(event,newValue)=>{
+        if(newValue===null){
+            setTipoCarteraBusq(null)
+        }else{
+            setTipoCarteraBusq(newValue.valor);
+        }
+    }
+
+    const handleOnChangeRecurrencia=(event,newValue)=>{
+        if(newValue===null){
+            setRecurrenciaBusq(null)
+        }else{
+            setRecurrenciaBusq(newValue.valor);
+        }
+    }
+
 
     const handleClickBuscar=()=>{
         setMostrarTabla(true);
@@ -498,14 +558,44 @@ const SupervisarPP=(props)=>{
                             }
                         })
 
-                        revisarPromesas(prom);
+                        obtenerTipoCartera(prom);
                     }else{
-                        revisarPromesas(data.data);
+                        obtenerTipoCartera(data.data);
                     }
                 }
             }
         )
     }
+
+    const obtenerTipoCartera=(promesas)=>{
+        if(tipoCarteraBusq!==null){
+            let prom=[];
+            promesas.forEach(function(element){
+                if(element.tipoCartera===tipoCarteraBusq){
+                    prom.push(element);
+                }
+                
+            })
+            obtenerTipoRecurrencia(prom);
+        }else{
+            obtenerTipoRecurrencia(promesas);
+        }
+    }
+
+    const obtenerTipoRecurrencia=(promesas)=>{
+        if(recurrenciaBusq!==null){
+            let prom=[];
+            promesas.forEach(function(element){
+                if(element.recurrencia===recurrenciaBusq){
+                    prom.push(element);
+                }
+            })
+            revisarPromesas(prom);
+        }else{
+            revisarPromesas(promesas);
+        }
+    }
+
 
     const revisarPromesas=(promesas)=>{
         
@@ -628,19 +718,26 @@ const SupervisarPP=(props)=>{
     const buscarGestiones=()=>{
         if(promesasPuras.length!==0){
             if(cookieBusq!==null&&cookieBusq!==""){
-                handleOpen();
-                let endPoint="service/promesas/consultarPromesasPPconGestiones";
-                let json={
-                    "promesas":promesasPuras,
-                    "cookie":cookieBusq
-                }
-                servicio.consumirServicios(json,endPoint).then(
-                    data=>{                       
-                        setPromesas(data.data);
-                        setMostrarTabla(false);
-                        handleClose();
+                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"){
+
+
+                    handleOpen();
+                    let endPoint="service/promesas/consultarPromesasPPconGestiones";
+                    let json={
+                        "promesas":promesasPuras,
+                        "cookie":cookieBusq
                     }
-                )
+                    servicio.consumirServicios(json,endPoint).then(
+                        data=>{                       
+                            setPromesas(data.data);
+                            setMostrarTabla(false);
+                            handleClose();
+                        }
+                    )
+
+                }else{
+                    handleOpenInfo("Para obtener las gestiones se debe escoger el tipo de cartera");
+                }
             }else{
                 setPromesas(promesasPuras)
                 setMostrarTabla(false);
@@ -679,7 +776,9 @@ const SupervisarPP=(props)=>{
         setWhatsAppAct(params.row.whatsApp);
         setAsignadoAct(params.row.asignado);
         setTipoLlamadaAct(params.row.tipoLlamada);
-                  
+        setIdGestorSCLVIPAct(params.row.idGestorSCLVIP);
+        setMontoSemanal(params.row.montoSemanal);
+        setRecurrenciaAct(params.row.recurrencia);
         handleOpen6Info4Bot(mensaje1,mensaje2,mensaje3,mensaje4,mensaje5,mensaje6);
     };
 
@@ -732,6 +831,18 @@ const SupervisarPP=(props)=>{
     const handleOnChangeWhastApp=(event)=>{
         setWhatsAppAct(event.target.value);
     }
+    
+    const handleOnChangeMontoSemanal=(event)=>{
+        setMontoSemanal(event.target.value);
+    }
+    
+    const handleOnChangeRecurrenciaAct=(event,newValue)=>{
+        if(newValue===null){
+           
+        }else{
+            setRecurrenciaAct(newValue.valor);
+        }
+    }
 
     const actualizar=()=>{
         let endPoint="service/promesas/actualizarPromesas";
@@ -754,7 +865,9 @@ const SupervisarPP=(props)=>{
             "edito":idLogin,
             "idGestorTKM":parseInt(idGestorTKMAct),
             "inserto":parseInt(inserto),
-            "tipoLlamada":tipoLlamadaAct
+            "tipoLlamada":tipoLlamadaAct,
+            "montoSemanal":montoSemanal,
+            "recurrencia":recurrenciaAct
         }
 
         servicio.consumirServicios(json,endPoint).then(
@@ -795,7 +908,8 @@ const SupervisarPP=(props)=>{
             let cuAsignar={
                 "idPromesaTKM":idActBor,
                 "clienteUnico":clienteUnicoAct,
-                "idGestorSCL":idGestorSCLAct,
+                // "idGestorSCL":idGestorSCLAct,
+                "idGestorSCL":tipoCarteraBusq==="Normalidad"?idGestorSCLAct:idGestorSCLVIPAct,
                 "nombreGestor":nombreGestorAct,
                 "idGestorTKM":idGestorTKMAct
             }
@@ -833,7 +947,14 @@ const SupervisarPP=(props)=>{
         handleCloseModalSiNoCuTxt()
         handleOpen();
         if(cookieAsignar!==null){
-            let endPoint="service/gestores/asignarClientesAGestores";
+            let tipoCartera
+            if(tipoCarteraBusq==="Normalidad"){
+                tipoCartera=1;
+            }else{
+                tipoCartera=2;
+            }
+            let endPoint="service/gestores/asignarClientesAGestores/"+tipoCartera;
+
             let json={
                 "cookie":cookieAsignar,
                 "idAdminTKM":idLogin,
@@ -958,7 +1079,7 @@ const SupervisarPP=(props)=>{
                         <DatePicker label={'Año'} views={['year']} onChange={handleOnChangeBusqYear}/>
                     </LocalizationProvider>
                 </Grid>  
-                <Grid item xl={2} lg={2} md={2} sm={2} hidden={!login}>
+                <Grid item xl={1.5} lg={1.5} md={1.5} sm={1.5} hidden={!login}>
                     <Autocomplete 
                         id="seleccionFecha"                                        
                         options={opcionesFecha}
@@ -968,7 +1089,7 @@ const SupervisarPP=(props)=>{
                     />
       
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2} hidden={!login}>
+                <Grid item xl={1.5} lg={1.5} md={1.5} sm={1.5} hidden={!login}>
                     <Autocomplete 
                         id="Gestor"          
                         options={props.personal}
@@ -979,18 +1100,16 @@ const SupervisarPP=(props)=>{
 
 
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2} hidden={!login}>
+                <Grid item xl={1.5} lg={1.5} md={1.5} sm={1.5} hidden={!login}>
                     <TextField 
                         id="Cookie"
                         label="Cookie"                        
                         onChange={handleOnChangeBusqCookie}
                     />
-
-
                 </Grid>
 
-                {
-                    nivelLogin===1?(
+                {/* {
+                    nivelLogin===1?( */}
                         <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
 
                             <Autocomplete 
@@ -1002,9 +1121,29 @@ const SupervisarPP=(props)=>{
                             />
 
                         </Grid>
-                    ):(<></>)
-                }
+                    {/* ):(<></>)
+                } */}
                 <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
+                    <Autocomplete 
+                        id="TipoCartera"          
+                        options={opcionesTipoCartera}
+                        getOptionLabel={(option) => option.valor}
+                        renderInput={(params) => <TextField {...params} label="TipoCartera" variant="outlined" />}
+                        onChange={handleOnChangeTipoCartera}
+                    />
+
+                </Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1} hidden={!login}>
+                    <Autocomplete 
+                        id="Recurrencia"          
+                        options={opcionesRecurrencia}
+                        getOptionLabel={(option) => option.valor}
+                        renderInput={(params) => <TextField {...params} label="Recurrencia" variant="outlined" />}
+                        onChange={handleOnChangeRecurrencia}
+                    />
+
+                </Grid>
+                <Grid item xl={.5} lg={.5} md={.5} sm={.5} hidden={!login}>
                      <Button
                         variant="contained"
                         color="success"
@@ -1108,7 +1247,7 @@ const SupervisarPP=(props)=>{
                     handleOpcion4={handleClose2i4b}
                 />
 
-                <Modal11Actualizacines
+                <Modal13Actualizacines
                     open={modalAct}
                     handleClose={handleCloseAct}     
                     mensaje1={encabezAct}
@@ -1157,6 +1296,14 @@ const SupervisarPP=(props)=>{
                     valor11={whatsAppAct}
                     handleChangeV11={handleOnChangeWhastApp}
 
+                    nombreValor12={"Monto Semanala"}
+                    valor12={montoSemanal}
+                    handleChangeV12={handleOnChangeMontoSemanal}
+
+                    nombreValor13={"Recurrencia"}
+                    opcionesValor13={opcionesRecurrencia}
+                    handleChangeV13={handleOnChangeRecurrenciaAct}
+                    
                     opcion1={"Actualizar"}
                     opcion2={"Cancelar"}
                     handleOpcion1={actualizar}

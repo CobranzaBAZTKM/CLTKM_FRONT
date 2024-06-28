@@ -120,12 +120,14 @@ const ColocarPromesas=(props)=>{
     const [idGestorSCL, setIdGestorSCL]=useState(null);
     const [nombreGestor, setNombreGestor]=useState(null);
     const [turnoGestor, setTurnoGestor]=useState(null);
+    const [idGestorSCLVIP, setIdGestorSCLVIP]=useState(null);
     const [observaciones, setObservaciones]=useState(null);
     // const [conWhatsApp, setConWhatsApp]=useState(1);
     const [conWhatsApp]=useState(1);
     const [adicional, setAdicional]=useState("");
     const [tipoLlamada,setTipoLlamada]=useState(null);
     const [tipoCartera,setTipoCartera]=useState(null);
+    const [montoSemanal,setMontoSemanal]=useState(null);
 
     const [clienteUnicoInser,setClienteUnicoInser]=useState(null);
 
@@ -204,6 +206,10 @@ const ColocarPromesas=(props)=>{
         setMontoPago(event.target.value);
     }
 
+    const handleOnChangeMontoSemanal=(event)=>{
+        setMontoSemanal(event.target.value);
+    }
+
     const handleOnChangeNombreCliente=(event)=>{
         setNombreCliente(event.target.value);
     }
@@ -222,12 +228,14 @@ const ColocarPromesas=(props)=>{
             setIdGestorSCL(null);
             setNombreGestor(null);
             setTurnoGestor(null);
+            setIdGestorSCLVIP(null);
         }
         else{
             setIdGestorTKM(newValue.idTkm)
             setIdGestorSCL(newValue.idGestor);
             setNombreGestor(newValue.nombreGestor);
-            setTurnoGestor(newValue.turno)
+            setTurnoGestor(newValue.turno);
+            setIdGestorSCLVIP(newValue.idGestorSCLVIP);
         }
     }
 
@@ -268,7 +276,7 @@ const ColocarPromesas=(props)=>{
             handleOpenInfo("Favor de revisar que el campo telefono cuente con 10 digitos");
         // }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
         // }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){ 
-        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null||tipoCartera===null){       
+        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null||tipoCartera===null||montoSemanal===null){       
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
         }
@@ -404,7 +412,11 @@ const ColocarPromesas=(props)=>{
             "pagoFinal":0,
             "turnoGestor":turnoGestor,
             "idAutorizo":parseInt(idSuperAut),
-            "tipoCartera":tipoCartera
+            "tipoCartera":tipoCartera,
+            "idGestorSCLVIP":idGestorSCLVIP,
+            "montoInicial":montoPago,
+            "montoSemanal":montoSemanal,
+            "recurrencia":"Nuevo"
         }
 
         servicio.consumirServicios(json,endPoint).then(
@@ -561,6 +573,21 @@ const ColocarPromesas=(props)=>{
                                 label="Monto Pago"
                                 type="number"
                                 onChange={handleOnChangeMontoPago}
+                            />
+                        </Grid>  
+                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                    </Grid> 
+                    <br/>
+                    <Grid container spacing={1}>
+                        <Grid item xl={2} lg={2} md={2} sm={2}>
+                            <p><strong>MONTO SEMANAL</strong></p>
+                        </Grid>
+                        <Grid item xl={4} lg={4} md={4} sm={4}>
+                            <TextField 
+                                id="montoSemanal" 
+                                label="Monto Semanal"
+                                type="number"
+                                onChange={handleOnChangeMontoSemanal}
                             />
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>

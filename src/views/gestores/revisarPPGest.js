@@ -104,8 +104,20 @@ const columnas=[
         editable:false,
     },
     {
+        field:"montoSemanal",
+        headerName: "Pago Semanal",
+        width:150,
+        editable:false,
+    },
+    {
         field:"pagoFinal",
         headerName: "Pago",
+        width:150,
+        editable:false,
+    },    
+    {
+        field:"recurrencia",
+        headerName: "Recurrencia",
         width:150,
         editable:false,
     }
@@ -172,6 +184,11 @@ const RevisarPromesasGes=(props)=>{
     const [idAct, setIdAct]=useState(null);
     const [estatusAct, setEstatusAct]=useState(null);
     const [pagoAct, setPagoAct]=useState(null);
+    const [fechaPagoAct, setIdFechaPagoAct]=useState(null);
+    const [fechaVencimientoPPAct,setFechaVencimientoPPAct]=useState(null);
+    const [recurrenciaAct,setRecurrenciaAct]=useState(null);
+    const [montoSemanalAct,setMontoSemanalAct]=useState(null);
+    const [montoPagoAct, setMontoPagoAct]=useState(null);
 
 
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -190,8 +207,10 @@ const RevisarPromesasGes=(props)=>{
     const [mensaje1010i2e, setMensaje1010i2e]=useState(null);
     const [mensaje1110i2e, setMensaje1110i2e]=useState(null);
     const [mensaje1210i2e, setMensaje1210i2e]=useState(null);
+    const [mensaje1310i2e, setMensaje1310i2e]=useState(null);
     const [elegible110i2e, setElegible110i2e]=useState("");
     const [elegible210i2e, setElegible210i2e]=useState("");
+    const [elegible310i2e, setElegible310i2e]=useState("");
     const [opcion112i2e, setOpcion112i2e]=useState(null);
 
 
@@ -204,7 +223,7 @@ const RevisarPromesasGes=(props)=>{
         setOpenModalInfo(false);
     };
 
-    const handleOpen10i2e=(sms1,sms2,sms3,sms4,sms5,sms6,sms7,sms8,sms9,sms10,sms11,sms12,ele1,ele2)=>{
+    const handleOpen10i2e=(sms1,sms2,sms3,sms4,sms5,sms6,sms7,sms8,sms9,sms10,sms11,sms12,ele1,ele2,ele3,sms13)=>{
         setMensaje110i2e(sms1);
         setMensaje210i2e(sms2);
         setMensaje310i2e(sms3);
@@ -217,8 +236,10 @@ const RevisarPromesasGes=(props)=>{
         setMensaje1010i2e(sms10);
         setMensaje1110i2e(sms11);
         setMensaje1210i2e(sms12);
+        setMensaje1310i2e(sms13);
         setElegible110i2e(ele1);
         setElegible210i2e(ele2);
+        setElegible310i2e(ele3)
         setOpcion112i2e("Actualizar")
         setOpenModal10i2e(true)
     }
@@ -442,8 +463,13 @@ const RevisarPromesasGes=(props)=>{
 
     const handleRowClick = (params) => {
         setIdAct(params.row.id);
+        setFechaVencimientoPPAct(params.row.fechaVencimientoPP);
+        setRecurrenciaAct(params.row.recurrencia);
+        setMontoSemanalAct(params.row.montoSemanal);
+        setMontoPagoAct(params.row.montoPago);
         let mensaje1="FECHA INGRESO PP: "+params.row.fechaIngesoPP;
-        let mensaje2="FECHA PAGO: "+params.row.fechaPago;
+        // let mensaje2="FECHA PAGO: "+params.row.fechaPago;
+        let mensaje2="FECHA PAGO: ";
         let mensaje3="FECHA VENCIMIENTO: "+params.row.fechaVencimientoPP;
         let mensaje4="FOLIO: "+params.row.folio;
         let mensaje5="MONTO PAGO: "+params.row.montoPago;
@@ -452,13 +478,17 @@ const RevisarPromesasGes=(props)=>{
         let mensaje8="TELEFONO: "+params.row.telefono;
         let mensaje9="OBSERVACIONES: "+params.row.observaciones;
         let mensaje10="WHATSAPP: "+params.row.whatsApp;
+        let mensaje13="PAGO SEMANAL: "+params.row.montoSemanal
         let mensaje11="ESTATUS: ";
         let mensaje12="PAGO: ";
 
         let elegible1=params.row.nota;
         let elegible2=params.row.pagoFinal;
+        let elegible3=params.row.fechaPago;
         
-        handleOpen10i2e(mensaje1,mensaje2,mensaje3,mensaje4,mensaje5,mensaje6,mensaje7,mensaje8,mensaje9,mensaje10,mensaje11,mensaje12, elegible1,elegible2);    
+        
+
+        handleOpen10i2e(mensaje1,mensaje2,mensaje3,mensaje4,mensaje5,mensaje6,mensaje7,mensaje8,mensaje9,mensaje10,mensaje11,mensaje12, elegible1,elegible2,elegible3,mensaje13);    
     }
 
     const handleOnChangeEstatus=(event)=>{
@@ -469,32 +499,108 @@ const RevisarPromesasGes=(props)=>{
         setPagoAct(event.target.value);
     }
 
+    const handleOnChangeFechaPago=(event)=>{
+        let fechaRecuperado=String(event)
+        let preparandoFecha =fechaRecuperado.split(" ");
+        setIdFechaPagoAct(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3]);
+    }
+
     const actualizarEstPag=()=>{
         let json=null;
-        let endPoint="service/promesas/actualizarPromesasEstPag";
+        
 
-        if(estatusAct===null&&pagoAct===null){
+        if(estatusAct===null&&pagoAct===null&&fechaPagoAct===null){
             handleOpenInfo("No se ha modificado ningun dato");
-        }else if(estatusAct!==null&&pagoAct===null){
+        }else if(estatusAct!==null&&pagoAct===null&&fechaPagoAct===null){
             json={
                 "id":idAct,
                 "nota":estatusAct,
-                "pagoFinal":elegible210i2e
+                "pagoFinal":elegible210i2e,
+                "fechaPago":elegible310i2e,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
+                "recurrencia":recurrenciaAct,
+                "montoPago":montoPagoAct
+
             }
-        }else if(estatusAct===null&&pagoAct!==null){
+            actualizar(json);
+        }else if(estatusAct===null&&pagoAct!==null&&fechaPagoAct===null){
             json={
                 "id":idAct,
                 "nota":elegible110i2e,
-                "pagoFinal":pagoAct
+                "pagoFinal":pagoAct,
+                "fechaPago":elegible310i2e,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
+                "recurrencia":recurrenciaAct,
+                "montoPago":montoPagoAct
             }
-        }else if(estatusAct!==null&&pagoAct!==null){
+            actualizar(json);
+        }else if(estatusAct!==null&&pagoAct!==null&&fechaPagoAct===null){
             json={
                 "id":idAct,
                 "nota":estatusAct,
-                "pagoFinal":pagoAct
+                "pagoFinal":pagoAct,
+                "fechaPago":fechaPagoAct,
+                "fechaVencimientoPP":fechaPagoAct,
+                "recurrencia":"Seguimiento",
+                "montoPago":montoPagoAct
+
             }
+            actualizar(json);
+        }else if(estatusAct!==null&&pagoAct===null&&fechaPagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":estatusAct,
+                "pagoFinal":elegible210i2e,
+                "fechaPago":fechaPagoAct,
+                "fechaVencimientoPP":fechaPagoAct,
+                "recurrencia":"Seguimiento",
+                "montoPago":montoSemanalAct
+
+            }
+            actualizar(json);
+        }else if(estatusAct===null&&pagoAct!==null&&fechaPagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":elegible110i2e,
+                "pagoFinal":pagoAct,
+                "fechaPago":fechaPagoAct,
+                "fechaVencimientoPP":fechaPagoAct,
+                "recurrencia":"Seguimiento",
+                "montoPago":montoSemanalAct
+
+            }
+            actualizar(json);
+        }else if(estatusAct!==null&&pagoAct!==null&&fechaPagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":estatusAct,
+                "pagoFinal":pagoAct,
+                "fechaPago":fechaPagoAct,
+                "fechaVencimientoPP":fechaPagoAct,
+                "recurrencia":"Seguimiento",
+                "montoPago":montoSemanalAct
+
+            }
+            actualizar(json);
+        }else if(estatusAct===null&&pagoAct===null&&fechaPagoAct!==null){
+            json={
+                "id":idAct,
+                "nota":elegible110i2e,
+                "pagoFinal":elegible210i2e,
+                "fechaPago":fechaPagoAct,
+                "fechaVencimientoPP":fechaPagoAct,
+                "recurrencia":"Seguimiento",
+                "montoPago":montoSemanalAct
+            }
+
+            actualizar(json);
         }
 
+        
+    }
+
+    const actualizar=(json)=>{
+        let endPoint="service/promesas/actualizarPromesasEstPag";
         servicio.consumirServicios(json,endPoint).then(
             data=>{
                 if(data.code===1){
@@ -683,11 +789,14 @@ const RevisarPromesasGes=(props)=>{
                     mensaje10={mensaje1010i2e}
                     mensaje11={mensaje1110i2e}
                     mensaje12={mensaje1210i2e}
+                    mensaje13={mensaje1310i2e}
                     valor1={elegible110i2e}
                     valor2={elegible210i2e}
+                    valor3={elegible310i2e}
                     opcion={opcion112i2e}
                     handleOnChangeValorCuadro1={handleOnChangeEstatus}
                     handleOnChangeValorCuadro2={handleOnChangePago}
+                    handleOnChangeValorFecha={handleOnChangeFechaPago}
                     handleCloseBtn1={actualizarEstPag}
                 />
             </div>
