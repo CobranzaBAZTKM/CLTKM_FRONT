@@ -195,7 +195,8 @@ const DescargaDia=(props)=>{
                     "COMENTARIO_GESTOR":element.comentario,
                     "TELEFONO":element.telefono,
                     "FECHA_INSERTO":element.fechaInserto,
-                    "HORA_INSERTO":element.horaInserto
+                    "HORA_INSERTO":element.horaInserto,
+                    "TIPO_CARTERA_TKM":element.tipoCarteraTKM
                 }
 
                 layoutDescarga.push(layoutArray);

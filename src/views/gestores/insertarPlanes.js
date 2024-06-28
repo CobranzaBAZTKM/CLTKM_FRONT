@@ -565,7 +565,7 @@ const ColocarPromesas=(props)=>{
                     <br/>
                     <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>MONTO DE PAGO</strong></p>
+                            <p><strong>MONTO INICIAL</strong></p>
                         </Grid>
                         <Grid item xl={4} lg={4} md={4} sm={4}>
                             <TextField 
