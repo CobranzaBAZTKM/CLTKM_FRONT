@@ -6,6 +6,10 @@ import Typography from "@mui/material/Typography";
 import {TextField,Button,FormControl,InputLabel,OutlinedInput,IconButton,Autocomplete} from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import dayjs from 'dayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const style = {
     position: "absolute",
@@ -179,6 +183,22 @@ export function ModalInsertarGestores(props){
         ):(<></>)
         }
         <br/><br/>
+          <TextField 
+            id='ValorMitrol' 
+            label="IdMitrol"
+            variant="outlined"  
+            onChange={props.handleOnChangeIdMitrol}
+            defaultValue={props.idMitrol}
+          />
+        <br/><br/>
+          <TextField 
+            id='ValorIdSCLVIP' 
+            label="IdSCLVIP" 
+            variant="outlined"  
+            onChange={props.handleOnChangeIdSCLVIP}
+            defaultValue={props.idSCLVIP}
+          />
+        <br/><br/>
         <Button
             variant="contained"
             color="success"
@@ -335,7 +355,7 @@ export function Modal6Infos4Botones(props){
 }
 
 
-export function Modal11Actualizacines(props){
+export function Modal13Actualizacines(props){
   return(
     <Modal
           open={props.open}
@@ -424,6 +444,23 @@ export function Modal11Actualizacines(props){
           defaultValue={props.valor11}
           onChange={props.handleChangeV11}
         />
+        &nbsp;&nbsp;&nbsp;
+        <TextField
+          id="valor12"
+          label={props.nombreValor12}
+          defaultValue={props.valor12}
+          onChange={props.handleChangeV12}
+          type="number"
+        />
+        <br/><br/>
+        <Autocomplete 
+          id="seleccionValor13"      
+          options={props.opcionesValor13}
+          getOptionLabel={(option) => option.valor}
+          style={{width:"223px"}}
+          renderInput={(params) => <TextField {...params} label={props.nombreValor13} variant="outlined" />}
+          onChange={props.handleChangeV13}
+        />
         <br/><br/>
         <Button
           variant="contained"
@@ -496,6 +533,8 @@ export function ModalSiNoCuadroText(props){
 
 
 export function Modal10i2e(props){
+  const hoyDate = dayjs().add(0, 'day');
+  const dosDiasDate=dayjs().add(7, 'day');
   return(
     <Modal
       open={props.open}
@@ -510,6 +549,19 @@ export function Modal10i2e(props){
         {/* &nbsp;&nbsp;&nbsp; */}
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {props.mensaje2}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker 
+                label="Selecciona Fecha" 
+                minDate={hoyDate}
+                // maxDate={tresDiasDate}
+                defaultValue={dayjs(props.valor3)}
+                maxDate={dosDiasDate}
+                onChange={props.handleOnChangeValorFecha}
+                style={{width:"150px"}}
+                // onChange={(datePago)=>setFechaPago(datePago)}
+            />
+          </LocalizationProvider>
+
         </Typography>
         {/* <br/> */}
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -535,6 +587,9 @@ export function Modal10i2e(props){
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {props.mensaje10}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {props.mensaje13}
         </Typography>
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           {props.mensaje11}
