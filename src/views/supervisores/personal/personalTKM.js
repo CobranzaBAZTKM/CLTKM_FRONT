@@ -50,6 +50,18 @@ const columnas=[
         width:150,
         editable:false, 
     },
+    {
+        field:"idMitrol",
+        headerName: "Id Mitrol",
+        width:150,
+        editable:false, 
+    },
+    {
+        field:"idGestorSCLVIP",
+        headerName: "Id Gestor SCL VIP",
+        width:150,
+        editable:false, 
+    },
 ]
 
 export default class PersonalTKM extends React.Component{
@@ -114,7 +126,9 @@ export default class PersonalTKM extends React.Component{
                 "nombreGestor":element.nombreGestor,
                 "puesto":element.puesto===1?"Administrativo":element.puesto===2?"Supervisor":"Gestor",
                 "turno":element.turno===null?"Sin turno":element.turno==="C"?"Completo":element.turno==="M"?"Matutino":element.turno==="V"?"Vespertino":"",
-                "estado":element.estado===1?"Habilitado":"Inhabilitado"
+                "estado":element.estado===1?"Habilitado":"Inhabilitado",
+                "idMitrol":element.idMitrol,
+                "idGestorSCLVIP":element.idGestorSCLVIP
             }
 
             arreglos.push(arreglo);
@@ -159,6 +173,8 @@ const VisualizarPersonalTKM=(props)=>{
     const [idActualizo, setIdActualizo]=useState(null);
     const [turnoActualizar,setTurnoActualizar]=useState(null);
     const [estadoActualiazar,setEstadoActualizar]=useState(null);
+    const [idMitrol,setIdMitrol]=useState(null);
+    const [idSCLVIP,setIdSCLVIP]=useState(null);
 
     const [openModalActualizar, setOpenModalActualizar]= React.useState(false);
     const [openModalBorrar, setOpenModalBorrar]= React.useState(false);
@@ -236,6 +252,15 @@ const VisualizarPersonalTKM=(props)=>{
         }
     }
 
+    const handleOnChangeIdMitrol=(event)=>{
+        setIdMitrol(event.target.value);
+    }
+
+    const handleOnChangeIdSCLVIP=(event)=>{
+        setIdSCLVIP(event.target.value);
+    }
+
+
 
 
     // const handleOnClickActualizarGestores=(datos)=>{
@@ -264,6 +289,8 @@ const VisualizarPersonalTKM=(props)=>{
                 "idActualizo": parseInt(idActualizo),
                 "turno":turnoActualizar,
                 "estado":parseInt(estadoActualiazar),
+                "idMitrol":idMitrol,
+                "idGestorSCLVIP":idSCLVIP
             }
 
             servicio.consumirServicios(json,endPoint).then(
@@ -321,6 +348,8 @@ const VisualizarPersonalTKM=(props)=>{
                 setIdActualizo(props.idSuper)
                 setTurnoActualizar(element.turno)
                 setEstadoActualizar(element.estado)
+                setIdMitrol(element.idMitrol)
+                setIdSCLVIP(element.idGestorSCLVIP)
             }
 
         })
@@ -445,9 +474,13 @@ const VisualizarPersonalTKM=(props)=>{
                     handleOnChangePuesto={handleOnChangePuesto}
                     handleOnChangeTurno={handleOnChangeTurno} 
                     handleOnChangeEstado={handleOnChangeEstado}
+                    handleOnChangeIdMitrol={handleOnChangeIdMitrol}
+                    handleOnChangeIdSCLVIP={handleOnChangeIdSCLVIP}
                     // handleOnChangeBorrar={}
                     insertAct={2} 
                     password={passwordActualizar}
+                    idMitrol={idMitrol}
+                    idSCLVIP={idSCLVIP}
                     handleOnChangeNombre={handleOnChangeNombre}
                     
                     />

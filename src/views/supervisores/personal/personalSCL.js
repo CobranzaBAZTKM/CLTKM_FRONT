@@ -5,9 +5,13 @@ import Servicios from '../../../services/servicios';
 import {ModalEspera,ModalInfo,ModalInsertarGestores} from '../../../services/modals';
 import {Table , TableHead, TableCell, TableBody, TableRow} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; 
+import DescargaExcel from "../../descargarExcel";
+import DownloadIcon from '@mui/icons-material/Download';
 
 
 const servicio=new Servicios();
+const descargarExcel=new DescargaExcel();
+
 
 export default class PersonalSCL extends React.Component{
     constructor(props){
@@ -73,6 +77,8 @@ const VisualizarPersonalSCL=(props)=>{
     const [passwordInsert, setPasswordInsert]=useState(null);
     const [puestoInsert, setPuestoInsert]=useState(null);
     const [turnoInsert,setTurnoInsert]=useState(null);
+    const [idMitrol,setIdMitrol]=useState(null);
+    const [idSCLVIP,setIdSCLVIP]=useState("");
 
     const [openModal, setOpenModal] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -177,8 +183,18 @@ const VisualizarPersonalSCL=(props)=>{
         
     }
 
+    const handleOnChangeIdMitrol=(event)=>{
+        setIdMitrol(event.target.value);
+    }
+
+    const handleOnChangeIdSCLVIP=(event)=>{
+        setIdSCLVIP(event.target.value);
+    }
+
+   
+
     const handleCloseInsertar=()=>{
-        if(passwordInsert!==null&&puestoInsert!==null&&turnoInsert!==null){
+        if(passwordInsert!==null&&puestoInsert!==null&&turnoInsert!==null&&idMitrol!==null){
             let endPoint="service/gestores/insertarGestorTKM"
             let json={
                 "idGestor": idGestorSCLInsertar+"",
@@ -186,7 +202,9 @@ const VisualizarPersonalSCL=(props)=>{
                 "password": passwordInsert,
                 "puesto": parseInt(puestoInsert),
                 "idRegistro":parseInt(props.idSuper),
-                "turno":turnoInsert
+                "turno":turnoInsert,
+                "idMitrol":idMitrol,
+                "idGestorSCLVIP":idSCLVIP
             }
 
             
@@ -204,8 +222,16 @@ const VisualizarPersonalSCL=(props)=>{
 
         }
         else{
-            handleOpenInfo("Favor de colocar una contraseña, elegir puesto o turno");
+            handleOpenInfo("Favor de colocar una contraseña, id de Mitrol, elegir puesto o turno");
         }
+    }
+
+    const handleClickDescargar=()=>{
+        let archivo=descargarExcel.descargarExcel(gestorSCL,"Gestores_SCL");
+        if(archivo!==null){
+            handleOpenInfo("El archivo se descargo correctamente");
+        }
+        console.log(archivo);
     }
 
     return(
@@ -260,7 +286,26 @@ const VisualizarPersonalSCL=(props)=>{
                 </Grid>  
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5} hidden={mostrarTabla}></Grid>
             </Grid>
+            <br/>
+            <Grid container spacing={1}>            
+                <Grid item xl={5} lg={5} md={5} sm={5} hidden={mostrarTabla} />
+                <Grid item xl={2} lg={2} md={2} sm={2} style={{textAlign:'center'}} hidden={mostrarTabla}>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        style={{height:"50px",width:"245px"}}
+                        startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{handleClickDescargar()}}
+        
+                    >
+                        Descargar Archivo        
+                    </Button>
+                          
 
+                </Grid>          
+                <Grid item xl={5} lg={5} md={5} sm={5} hidden={mostrarTabla}/>
+            </Grid>    
             <div>
                 <ModalEspera open={openModal} handleClose={handleClose} />
                 <ModalInfo open={openModalInfo} handleClose={handleCloseInfo} mensaje={mensajeModalInfo} />
@@ -275,8 +320,12 @@ const VisualizarPersonalSCL=(props)=>{
                     handleCloseInsertar={handleCloseInsertar} 
                     handleOnChangePuesto={handleOnChangePuesto} 
                     handleOnChangeTurno={handleOnChangeTurno}
+                    handleOnChangeIdMitrol={handleOnChangeIdMitrol}
+                    handleOnChangeIdSCLVIP={handleOnChangeIdSCLVIP}
                     insertAct={1} 
                     password={""}
+                    idMitrol={""}
+                    idSCLVIP={""}
                 />
             </div>
         </div>
