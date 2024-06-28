@@ -162,7 +162,8 @@ const Gestion=(props)=>{
                     telefono:telefono,
                     idTipificacion:idTipificacion,
                     idGestorTkm:idGestorTKM,
-                    comentario:comentario
+                    comentario:comentario,
+                    tipoCarteraTKM:cuenta.tipocarteratkm,
                 };
 
                 servicio.consumirServicios(json,endPoint).then(
@@ -222,6 +223,8 @@ const Gestion=(props)=>{
                         <p><strong style={{color:'#06AA0D'}}>TELEFONO 1: </strong>{cuenta.telefono1}</p>
                         <br/>
                         <p><strong style={{color:'#06AA0D'}}>TELEFONO 2: </strong>{cuenta.telefono2}</p>
+                        <br/>
+                        <p><strong style={{color:'#06AA0D'}}>CARTERA: </strong>{cuenta.tipocarteratkm}</p>
                     </Grid>
                     <Grid item xl={2} lg={2} md={2} sm={2}>
                         <p><strong style={{color:'#06AA0D'}}>TELEFONO 3: </strong>{cuenta.telefono3}</p>
