@@ -57,6 +57,10 @@ const tipoCarteraOpcion=[
         id:3,
         valor:"Ciceron"
     },
+    {
+        id:4,
+        valor:"Territorios"
+    },
 
 ]
 
