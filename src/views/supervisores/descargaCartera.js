@@ -50,9 +50,13 @@ const BajarCartera=(props)=>{
     const [seg5, setSeg5]=useState(null);
     const [seg28, setSeg28]=useState(null);
     const [seg6, setSeg6]=useState(null);
+    const [seg5VIP, setSeg5VIP]=useState(null);
+    const [seg28VIP, setSeg28VIP]=useState(null);
+    const [seg6VIP, setSeg6VIP]=useState(null);
     const [seg16, setSeg16]=useState(null);
     const [seg21, setSeg21]=useState(null);
     const [descarte, setDescarte]=useState(null);
+    const [descarteVIP, setDescarteVIP]=useState(null);
     // const [cartManana, setCartManana]=useState(null);
     // const [cartTarde, setCartTarde]=useState(null);
 
@@ -86,6 +90,15 @@ const BajarCartera=(props)=>{
         }        
     }
 
+    const checkedSeg5VIP=(event)=>{
+        if(event.target.checked===true){
+            setSeg5VIP("5V");
+        }
+        else{
+            setSeg5VIP(null);
+        }    
+    }
+
     const checkedSeg28=(event)=>{
         if(event.target.checked===true){
             setSeg28("28");
@@ -94,11 +107,28 @@ const BajarCartera=(props)=>{
         }
     }
 
+    const checkedSeg28VIP=(event)=>{
+        if(event.target.checked===true){
+            setSeg28VIP("28V");
+        }else{
+            setSeg28VIP(null);
+        }
+    }
+
+
     const checkedSeg06=(event)=>{
         if(event.target.checked===true){
             setSeg6("6");
         }else{
             setSeg6(null);
+        }
+    }
+
+    const checkedSeg06VIP=(event)=>{
+        if(event.target.checked===true){
+            setSeg6VIP("6V");
+        }else{
+            setSeg6VIP(null);
         }
     }
 
@@ -117,6 +147,18 @@ const BajarCartera=(props)=>{
             setDescarte(null)
         }
     }
+
+    const checkedSegDescarteVIP=(event)=>{
+        if(event.target.checked===true){
+            setDescarteVIP("DESCARTEVIP")
+        }else{
+            setDescarteVIP(null)
+        }
+
+        
+    }
+
+
 
     // const checkedManana=(event)=>{
     //     if(event.target.checked===true){
@@ -147,31 +189,31 @@ const BajarCartera=(props)=>{
         if(carteraCompleta!==null){
             if(carteraCompleta==="CCD"){
                 endPoint="service/carteraLocal/carteraCompletaSCLGuardar/1"; //Pendiente aqui se pone el numero(tipo cartera)
-                nombreArchivo="Cartera_Completa_Descarte";
+                nombreArchivo="Cartera_Completa_Descarte_Normalidad";
             }else if(carteraCompleta==="CCSFSCL"){
                 endPoint="service/cartera/carteraCompleta";
-                nombreArchivo="Cartera_Completa_SF_SCL";
+                nombreArchivo="Cartera_Completa_SF_SCL_Normalidad";
             }else if(carteraCompleta==="CCCFL"){
-                nombreArchivo="Cartera_Completa_CF_Local";
+                nombreArchivo="Cartera_Completa_CF_Local_Normalidad";
             }else if(carteraCompleta==="CCSFL"){
-                nombreArchivo="Cartera_Completa_SF_Local";
+                nombreArchivo="Cartera_Completa_SF_Local_Normalidad";
             }
 
         }
         if(carteraCompletaVIP!==null){
-            endPoint="service/carteraVIP/VIPcarteraCompleta";
+            
             if(carteraCompletaVIP==="CCDVIP"){
                 endPoint="service/carteraLocal/carteraCompletaSCLGuardar/2"; //Pendiente aqui se pone el numero(tipo cartera)
                 nombreArchivo="Cartera_Completa_Descarte_VIP";
             }else if(carteraCompletaVIP==="CCSFSCLVIP"){
+                endPoint="service/carteraVIP/VIPcarteraCompleta";
                 nombreArchivo="Cartera_Completa_SF_SCL_VIP"
             }else if(carteraCompletaVIP==="CCCFSCLVIP"){
+                endPoint="service/carteraVIP/VIPcarteraCompleta";
                 nombreArchivo="Cartera_Completa_CF_SCL_VIP"
             }else if(carteraCompleta==="CCCFLVIP"){
-                endPoint="service/carteraLocal/carteraCompletaDia";
                 nombreArchivo="Cartera_Completa_CF_Local_VIP";
             }else if(carteraCompleta==="CCSFLVIP"){
-                endPoint="service/carteraLocal/carteraCompletaDia";
                 nombreArchivo="Cartera_Completa_SF_Local_VIP";
             }
             
@@ -179,20 +221,33 @@ const BajarCartera=(props)=>{
 
 
         if(seg5!==null){
-            nombreArchivo=nombreArchivo+"Seg05";
+            nombreArchivo=nombreArchivo+"Seg05_Normalidad";
         }
         if(seg28!==null){
-            nombreArchivo=nombreArchivo+"Seg28";
+            nombreArchivo=nombreArchivo+"Seg28_Normalidad";
         }
         if(seg6!==null){
-            nombreArchivo=nombreArchivo+"Seg06";
+            nombreArchivo=nombreArchivo+"Seg06_Normalidad";
         }
         if(seg16!==null){
-            nombreArchivo=nombreArchivo+"Seg16";        
+            nombreArchivo=nombreArchivo+"Seg16_Normalidad";        
+        }
+        if(seg5VIP!==null){
+            nombreArchivo=nombreArchivo+"Seg05_VIP";
+        }
+        if(seg28VIP!==null){
+            nombreArchivo=nombreArchivo+"Seg28_VIP";
+        }
+        if(seg6VIP!==null){
+            nombreArchivo=nombreArchivo+"Seg06_VIP";
         }
         if(descarte!==null){
             endPoint="service/carteraLocal/carteraConDescarte/1";
-            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Normalidad";
+        }
+        if(descarteVIP!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/2";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_VIP";
         }
         if(seg21!==null){
             nombreArchivo=nombreArchivo+"Seg21";
@@ -224,28 +279,46 @@ const BajarCartera=(props)=>{
                     let year=fechaHora.ObtenerYear();
                     if(carteraCompleta!=null){
                         if(carteraCompleta==="CCSFL"||carteraCompleta==="CCSFSCL"){
-                            carteraSinFiltros(data.data);
+                            if(carteraCompleta==="CCSFL"){
+                                carteraSinFiltros(eleccionCartera(data.data,1));
+                            }
+                            else{
+                                carteraSinFiltros(data.data);
+                            }
+                            
                         }else{
                             descartarNumerosSinDatos(data.data);
                         }
                     }else if(seg5!==null){
-                        obtenerSeg05(data.data);
+                        obtenerSeg05(eleccionCartera(data.data,1));
                     }else if(seg28!==null){
-                        obtenerSeg28(data.data);
+                        obtenerSeg28(eleccionCartera(data.data,1));
                     }else if(seg6!==null){
-                        obtenerSeg06(data.data);
+                        obtenerSeg06(eleccionCartera(data.data,1));
                     }else if(seg16!==null){
-                        obtenerSeg16(data.data);
+                        obtenerSeg16(eleccionCartera(data.data,1));
+                    }else if(seg5VIP!==null){
+                        obtenerSeg05(eleccionCartera(data.data,2));
+                    }else if(seg28VIP!==null){
+                        obtenerSeg28(eleccionCartera(data.data,2));
+                    }else if(seg6VIP!==null){
+                        obtenerSeg06(eleccionCartera(data.data,2));
                     }else if(descarte!==null){
                         descartarNumerosSinDatos(data.data);
                     // }else if(cartManana!==null){
                     //     obtenerCarteraManana(data.data);
                     // }else if(cartTarde!==null){
                     //     obtenerCarteraTarde(data.data);}
+                    }else if(descarteVIP!==null){
+                        descartarNumerosSinDatos(data.data);
                     }else if(carteraCompletaVIP!==null){
-                        if(carteraCompletaVIP==="CCSFSCLVIP"){
-                            carteraSinFiltros(data.data);
-                        }else if(carteraCompletaVIP==="CCCFSCLVIP"){
+                        if(carteraCompletaVIP==="CCSFSCLVIP"||carteraCompletaVIP==="CCSFLVIP"){
+                            if(carteraCompletaVIP==="CCSFLVIP"){
+                                carteraSinFiltros(eleccionCartera(data.data,2));
+                            }else{
+                                carteraSinFiltros(data.data);
+                            }
+                        }else{
                             descartarNumerosSinDatos(data.data);
                         }
                     }
@@ -470,7 +543,8 @@ const BajarCartera=(props)=>{
     const obtenerSeg05=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("5")){
+            // if(segm.includes("5")||segm.includes(5)){
+            if(element.segmento==="5"||element.segmento===5){
                 llenarArreglo(element);
             }
 
@@ -480,7 +554,8 @@ const BajarCartera=(props)=>{
     const obtenerSeg28=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("28")){
+            // if(element.segmento.includes("28")){
+            if(element.segmento=="28"||element.segmento==28){
                 llenarArreglo(element);
             }
 
@@ -490,7 +565,8 @@ const BajarCartera=(props)=>{
     const obtenerSeg06=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("6")){
+            // if(element.segmento.includes("6")){
+            if(element.segmento==="6"||element.segmento===6){
                 llenarArreglo(element);
             }
 
@@ -500,12 +576,31 @@ const BajarCartera=(props)=>{
     const obtenerSeg16=(cartera)=>{
         datosCartera=[];
         cartera.forEach(function(element){
-            if(element.SEGMENTO.includes("16")){
+            if(element.segmento==="16"||element.segmento===16){
                 llenarArreglo(element);
             }
 
         })
     }
+
+    const eleccionCartera=(cartera,tipoCartera)=>{
+        let arreglo=[];
+        cartera.forEach(function(element){
+            if(tipoCartera===1){
+                if(element.tipocarteratkm==="Normalidad"){
+                    arreglo.push(element);
+                }
+            }else{
+                if(element.tipocarteratkm==="VIP"){
+                    arreglo.push(element);
+                }
+            }
+            
+        })
+        return arreglo;
+    }
+
+
 
     // const obtenerCarteraManana=(cartera)=>{
     //     datosCartera=[];
@@ -547,8 +642,6 @@ const BajarCartera=(props)=>{
                 console.log(data)
             }
         )
-
-
 
     }
 
@@ -602,15 +695,15 @@ const BajarCartera=(props)=>{
                         <FormLabel id="demo-radio-buttons-group-label_1">VIP</FormLabel>
                         <RadioGroup>
                         <br/>
-                            <FormControlLabel value="carteraCompletaDescarteVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCDVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null}/>} label="Cartera Completa Con Descarte" />
+                            <FormControlLabel value="carteraCompletaDescarteVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCDVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFSCLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null}/>} label="Cartera Completa Sin Filtros SCL" />
+                            <FormControlLabel value="carteraCompletaSFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFSCLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null}/>} label="Cartera Completa Sin Filtros SCL" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFSCLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null}/>} label="Cartera Completa Con Filtros SCL" />
+                            <FormControlLabel value="carteraCompletaCFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFSCLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null}/>} label="Cartera Completa Con Filtros SCL" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                            <FormControlLabel value="carteraCompletaSFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFLVIP")}{setCarteraCompleta(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null}/>} label="Cartera Completa Sin Filtros Local" />
                             {/* <br/>
                             <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompleta("CCD")}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setCartManana(null)}{setCartTarde(null)}{setDescarte(null)}{setCredimax(null)}{setItalika(null)}{setTor(null)}{setTazCdt(null)}{setGeneral(null)}}}/>} label="Cartera Completa Con Descarte" />
                             <br/>
@@ -632,7 +725,9 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Segmento 05 (00 a 25 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null } onClick={checkedSeg5}/>} label="Segmento 05 Puro" />
+                        <FormControlLabel value="Seg05P" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg5VIP!==null || seg28VIP!==null  || seg6VIP!==null} onClick={checkedSeg5}/>} label="Segmento 05 Puro Normalidad" />
+                        <br/>
+                        <FormControlLabel value="Seg05PVIP" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg6!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg28VIP!==null  || seg6VIP!==null || seg5!==null} onClick={checkedSeg5VIP}/>} label="Segmento 05 Puro VIP" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -641,7 +736,9 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_2">Segmento 28 (26 a 39 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null } onClick={checkedSeg28}/>} label="Segmento 28 Puro" />
+                        <FormControlLabel value="Seg28P" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg5VIP!==null || seg28VIP!==null  || seg6VIP!==null} onClick={checkedSeg28}/>} label="Segmento 28 Puro Normalidad" />
+                        <br/>
+                        <FormControlLabel value="Seg28PVIP" control={<Checkbox  disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg5!==null||seg6!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg5VIP!==null  || seg6VIP!==null ||seg28!==null} onClick={checkedSeg28VIP}/>} label="Segmento 28 Puro VIP" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -650,7 +747,9 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_3">Segmento 06 (40 a 55 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null } onClick={checkedSeg06}/>} label="Segmento 06 Puro" />
+                        <FormControlLabel value="Seg06P" control={<Checkbox disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg5VIP!==null || seg28VIP!==null || seg6VIP!==null} onClick={checkedSeg06}/>} label="Segmento 06 Puro Normalidad" />
+                        <br/>
+                        <FormControlLabel value="Seg06PVIP" control={<Checkbox disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg5!==null||seg16!==null|| descarte!==null || descarteVIP!==null || seg5VIP!==null || seg28VIP!==null || seg6!==null} onClick={checkedSeg06VIP}/>} label="Segmento 06 Puro VIP" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -659,7 +758,7 @@ const BajarCartera=(props)=>{
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmento 16 (mas de 55 semanas)</FormLabel>
                         <br/>
-                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg6!==null||seg5!==null|| descarte!==null } onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
+                        <FormControlLabel value="Seg16P" control={<Checkbox disabled={carteraCompleta!=null||carteraCompletaVIP!==null||seg28!==null||seg6!==null||seg5!==null|| descarte!==null || descarteVIP!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null} onClick={checkedSeg16}/>} label="Segmento 16 Puro" />
                         <br/>
                     </FormControl>
                 </Grid>
@@ -669,9 +768,10 @@ const BajarCartera=(props)=>{
                         <FormLabel id="demo-radio-buttons-group-label_4">Segmentos Elegibles</FormLabel>
                     
                        {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
-
-                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte del Dia Normalidad" />
-                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte del Dia VIP" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarteVIP!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte del Dia Normalidad" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteVIP" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null} onClick={checkedSegDescarteVIP}/>} label="Cartera Descarte del Dia VIP" />
                        
                        {/* <FormControlLabel value="carteraManana" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartTarde!==null} onClick={checkedManana}/>} label="Cartera Mañana" />
                        <FormControlLabel value="carteraVespertino" control={<Checkbox disabled={carteraCompleta!==null ||carteraCompletaVIP!==null|| seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null} onClick={checkedTarde}/>} label="Cartera Tarde" /> */}
