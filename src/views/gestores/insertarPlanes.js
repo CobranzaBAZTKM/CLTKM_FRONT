@@ -47,20 +47,29 @@ const tipoLlamadaOpcion=[
 const tipoCarteraOpcion=[
     {
         id:1,
-        valor:"Normalidad"
+        valor:"Normalidad",
+        texto:"Normalidad"
     },
     {
         id:2,
-        valor:"VIP"
+        valor:"VIP",
+        texto:"VIP",
     },
     {
         id:3,
-        valor:"Ciceron"
+        valor:"Ciceron",
+        texto:"Ciceron",
     },
     {
         id:4,
-        valor:"Territorios"
+        valor:"Territorios",
+        texto:"Territorios",
     },
+    {
+        id:5,
+        valor:"DiezYears",
+        texto:"Diez Años",
+    }
 
 ]
 
@@ -742,7 +751,7 @@ const ColocarPromesas=(props)=>{
                             <Autocomplete 
                                 id="tipoCarteraAutocomplete"          
                                 options={tipoCarteraOpcion}
-                                getOptionLabel={(option) => option.valor}
+                                getOptionLabel={(option) => option.texto}
                                 renderInput={(params) => <TextField {...params} label="Tipo Cartera" variant="outlined" />}
                                 onChange={handleOnChangeTipoCartera}
                             />
