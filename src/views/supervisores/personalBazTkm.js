@@ -8,7 +8,7 @@ import {ModalEspera,ModalInfo} from '../../services/modals';
 import PersonalSCL from './personal/personalSCL';
 import PersonalTKM from './personal/personalTKM';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate  } from "react-router-dom"
+import { useNavigate  } from "react-router-dom";
 
 const servicio=new Servicios();
 
@@ -173,8 +173,8 @@ const RevisarPersonal=(props)=>{
             </Grid>
             <br/>
             <Grid container spacing={1} >
-                <Grid item xl={4} lg={4} md={4} sm={4} ></Grid>
-                <Grid item xl={4} lg={4} md={4} sm={4} style={{textAlign:'center'}} hidden={login}>
+                <Grid item xl={2} lg={2} md={2} sm={2} ></Grid>
+                <Grid item xl={8} lg={8} md={8} sm={8} style={{textAlign:'center'}} hidden={login}>
                     <TextField 
                         id="id" 
                         label="Id TKM" 
@@ -210,22 +210,33 @@ const RevisarPersonal=(props)=>{
                         size="large"
                         style={{height:"50px",width:"200px"}}                        
                         onClick={()=>{validarLogin()}}
-
                     >
                         Ingresar
                     </Button> 
 
+                </Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1} style={{textAlign:'center'}} hidden={opciones}/>
+                <Grid item xl={2} lg={2} md={2} sm={2} style={{textAlign:'center'}} hidden={opciones}>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        size="large"
+                        style={{height:"60px",width:"200px"}}                        
+                        onClick={()=>{handleClickOpcionPersonal(2)}}
+                    >
+                        Personal de SCL
+                    </Button> 
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2} style={{textAlign:'center'}} hidden={opciones}>
                     <Button
                         variant="contained"
                         color="success"
                         size="large"
-                        style={{height:"50px",width:"200px"}}                        
-                        onClick={()=>{handleClickOpcionPersonal(2)}}
+                        style={{height:"60px",width:"200px"}}                        
+                        onClick={()=>{handleClickOpcionPersonal(4)}}
 
                     >
-                        Personal de SCL
+                        Personal de TKM Activos
                     </Button> 
                 </Grid>    
                 <Grid item xl={2} lg={2} md={2} sm={2} style={{textAlign:'center'}} hidden={opciones}>
@@ -233,14 +244,15 @@ const RevisarPersonal=(props)=>{
                         variant="contained"
                         color="success"
                         size="large"
-                        style={{height:"50px",width:"200px"}}                        
+                        style={{height:"60px",width:"200px"}}                        
                         onClick={()=>{handleClickOpcionPersonal(3)}}
 
                     >
-                        Personal de TKM
+                        Personal de TKM Historial
                     </Button> 
-                </Grid>    
-                <Grid item xl={4} lg={4} md={4} sm={4} ></Grid> 
+                </Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1} style={{textAlign:'center'}} hidden={opciones}/>    
+                <Grid item xl={2} lg={2} md={2} sm={2} ></Grid> 
             </Grid>
             {banderaSclTkm===2?
                 (
@@ -258,6 +270,19 @@ const RevisarPersonal=(props)=>{
                         personal2={gestoresTKM}
                         idSuper={idLogin}
                         actualizarPersonal={handleClickOpcionPersonal}
+                        activos={0}
+                    />
+                </div>
+                ):
+                banderaSclTkm===4?
+                (
+                <div>
+                    <PersonalTKM
+                        personal={props.personal} 
+                        personal2={gestoresTKM}
+                        idSuper={idLogin}
+                        actualizarPersonal={handleClickOpcionPersonal}
+                        activos={1}
                     />
                 </div>
                 ):

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import Grid from '@mui/material/Grid';
 import Servicios from '../../../services/servicios';
 import DescargaExcel from "../../descargarExcel";
-// import {Table , TableHead, TableCell, TableBody, TableRow} from '@mui/material';
-// import EditIcon from '@mui/icons-material/Edit'; 
-// import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from '@mui/material';
 import {ModalInfo,ModalInsertarGestores,ModalSiNo} from '../../../services/modals';
 import { DataGrid } from "@mui/x-data-grid";
@@ -117,21 +114,40 @@ export default class PersonalTKM extends React.Component{
 
     componentWillMount(){
         let arreglos=[];
-        
+        let acti=this.props.activos;
+
         this.props.personal2.forEach(function(element){
             console.log(element);
-            let arreglo={
-                "id":element.idTkm,
-                "idSCL":element.idGestor,
-                "nombreGestor":element.nombreGestor,
-                "puesto":element.puesto===1?"Administrativo":element.puesto===2?"Supervisor":"Gestor",
-                "turno":element.turno===null?"Sin turno":element.turno==="C"?"Completo":element.turno==="M"?"Matutino":element.turno==="V"?"Vespertino":"",
-                "estado":element.estado===1?"Habilitado":"Inhabilitado",
-                "idMitrol":element.idMitrol,
-                "idGestorSCLVIP":element.idGestorSCLVIP
-            }
 
-            arreglos.push(arreglo);
+            if(acti===0){
+                let arreglo={
+                    "id":element.idTkm,
+                    "idSCL":element.idGestor,
+                    "nombreGestor":element.nombreGestor,
+                    "puesto":element.puesto===1?"Administrativo":element.puesto===2?"Supervisor":"Gestor",
+                    "turno":element.turno===null?"Sin turno":element.turno==="C"?"Completo":element.turno==="M"?"Matutino":element.turno==="V"?"Vespertino":"",
+                    "estado":element.estado===1?"Habilitado":"Inhabilitado",
+                    "idMitrol":element.idMitrol,
+                    "idGestorSCLVIP":element.idGestorSCLVIP
+                }
+
+                arreglos.push(arreglo);
+            }else if(acti===1){
+                if(element.estado===1){
+                    let arreglo={
+                        "id":element.idTkm,
+                        "idSCL":element.idGestor,
+                        "nombreGestor":element.nombreGestor,
+                        "puesto":element.puesto===1?"Administrativo":element.puesto===2?"Supervisor":"Gestor",
+                        "turno":element.turno===null?"Sin turno":element.turno==="C"?"Completo":element.turno==="M"?"Matutino":element.turno==="V"?"Vespertino":"",
+                        "estado":element.estado===1?"Habilitado":"Inhabilitado",
+                        "idMitrol":element.idMitrol,
+                        "idGestorSCLVIP":element.idGestorSCLVIP
+                    }
+    
+                    arreglos.push(arreglo);
+                }
+            }
         })
 
 
@@ -140,7 +156,6 @@ export default class PersonalTKM extends React.Component{
         })
 
     }
-
 
     render(){
         return(
@@ -154,6 +169,7 @@ export default class PersonalTKM extends React.Component{
                     actualizarPersonal={this.props.actualizarPersonal}
                     personalTabla={this.state.personalTabla}
                     estadoOpciones={this.state.estadoOpciones}
+                    activos={this.props.activos}
                 />
 
             </div>        
@@ -299,7 +315,11 @@ const VisualizarPersonalTKM=(props)=>{
                         setOpenModalActualizar(false);
                         handleOpenInfo("Registro actualizado Correctamente");
                         // props.actualizarPersonal(0)
-                        props.actualizarPersonal(3)
+                        if(props.activos===0){
+                            props.actualizarPersonal(3)
+                        }else{
+                            props.actualizarPersonal(4)
+                        }
                     }
                     else{
                         handleOpenInfo("No se actualizo el registro");
