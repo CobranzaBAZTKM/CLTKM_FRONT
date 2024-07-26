@@ -1,19 +1,37 @@
 import React, { useState } from "react";
 import DownloadIcon from '@mui/icons-material/Download';
-import {TextField, Button, Grid} from '@mui/material';
+import {TextField, Button, Grid,Autocomplete} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {ModalEspera,ModalInfo} from '../../services/modals';
 import Servicios from '../../services/servicios';
 import dayjs from "dayjs";
-import * as XLSX from 'xlsx';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescargaExcel from "../descargarExcel";
 
 const servicio=new Servicios();
 const descargarExcel=new DescargaExcel();
+
+const opcionesTipoCartera=[
+    {
+        id:1,
+        valor: "Normalidad"
+    },
+    {
+        id:2,
+        valor: "VIP"
+    },
+    {
+        id:3,
+        valor: "Territorios"
+    },
+    {
+        id:4,
+        valor: "Diez Años"
+    },
+]
 
 export default class ReportePagos extends React.Component{
 
@@ -34,6 +52,8 @@ const Pagos=()=>{
     const [cookieBusq,setCookieBusq]=useState(null);
     const [fechaPagos,setFechaPagos]=useState(null);
     const [fechaCorta,setFechaCorta]=useState(null);
+    const [tipoCartera,setTipoCartera]=useState(null);
+    const [nombretTipoCartera,setNombreTipoCartera]=useState(null);
 
     const [openModalCargando, setOpenModalCargando] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -59,6 +79,16 @@ const Pagos=()=>{
         setCookieBusq(event.target.value);
     }
 
+    const handleOnChangeCartera=(event,newValue)=>{
+        if(newValue===null){
+            setTipoCartera(null);
+            setNombreTipoCartera(null);
+        }else{
+            setTipoCartera(newValue.id);
+            setNombreTipoCartera(newValue.valor);
+        }
+    }
+
     const handleOnChangeFechaPago=(event)=>{
         
         let fechaCorta=dayjs(event).format("DD/MM/YYYY");
@@ -69,9 +99,9 @@ const Pagos=()=>{
     }
 
     const handleClickBuscarDescargaPagos=()=>{
-        if(cookieBusq!==null&&fechaPagos!==null){
+        if(cookieBusq!==null&&fechaPagos!==null&&tipoCartera!==null){
             handleOpenCargando();
-            let endPoint="service/pagos/pagosDia";
+            let endPoint="service/pagos/pagosDia/"+tipoCartera+"";
             let json={     
                 "cookieGestores":cookieBusq,
                 "diaPago":fechaPagos,
@@ -99,24 +129,34 @@ const Pagos=()=>{
     }
 
     const prepararExcel=(arregloPromesas)=>{
-        let layoutDescarga=[];
-        arregloPromesas.forEach(function(element){
-            let layoutArray={
-                "CLIENTE_UNICO":element.clienteUnico,
-                "NOMBRE_CLIENTE":element.nombreCliente,
-                "GESTOR":element.nombreGestor,
-                "MONTO_PROMETIDO":element.montoPago,
-                "MONTO_FINAL":element.pagoFinal,
+        if(typeof arregloPromesas !== "undefined"){
+            if(arregloPromesas.length>0){
+                let layoutDescarga=[];
+                arregloPromesas.forEach(function(element){
+                    let layoutArray={
+                        "CLIENTE_UNICO":element.clienteUnico,
+                        "NOMBRE_CLIENTE":element.nombreCliente,
+                        "GESTOR":element.nombreGestor,
+                        "MONTO_PROMETIDO":element.montoPago,
+                        "MONTO_FINAL":element.pagoFinal,
+                    }
+                    layoutDescarga.push(layoutArray);
+                });
+
+
+                let nombreArchivo=fechaCorta+"_ReportePagos_"+nombretTipoCartera;
+                let archivo=descargarExcel.descargarExcel(layoutDescarga,nombreArchivo);
+                if(archivo!==null){
+                    handleCloseCargando();
+                    handleOpenInfo("Descarga Realizada");
+                }
+            }else{
+                handleCloseCargando();
+                handleOpenInfo("Sin Registros de Fecha de Pago para el dia "+fechaPagos+ " de la cartera "+nombretTipoCartera);
             }
-            layoutDescarga.push(layoutArray);
-        });
-
-
-        let nombreArchivo=fechaCorta+"_ReportePagos";
-        let archivo=descargarExcel.descargarExcel(layoutDescarga,nombreArchivo);
-        if(archivo!==null){
+        }else{
             handleCloseCargando();
-            handleOpenInfo("Descarga Realizada");
+            handleOpenInfo("Sin Registros de Fecha de Pago para el dia "+fechaPagos+ " de la cartera "+nombretTipoCartera);
         }
 
         // const workSheet=XLSX.utils.json_to_sheet(layoutDescarga);
@@ -168,6 +208,15 @@ const Pagos=()=>{
                             onChange={handleOnChangeFechaPago}
                         />
                     </LocalizationProvider>
+                    <br/><br/><br/>
+                    <Autocomplete 
+                        id="seleccionCartera"          
+                        options={opcionesTipoCartera}
+                        style={{width:"250px", textAlign:'center',marginLeft:'auto',marginRight:'auto'}}
+                        getOptionLabel={(option) => option.valor}
+                        renderInput={(params) => <TextField {...params} label="Tipo de Cartera" variant="outlined" />}
+                        onChange={handleOnChangeCartera}
+                    />
                     <br/><br/><br/>
                     <Button
                         variant="contained"

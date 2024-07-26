@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {TextField, Button, Grid} from '@mui/material';
+import {TextField, Button, Grid,Autocomplete} from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import Servicios from '../../services/servicios';
 import {ModalEspera,ModalInfo} from '../../services/modals';
@@ -9,6 +9,25 @@ import DescargaExcel from "../descargarExcel";
 
 const servicio=new Servicios();
 const descargarExcel=new DescargaExcel();
+
+const opcionesTipoCartera=[
+    {
+        id:1,
+        valor: "Normalidad"
+    },
+    {
+        id:2,
+        valor: "VIP"
+    },
+    {
+        id:3,
+        valor: "Territorios"
+    },
+    {
+        id:4,
+        valor: "Diez Años"
+    },
+]
 
 export default class ValidacionPromesas extends React.Component{
 
@@ -27,6 +46,8 @@ const Validacion=()=>{
     const navigate = useNavigate();
 
     const [cookieBusq,setCookieBusq]=useState(null);
+    const [tipoCartera,setTipoCartera]=useState(null);
+    const [nombretTipoCartera,setNombreTipoCartera]=useState(null);
 
     const [openModalCargando, setOpenModalCargando] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -52,9 +73,20 @@ const Validacion=()=>{
     };
 
 
+    const handleOnChangeCartera=(event,newValue)=>{
+        if(newValue===null){
+            setTipoCartera(null);
+            setNombreTipoCartera(null);
+        }else{
+            setTipoCartera(newValue.id);
+            setNombreTipoCartera(newValue.valor);
+        }
+    }
+
+
     const handleClickBuscarDescargaValidacion=()=>{
-        if(cookieBusq!==null){
-            let endPoint="service/pagos/validacionPromesasLocal";
+        if(cookieBusq!==null&&tipoCartera!==null){
+            let endPoint="service/pagos/validacionPromesasLocal/"+tipoCartera;
             handleOpenCargando();
             let json={
                 "cokkie":cookieBusq
@@ -76,6 +108,7 @@ const Validacion=()=>{
         }
     }
 
+
     const prepararExcel=(arregloPromesas)=>{
         let arreglo=[];
 
@@ -94,7 +127,7 @@ const Validacion=()=>{
         })
 
 
-        let archivo=descargarExcel.descargarExcel(arreglo,"Reporte_Valiacion_Promesas");
+        let archivo=descargarExcel.descargarExcel(arreglo,"Reporte_Valiacion_Promesas_"+nombretTipoCartera);
         if(archivo!==null){
             handleCloseCargando();
             handleOpenInfo("Descarga Realizada");
@@ -133,6 +166,15 @@ const Validacion=()=>{
                         style={{width:"250px"}}                        
                         onChange={handleOnChangeBusqCookie}
                     />                   
+                    <br/><br/><br/>
+                    <Autocomplete 
+                        id="seleccionCartera"          
+                        options={opcionesTipoCartera}
+                        style={{width:"250px", textAlign:'center',marginLeft:'auto',marginRight:'auto'}}
+                        getOptionLabel={(option) => option.valor}
+                        renderInput={(params) => <TextField {...params} label="Tipo de Cartera" variant="outlined" />}
+                        onChange={handleOnChangeCartera}
+                    />
                     <br/><br/><br/>
                     <Button
                         variant="contained"

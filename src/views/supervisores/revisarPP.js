@@ -192,6 +192,14 @@ const opcionesTipoCartera=[
     },
     {
         id:3,
+        valor: "Territorios"
+    },
+    {
+        id:4,
+        valor: "DiezYears"
+    },
+    {
+        id:5,
         valor: "Ciceron"
     }
 ]
@@ -718,7 +726,7 @@ const SupervisarPP=(props)=>{
     const buscarGestiones=()=>{
         if(promesasPuras.length!==0){
             if(cookieBusq!==null&&cookieBusq!==""){
-                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"){
+                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"&&tipoCarteraBusq!=="Territorios"&&tipoCarteraBusq!=="DiezYears"){
 
 
                     handleOpen();
@@ -736,7 +744,7 @@ const SupervisarPP=(props)=>{
                     )
 
                 }else{
-                    handleOpenInfo("Para obtener las gestiones se debe escoger el tipo de cartera");
+                    handleOpenInfo("Para obtener las gestiones se debe escoger el tipo de cartera de Normalidad o VIP");
                 }
             }else{
                 setPromesas(promesasPuras)
@@ -950,7 +958,7 @@ const SupervisarPP=(props)=>{
             let tipoCartera
             if(tipoCarteraBusq==="Normalidad"){
                 tipoCartera=1;
-            }else{
+            }else if(tipoCarteraBusq==="VIP"){
                 tipoCartera=2;
             }
             let endPoint="service/gestores/asignarClientesAGestores/"+tipoCartera;
