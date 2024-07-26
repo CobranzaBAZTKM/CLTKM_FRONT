@@ -15,6 +15,8 @@ import ReportePagos from './views/supervisores/reportePagos';
 import DescargaGestiones from './views/supervisores/descargaGestiones';
 import OperacionGestion from './views/gestores/operacionGestion';
 import ValidacionPromesas from './views/supervisores/validacionPromesas';
+import DescargaPromesasHistorial from './views/supervisores/descargaPromesasHistorial';
+import DescargaSinContactoHistorial from './views/supervisores/descargaSinContactoHistorial';
 
 
 function App() {
@@ -34,6 +36,8 @@ function App() {
             <Route exact path='/CLTKM_FRONT/supervisores/reportePagos' Component={ReportePagos}/>
             <Route exact path='/CLTKM_FRONT/supervisores/gestiones' Component={DescargaGestiones}/>
             <Route exact path='/CLTKM_FRONT/supervisores/validacionPromesas' Component={ValidacionPromesas}/>
+            <Route exact path='/CLTKM_FRONT/supervisores/historialPromesas' Component={DescargaPromesasHistorial}/>
+            <Route exact path='/CLTKM_FRONT/supervisores/historialSinContacto' Component={DescargaSinContactoHistorial}/>
 
             <Route exact path='/CLTKM_FRONT/gestores/menu' Component={MenuGestores}/>
             <Route exact path='/CLTKM_FRONT/gestores/insertarPlanPago' Component={InsertarPlanes}/>
