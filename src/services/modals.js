@@ -74,7 +74,7 @@ export function ModalInfo(props){
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {props.mensaje}
           </Typography>
-
+        <br/>
           <Button
             variant="contained"
             color="success"

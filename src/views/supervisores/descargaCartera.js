@@ -253,9 +253,9 @@ const BajarCartera=(props)=>{
             }else if(carteraCompletaVIP==="CCCFSCLVIP"){
                 endPoint="service/carteraVIP/VIPcarteraCompleta";
                 nombreArchivo="Cartera_Completa_CF_SCL_VIP"
-            }else if(carteraCompleta==="CCCFLVIP"){
+            }else if(carteraCompletaVIP==="CCCFLVIP"){
                 nombreArchivo="Cartera_Completa_CF_Local_VIP";
-            }else if(carteraCompleta==="CCSFLVIP"){
+            }else if(carteraCompletaVIP==="CCSFLVIP"){
                 nombreArchivo="Cartera_Completa_SF_Local_VIP";
             }
             
