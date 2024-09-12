@@ -200,6 +200,30 @@ const opcionesTipoCartera=[
     },
     {
         id:5,
+        valor:"Abandonados",
+    },
+    {
+        id:6,
+        valor:"Implant",
+    },
+    {
+        id:7,
+        valor:"TAZ",
+    },
+    {
+        id:8,
+        valor:"TOR",
+    },
+    {
+        id:9,
+        valor:"SaldosAltos",
+    },
+    {
+        id:10,
+        valor:"Italika",
+    },
+    {
+        id:11,
         valor: "Ciceron"
     }
 ]
@@ -726,7 +750,7 @@ const SupervisarPP=(props)=>{
     const buscarGestiones=()=>{
         if(promesasPuras.length!==0){
             if(cookieBusq!==null&&cookieBusq!==""){
-                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"&&tipoCarteraBusq!=="Territorios"&&tipoCarteraBusq!=="DiezYears"){
+                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"&&tipoCarteraBusq!=="Territorios"&&tipoCarteraBusq!=="DiezYears"&&tipoCarteraBusq!=="Abandonados"&&tipoCarteraBusq!=="Implant"&&tipoCarteraBusq!=="TAZ"&&tipoCarteraBusq!=="TOR"&&tipoCarteraBusq!=="SaldosAltos"&&tipoCarteraBusq!=="Italika"){
 
 
                     handleOpen();

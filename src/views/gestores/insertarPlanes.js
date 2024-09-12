@@ -69,7 +69,38 @@ const tipoCarteraOpcion=[
         id:5,
         valor:"DiezYears",
         texto:"Diez Años",
-    }
+    },
+    {
+        id:6,
+        valor:"Abandonados",
+        texto:"Abandonados",
+    },
+    {
+        id:7,
+        valor:"Implant",
+        texto:"Implant",
+    },
+    {
+        id:8,
+        valor:"TAZ",
+        texto:"TAZ",
+    },
+    {
+        id:9,
+        valor:"TOR",
+        texto:"TOR",
+    },
+    {
+        id:10,
+        valor:"SaldosAltos",
+        texto:"Saldos Altos",
+    },
+    {
+        id:11,
+        valor:"Italika",
+        texto:"Italika",
+    },
+
 
 ]
 
