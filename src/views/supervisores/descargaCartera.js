@@ -16,6 +16,7 @@ import {ModalEspera,ModalInfo} from '../../services/modals';
 import Checkbox from '@mui/material/Checkbox';
 import { useNavigate  } from "react-router-dom";
 import DescargaExcel from "../descargarExcel";
+import * as XLSX from 'xlsx';
 
 // import { CSVLink } from "react-csv";
 
@@ -48,6 +49,12 @@ const BajarCartera=(props)=>{
     const [carteraCompletaVIP, setCarteraCompletaVIP]=useState(null);
     const [carteraCompletaTerritorios, setCarteraCompletaTerritorios]=useState(null);
     const [carteraCompletaDiezYears, setCarteraDiezYears]=useState(null);
+    const [carteraCompletaAbandonados,setCarteraCompletaAbandonados]=useState(null);
+    const [carteraCompletaImplant, setCarteraCompletaImplant]=useState(null);
+    const [carteraCompletaTAZ, setCarteraCompletaTAZ]=useState(null);
+    const [carteraCompletaTOR, setCarteraCompletaTOR]=useState(null);
+    const [carteraCompletaSaldosAltos,setCarterasCompletasSaldosAltos]=useState(null);
+    const [carteraCompletaItalika, setCarteraCompletaItalika]=useState(null);
 
     const [seg5, setSeg5]=useState(null);
     const [seg28, setSeg28]=useState(null);
@@ -61,8 +68,15 @@ const BajarCartera=(props)=>{
     const [descarteVIP, setDescarteVIP]=useState(null);
     const [descarteTerritorios, setDescarteTerritorios]=useState(null);
     const [descarteDiezYears, setDescarteDiezYears]=useState(null);
+    const [descarteCompleto,setDescarteCompleto]=useState(null);
     const [basePuraCF, setBasePuraCF]=useState(null);
     const [basePuraSF,setBasePuraSF]=useState(null);
+    const [descarteAband, setDescarteAband]=useState(null);
+    const [descarteImplant, setDescarteImplant]=useState(null);
+    const [descarteTAZ, setDescarteTAZ]=useState(null);
+    const [descarteTOR, setDescarteTOR]=useState(null);
+    const [descarteSalAlt, setDescarteSalAlt]=useState(null);
+    const [descarteItalika, setDescarteItalika]=useState(null);
     // const [cartManana, setCartManana]=useState(null);
     // const [cartTarde, setCartTarde]=useState(null);
 
@@ -182,6 +196,63 @@ const BajarCartera=(props)=>{
         }        
     }
 
+    const checkedSegDescarteAband=(event)=>{
+        if(event.target.checked===true){
+            setDescarteAband("DESCARTEABAND")
+        }else{
+            setDescarteAband(null)
+        }        
+    }
+
+    const checkedSegDescarteImplant=(event)=>{
+        if(event.target.checked===true){
+            setDescarteImplant("DESCARTEIMPL")
+        }else{
+            setDescarteImplant(null)
+        }        
+    }
+
+    const checkedSegDescarteTAZ=(event)=>{
+        if(event.target.checked===true){
+            setDescarteTAZ("DESCARTETAZ")
+        }else{
+            setDescarteTAZ(null)
+        }        
+    }
+
+    const checkedSegDescarteTOR=(event)=>{
+        if(event.target.checked===true){
+            setDescarteTOR("DESCARTETOR")
+        }else{
+            setDescarteTOR(null)
+        }        
+    }
+
+    const checkedSegDescarteSA=(event)=>{
+        if(event.target.checked===true){
+            setDescarteSalAlt("DESCARTESA")
+        }else{
+            setDescarteSalAlt(null)
+        }        
+    }
+
+    const checkedSegDescarteItalika=(event)=>{
+        if(event.target.checked===true){
+            setDescarteItalika("DESCARTEITK")
+        }else{
+            setDescarteItalika(null)
+        }        
+    }
+
+    const checkedSegDescarteJunt=(event)=>{
+        if(event.target.checked===true){
+            setDescarteCompleto("DESCARTECOMPL")
+        }else{
+            setDescarteCompleto(null)
+        }        
+    }
+
+
     const checkedSegCartsJunSF=(event)=>{
         if(event.target.checked===true){
             setBasePuraSF("JUNTASSF")
@@ -292,6 +363,67 @@ const BajarCartera=(props)=>{
                 nombreArchivo="Cartera_Completa_SF_Local_Diez_Years";
             }
         }
+        if(carteraCompletaAbandonados!==null){
+            if(carteraCompletaAbandonados==="CCDABAND"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/5"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_Abandonados";
+            }else if(carteraCompletaAbandonados==="CCCFLABAND"){
+                nombreArchivo="Cartera_Completa_CF_Local_Abandonados";
+            }else if(carteraCompletaAbandonados==="CCSFLDABAND"){
+                nombreArchivo="Cartera_Completa_SF_Local_Abandonados";
+            }
+        }
+        if(carteraCompletaImplant!==null){
+            if(carteraCompletaImplant==="CCDIMPL"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/6"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_Implant";
+            }else if(carteraCompletaImplant==="CCCFLIMPL"){
+                nombreArchivo="Cartera_Completa_CF_Local_Implant";
+            }else if(carteraCompletaImplant==="CCSFLIMPL"){
+                nombreArchivo="Cartera_Completa_SF_Local_Implant";
+            }
+        }
+        if(carteraCompletaTAZ!==null){
+            if(carteraCompletaTAZ==="CCDTAZ"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/7"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_TAZ";
+            }else if(carteraCompletaTAZ==="CCCFLTAZ"){
+                nombreArchivo="Cartera_Completa_CF_Local_TAZ";
+            }else if(carteraCompletaTAZ==="CCSFLTAZ"){
+                nombreArchivo="Cartera_Completa_SF_Local_TAZ";
+            }
+        }
+        if(carteraCompletaTOR!==null){
+            if(carteraCompletaTOR==="CCDTOR"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/8"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_TOR";
+            }else if(carteraCompletaTOR==="CCCFLTOR"){
+                nombreArchivo="Cartera_Completa_CF_Local_TOR";
+            }else if(carteraCompletaTOR==="CCSFLTOR"){
+                nombreArchivo="Cartera_Completa_SF_Local_TOR";
+            }
+        }
+        if(carteraCompletaSaldosAltos!==null){
+            if(carteraCompletaSaldosAltos==="CCDSA"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/9"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_Saldos_Altos";
+            }else if(carteraCompletaSaldosAltos==="CCCFLSA"){
+                nombreArchivo="Cartera_Completa_CF_Local_Saldos_Altos";
+            }else if(carteraCompletaSaldosAltos==="CCSLSA"){
+                nombreArchivo="Cartera_Completa_SF_Local_Saldos_Altos";
+            }
+        }
+        if(carteraCompletaItalika!==null){
+            if(carteraCompletaItalika==="CCDITK"){
+                endPoint="service/carteraLocal/carteraCompletaSCLGuardar/10"; //Pendiente aqui se pone el numero(tipo cartera)
+                nombreArchivo="Cartera_Completa_Descarte_Italika";
+            }else if(carteraCompletaItalika==="CCCFLITK"){
+                nombreArchivo="Cartera_Completa_CF_Local_Italika";
+            }else if(carteraCompletaItalika==="CCSFLITK"){
+                nombreArchivo="Cartera_Completa_SF_Local_Italika";
+            }
+        }
+
 
 
 
@@ -332,11 +464,39 @@ const BajarCartera=(props)=>{
             endPoint="service/carteraLocal/carteraConDescarte/4";
             nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_DiezYears";
         }
+        if(descarteCompleto!==null){
+            endPoint="service/carteraLocal/carteraConDescarteCompleta";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Completa";
+        }
         if(basePuraCF!==null){
             nombreArchivo=nombreArchivo+"Carteras_Completas_TKM_CF";
         }
         if(basePuraSF!==null){
             nombreArchivo=nombreArchivo+"Carteras_Completas_TKM_SF";
+        }
+        if(descarteAband!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/5";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Abandonados";
+        }
+        if(descarteImplant!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/6";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Implant";
+        }
+        if(descarteTAZ!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/7";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_TAZ";
+        }
+        if(descarteTOR!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/8";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_TOR";
+        }
+        if(descarteSalAlt!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/9";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Saldos_Altos";
+        }
+        if(descarteItalika!==null){
+            endPoint="service/carteraLocal/carteraConDescarte/10";
+            nombreArchivo=nombreArchivo+"Cartera_Completa_DescarteDia_Italika";
         }
 
         
@@ -380,14 +540,6 @@ const BajarCartera=(props)=>{
                         }else{
                             descartarNumerosSinDatos(data.data);
                         }
-                    }else if(descarte!==null){
-                        descartarNumerosSinDatos(data.data);
-                    }else if(descarteVIP!==null){
-                        descartarNumerosSinDatos(data.data);
-                    }else if(descarteTerritorios!==null){
-                        descartarNumerosSinDatos(data.data);
-                    }else if(descarteDiezYears!==null){
-                        descartarNumerosSinDatos(data.data);
                     }else if(carteraCompletaVIP!==null){
                         if(carteraCompletaVIP==="CCSFSCLVIP"||carteraCompletaVIP==="CCSFLVIP"){
                             if(carteraCompletaVIP==="CCSFLVIP"){
@@ -419,10 +571,70 @@ const BajarCartera=(props)=>{
                         }else{
                             descartarNumerosSinDatos(data.data);
                         }
+                    }else if(carteraCompletaAbandonados!==null){
+                        if(carteraCompletaAbandonados==="CCSFLDABAND"){
+                            carteraSinFiltros(eleccionCartera(data.data,5));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+
+                    }else if(carteraCompletaImplant!==null){
+                        if(carteraCompletaImplant==="CCSFLIMPL"){
+                            carteraSinFiltros(eleccionCartera(data.data,6));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+
+                    }else if(carteraCompletaTAZ!==null){
+                        if(carteraCompletaTAZ==="CCSFLTAZ"){
+                            carteraSinFiltros(eleccionCartera(data.data,7));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+                    }else if(carteraCompletaTOR!==null){
+                        if(carteraCompletaTOR==="CCSFLTOR"){
+                            carteraSinFiltros(eleccionCartera(data.data,8));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+                    }else if(carteraCompletaSaldosAltos!==null){
+                        if(carteraCompletaSaldosAltos==="CCSLSA"){
+                            carteraSinFiltros(eleccionCartera(data.data,9));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
+                    }else if(carteraCompletaItalika!==null){
+                        if(carteraCompletaItalika==="CCSFLITK"){
+                            carteraSinFiltros(eleccionCartera(data.data,10));
+                        }else{
+                            descartarNumerosSinDatos(data.data);
+                        }
                     }else if(basePuraCF!==null){
                         descartarNumerosSinDatos(data.data);
                     }else if(basePuraSF!==null){
                         carteraSinFiltros(data.data);
+                    }else if(descarte!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteVIP!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteTerritorios!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteDiezYears!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteAband!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteImplant!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteTAZ!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteTOR!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteSalAlt!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteItalika!==null){
+                        descartarNumerosSinDatos(data.data);
+                    }else if(descarteCompleto!==null){
+                        descartarNumerosSinDatos(data.data);
                     }
                     // }else if(seg5!==null){
                     //     obtenerSeg05(eleccionCartera(data.data,1));
@@ -723,8 +935,31 @@ const BajarCartera=(props)=>{
                 if(element.tipocarteratkm==="DiezYears"){
                     arreglo.push(element);
                 }
+            }else if(tipoCartera===5){
+                if(element.tipocarteratkm==="Abandonados"){
+                    arreglo.push(element);
+                }
+            }else if(tipoCartera===6){
+                if(element.tipocarteratkm==="Implant"){
+                    arreglo.push(element);
+                }
+            }else if(tipoCartera===7){
+                if(element.tipocarteratkm==="TAZ"){
+                    arreglo.push(element);
+                }
+            }else if(tipoCartera===8){
+                if(element.tipocarteratkm==="TOR"){
+                    arreglo.push(element);
+                }
+            }else if(tipoCartera===9){
+                if(element.tipocarteratkm==="SaldosAltos"){
+                    arreglo.push(element);
+                }
+            }else if(tipoCartera===10){
+                if(element.tipocarteratkm==="Italika"){
+                    arreglo.push(element);
+                }
             }
-            
         })
         return arreglo;
     }
@@ -774,11 +1009,236 @@ const BajarCartera=(props)=>{
 
     }
 
+
     const handleClickRegresasr=()=>{
         
         navigate("/CLTKM_FRONT/menu");
     }
-    
+
+    const [file, setFile] = useState(null);
+    const [file2, setFile2] = useState([]);
+    const [excelData, setExcelData] = useState([]);
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+
+        const selectedFile2 = e.target.files;
+        setFile2(selectedFile2)
+        console.log("Subiendo Excel"+e.target.result);
+    };
+
+    // const handleFileUpload = (e) => {
+    //     console.log("Leyendo Excel con el boton "+e)
+
+    //     let x=file2.length;
+
+    //     for(let i=0;i<x;i++){
+    //         console.log(x);
+    //     }
+            
+
+
+    //     e.preventDefault();
+    //     if (file) {
+    //         try {
+    //             const fileReader = new FileReader();
+    //             fileReader.onload = (e) => {
+    //                 const data = e.target.result;
+    //                 const excel = XLSX.read(data, { type: 'binary' });
+    //                 const sheetName = excel.SheetNames[0];
+    //                 const sheet = excel.Sheets[sheetName];
+    //                 const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+                    
+    //                 datosPrepararGuardar(jsonData);
+    //                 // setExcelData(jsonData);
+    //             };
+                
+    //             const d=fileReader.readAsBinaryString(file);
+    //             console.log(d)
+    //         } catch (error) {
+    //             console.error("Error leyendo el archivo");
+    //         }
+    //     } else {
+    //         alert('No has seleccionado un archivo');
+    //     }
+    // };
+
+    const handleFileUpload = (e) => {
+        console.log("Leyendo Excel con el boton "+e)
+        handleOpen();
+        
+        if(file2){
+            let x=file2.length;
+            let finArr=x-1;
+            for(let i=0;i<x;i++){
+                console.log(x);
+                let archivo=file2[i];
+                e.preventDefault();
+                try {
+                    const fileReader = new FileReader();
+                    fileReader.onload = (e) => {
+                        const data = e.target.result;
+                        const excel = XLSX.read(data, { type: 'binary' });
+                        const sheetName = excel.SheetNames[0];
+                        const sheet = excel.Sheets[sheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+                        
+                        datosPrepararGuardar(jsonData,archivo,i,finArr);
+                        // setExcelData(jsonData);
+                    };
+                    
+                    const d=fileReader.readAsBinaryString(archivo);
+                    console.log(d)
+                } catch (error) {
+                    console.error("Error leyendo el archivo");
+                }
+
+                // if(finArr===i){
+                //     handleClose();
+                //     handleOpenInfo("Se inserto la base correctamente");
+                // }
+            }
+        }else{
+            handleOpenInfo('No has seleccionado un archivo');
+        }
+            
+    };
+
+    const datosPrepararGuardar=(cuentas,archi,valorActual,valorFinal)=>{
+        
+        let clientes=[];
+        cuentas.forEach(function(element){
+            let cuenta=JSON.stringify(element);
+            let dividirCuen=cuenta.split('":')
+            let limpiarDatos=dividirCuen[1].split("\"}")
+            let obtenerDatos=limpiarDatos[0].split("|");
+            let segmentoTipo=archi.name.split("_");            
+            let segmento=segmentoTipo[2].split(".")[0];
+            let cartera=segmentoTipo[1]==="60054"?"Normalidad":segmentoTipo[1]==="60165"?"VIP":segmentoTipo[1]==="60174"?"Territorios":segmentoTipo[1]==="60187"?"DiezYears":segmentoTipo[1]==="60160"?"Abandonados":segmentoTipo[1]==="60163"?"Implant":segmentoTipo[1]==="60167"?"TAZ":segmentoTipo[1]==="60170"?"TOR":segmentoTipo[1]==="60176"?"SaldosAltos":segmentoTipo[1]==="60178"?"Italika":"";
+
+            console.log(cuenta);
+            let json={
+                "CLIENTE_UNICO":obtenerDatos[0].split("\"")[1],
+                "NOMBRE_CTE":obtenerDatos[1],
+                "GENERO_CLIENTE":obtenerDatos[2],
+                "EDAD_CLIENTE":obtenerDatos[3],
+                "OCUPACION":obtenerDatos[4],
+                "DIRECCION_CTE":obtenerDatos[5],
+                "NUM_EXT_CTE":obtenerDatos[6],
+                "NUM_INT_CTE":obtenerDatos[7],
+                "CP_CTE":obtenerDatos[8],
+                "COLONIA_CTE":obtenerDatos[9],
+                "POBLACION_CTE":obtenerDatos[10],
+                "ESTADO_CTE":obtenerDatos[11],
+                "TERRITORIO":obtenerDatos[12],
+                "TERRITORIAL":obtenerDatos[13],
+                "ZONA":obtenerDatos[14],
+                "ZONAL":obtenerDatos[15],
+                "NOMBRE_DESPACHO":obtenerDatos[16],
+                "GERENCIA":obtenerDatos[17],
+                "FECHA_ASIGNACION":obtenerDatos[18],
+                "DIAS_ASIGNACION":obtenerDatos[19],
+                "REFERENCIAS_DOMICILIO":obtenerDatos[20],
+                "CLASIFICACION_CTE":obtenerDatos[21],
+                "DIQUE":obtenerDatos[22],
+                "ATRASO_MAXIMO":obtenerDatos[23],
+                "DIAS_ATRASO":obtenerDatos[24],
+                "SALDO":obtenerDatos[25],
+                "MORATORIOS":obtenerDatos[26],
+                "SALDO_TOTAL":obtenerDatos[27],
+                "SALDO_ATRASADO":obtenerDatos[28],
+                "SALDO_REQUERIDO":obtenerDatos[29],
+                "PAGO_NORMAL":obtenerDatos[30],
+                "PRODUCTO":obtenerDatos[31],
+                "FECHA_ULTIMO_PAGO":obtenerDatos[33],
+                "IMP_ULTIMO_PAGO":obtenerDatos[34],
+                "CALLE_EMPLEO":obtenerDatos[35],
+                "NUM_EXT_EMPLEO":obtenerDatos[36],
+                "NUM_INT_EMPLEO":obtenerDatos[37],
+                "COLONIA_EMPLEO":obtenerDatos[38],
+                "POBLACION_EMPLEO":obtenerDatos[39],
+                "ESTADO_EMPLEO":obtenerDatos[40],
+                "NOMBRE_AVAL":obtenerDatos[41],
+                "TEL_AVAL":obtenerDatos[42],
+                "CALLE_AVAL":obtenerDatos[43],
+                "NUM_EXT_AVAL":obtenerDatos[44],
+                "COLONIA_AVAL":obtenerDatos[45],
+                "CP_AVAL":obtenerDatos[46],
+                "POBLACION_AVAL":obtenerDatos[47],
+                "ESTADO_AVAL":obtenerDatos[48],
+                "FIDIAPAGO":obtenerDatos[49],
+                "TELEFONO1":obtenerDatos[50],
+                "TELEFONO2":obtenerDatos[51],
+                "TELEFONO3":obtenerDatos[52],
+                "TELEFONO4":obtenerDatos[53],
+                "TIPOTEL1":obtenerDatos[54],
+                "TIPOTEL2":obtenerDatos[55],
+                "TIPOTEL3":obtenerDatos[56],
+                "TIPOTEL4":obtenerDatos[57],
+                "LATITUD":obtenerDatos[58],
+                "LONGITUD":obtenerDatos[59],
+                "DESPACHO_GESTIONO":obtenerDatos[60],
+                "ULTIMA_GESTION":obtenerDatos[61],
+                "GESTION_DESC":obtenerDatos[62],
+                "CAMPANIA_RELAMPAGO":obtenerDatos[63],
+                "CAMPANIA":obtenerDatos[64],
+                "ID_GRUPO":obtenerDatos[66],
+                "GRUPO_MAZ":obtenerDatos[67],
+                "CLAVE_SPEI":obtenerDatos[68],
+                "PAGOS_CLIENTE":obtenerDatos[69],
+                "MONTO_PAGOS":obtenerDatos[70],
+                "GESTORES":obtenerDatos[71],
+                "FOLIO_PLAN":obtenerDatos[72],
+                "SEGMENTO_GENERACION":obtenerDatos[73],
+                "ESTATUS_PLAN":obtenerDatos[74],
+                "SEMANAS_ATRASO":obtenerDatos[75],
+                "ATRASO":obtenerDatos[76],
+                "GENERACION_PLAN":obtenerDatos[77],
+                "CANCELACION_CUMPLIMIENTO_PLAN":obtenerDatos[78],
+                "ULTIMO_ESTATUS":obtenerDatos[79],
+                "EMPLEADO":obtenerDatos[80],
+                "CANAL":obtenerDatos[81],
+                "ABONO_SEMANAL":obtenerDatos[82],
+                "PLAZO":obtenerDatos[83],
+                "MONTO_ABONADO":obtenerDatos[84],
+                "MONTO_PLAN":obtenerDatos[85],
+                "ENGANCHE":obtenerDatos[86],
+                "PAGOS_RECIBIDOS":obtenerDatos[87],
+                "SALDO_ANTES_DEL_PLAN":obtenerDatos[88],
+                "SALDO_ATRASADO_ANTES_PLAN":obtenerDatos[89],
+                "MORATORIOS_ANTES_PLAN":obtenerDatos[90],
+                "ESTATUS_PROMESA_PAGO":obtenerDatos[91],
+                "MONTO_PROMESA_PAGO":obtenerDatos[92],
+                "SEGMENTO":segmento,
+                "TIPOCARTERATKM":cartera,
+            }
+
+            clientes.push(json);
+        })
+
+        let json2={
+            "cartera":clientes
+        }
+
+        servicio.consumirServicios(json2,"service/carteraLocal/insertarCarteraLocal").then(
+            data=>{
+                // if(data.code===1){
+                    // handleClose();
+                    console.log(data)
+                    // handleOpenInfo("Se inserto la base correctamente");
+                // }else{
+                    // handleClose();
+                    // handleOpenInfo("Ocurrio algo inesperado al intentar insertar la base");
+                // }
+                if(valorActual===valorFinal){
+                    handleClose();
+                    handleOpenInfo("Se inserto la base correctamente");
+                }
+            }
+        )
+    }
+
     return(
         <div>
             <Grid container spacing={1}>
@@ -797,80 +1257,188 @@ const BajarCartera=(props)=>{
             <br/><br/>
             <Grid container spacing={1}>
                 <Grid item xl={12} lg={12} md={12} sm={12} style={{textAlign:'center'}}>
-                    <TextField id="cokkie" label="Cokkie" variant="outlined" onChange={handleOnChanceCookie}/>
+                    {/* <TextField id="cokkie" label="Cokkie" variant="outlined" onChange={handleOnChanceCookie}/> */}
+                    <br/>
+                    <form  onSubmit={handleFileUpload}>
+                        <input type="file" onChange={handleFileChange} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple/>
+                        <br/><br/><br/>
+                        <button >Subir archivo</button>
+                    </form>
                 </Grid>
             </Grid>
             <br/><br/>
             <Grid container spacing={1}>
-                <Grid item xl={2} lg={2} md={2} sm={2}/>
-                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                {/* <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2}/> */}
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Normalidad</FormLabel>
                         <RadioGroup>
                             <br/>
-                            <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompleta("CCD")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Descarte" />
+                            <FormControlLabel value="carteraCompletaDescarte" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompleta("CCD")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCCFL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocal" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompleta("CCCFL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCL" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFSCL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaSFLocal" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                            {/* <FormControlLabel value="carteraCompletaSFSCL" control={<Radio onClick={()=>{{setCarteraCompleta("CCSFSCL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocal" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompleta("CCSFL")}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
                 {/* <Grid item xl={1} lg={1} md={1} sm={1}/> */}
-                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">VIP</FormLabel>
                         <RadioGroup>
                         <br/>
-                            <FormControlLabel value="carteraCompletaDescarteVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCDVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Descarte" />
+                            <FormControlLabel value="carteraCompletaDescarteVIP" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaVIP("CCDVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaVIP("CCCFLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local " />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFSCLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaCFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFSCLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaSFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                            {/* <FormControlLabel value="carteraCompletaSFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCSFSCLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLVIP" control={<Radio onClick={()=>{{setCarteraCompletaVIP("CCCFSCLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalVIP" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaVIP("CCSFLVIP")}{setCarteraCompleta(null)}{setCarteraCompletaTerritorios(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Territorios</FormLabel>
                         <RadioGroup>
                         <br/>
-                        <FormControlLabel value="carteraCompletaDescarteTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCDTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Descarte" />
+                        <FormControlLabel value="carteraCompletaDescarteTerr" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaTerritorios("CCDTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocalTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCCFLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocalTerr" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaTerritorios("CCCFLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCLTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCSFSCLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaCFSCLTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCCFSCLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaSFLocalTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCSFLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                            {/* <FormControlLabel value="carteraCompletaSFSCLTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCSFSCLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLTerr" control={<Radio onClick={()=>{{setCarteraCompletaTerritorios("CCCFSCLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalTerr" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraCompletaTerritorios("CCSFLTERR")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraDiezYears(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
                     <FormControl >
                         <FormLabel id="demo-radio-buttons-group-label_1">Diez Años</FormLabel>
                         <RadioGroup>
                         <br/>
-                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCDDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Descarte" />
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears("CCDDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros Local sin Descarte" />
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears("CCCFLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
                             <br/>
-                            <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" />
-                            <br/>
-                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears("CCSFLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
                         </RadioGroup>
                     </FormControl>
                 </Grid>
-                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">Abandonados</FormLabel>
+                        <RadioGroup>
+                            <br/>
+                            <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados("CCDABAND")}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados("CCCFLABAND")}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados("CCSFLDABAND")}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">Implant</FormLabel>
+                        <RadioGroup>
+                        <br/>
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant("CCDIMPL")}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant("CCCFLIMPL")}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant("CCSFLIMPL")}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">TAZ</FormLabel>
+                        <RadioGroup>
+                        <br/>
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ("CCDTAZ")}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ("CCCFLTAZ")}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ("CCSFLTAZ")}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">TOR</FormLabel>
+                        <RadioGroup>
+                        <br/>
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR("CCDTOR")}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR("CCCFLTOR")}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR("CCSFLTOR")}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">Saldos Altos</FormLabel>
+                        <RadioGroup>
+                        <br/>
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos("CCDSA")}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos("CCCFLSA")}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaItalika!==null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos("CCSLSA")}{setCarteraCompletaItalika(null)}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaItalika!==null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_1">Italika</FormLabel>
+                        <RadioGroup>
+                        <br/>
+                        <FormControlLabel value="carteraCompletaDescarteDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika("CCDITK")}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null}/>} label="Cartera Completa Con Descarte" />
+                            <br/>
+                            <FormControlLabel value="carteraCompletaCFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika("CCCFLITK")}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null}/>} label="Cartera Completa Con Filtros Local" />
+                            <br/>
+                            {/* <FormControlLabel value="carteraCompletaSFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCSFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Sin Filtros SCL" /> */}
+                            {/* <br/> */}
+                            {/* <FormControlLabel value="carteraCompletaCFSCLDiezYear" control={<Radio onClick={()=>{{setCarteraDiezYears("CCCFSCLDIEZ")}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null}/>} label="Cartera Completa Con Filtros SCL" /> */}
+                            {/* <br/> */}
+                            <FormControlLabel value="carteraCompletaSFLocalDiezYear" control={<Radio onClick={()=>{{setCarteraCompletaAbandonados(null)}{setCarteraCompletaImplant(null)}{setCarteraCompletaTAZ(null)}{setCarteraCompletaTOR(null)}{setCarterasCompletasSaldosAltos(null)}{setCarteraCompletaItalika("CCSFLITK")}{setCarteraDiezYears(null)}{setCarteraCompleta(null)}{setCarteraCompletaVIP(null)}{setCarteraCompletaTerritorios(null)}{setSeg5(null)}{setSeg28(null)}{setSeg6(null)}{setSeg16(null)}{setSeg21(null)}{setDescarte(null)}}} disabled={carteraCompleta!==null||carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null}/>} label="Cartera Completa Sin Filtros Local" />
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                {/* <Grid item xl={1.2} lg={1.2} md={1.2} sm={1.2}/> */}
             </Grid>
             <br/>
             <Grid container spacing={1}>
@@ -918,7 +1486,7 @@ const BajarCartera=(props)=>{
                     </FormControl>
                 </Grid> */}
 
-                <Grid item xl={5} lg={5} md={5} sm={5}></Grid>
+                <Grid item xl={3} lg={3} md={3} sm={3}></Grid>
 
                 <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
                     <FormControl >
@@ -926,23 +1494,75 @@ const BajarCartera=(props)=>{
                     
                        {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
                        <br/>
-                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarteVIP!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte del Dia Normalidad" />
+                       <FormControlLabel value="carteraDescarte" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarteVIP!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null || descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarte}/>} label="Cartera Descarte del Dia Normalidad" />
                        <br/>
-                       <FormControlLabel value="carteraDescarteVIP" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null} onClick={checkedSegDescarteVIP}/>} label="Cartera Descarte del Dia VIP" />
+                       <FormControlLabel value="carteraDescarteVIP" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteVIP}/>} label="Cartera Descarte del Dia VIP" />
                        <br/>
-                       <FormControlLabel value="carteraDescarteTerritorios" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null} onClick={checkedSegDescarteTerritorios}/>} label="Cartera Descarte del Dia Territorios" />
+                       <FormControlLabel value="carteraDescarteTerritorios" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteTerritorios}/>} label="Cartera Descarte del Dia Territorios" />
                        <br/>
-                       <FormControlLabel value="carteraDescarteDiezYears" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || basePuraCF!==null || basePuraSF!==null} onClick={checkedSegDescarteDiez}/>} label="Cartera Descarte del Dia Diez Años" />
+                       <FormControlLabel value="carteraDescarteDiezYears" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteDiez}/>} label="Cartera Descarte del Dia Diez Años" />
                        <br/>
-                       <FormControlLabel value="carteraJuntasSF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null} onClick={checkedSegCartsJunSF}/>} label="Carteras Puras Juntas Sin Filtros" />
+                       <FormControlLabel value="carteraDescarteAbanderados" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteAband}/>} label="Cartera Descarte del Dia Abandonados" />
+                       {/* <br/>
+                       <FormControlLabel value="carteraDescarteImplant" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteImplant}/>} label="Cartera Descarte del Dia Implant" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteTAZ" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteTAZ}/>} label="Cartera Descarte del Dia TAZ" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteTOR" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteTOR}/>} label="Cartera Descarte del Dia TOR" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteSaldosAltos" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteItalika!==null} onClick={checkedSegDescarteSA}/>} label="Cartera Descarte del Saldos Altos" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteItalika" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null} onClick={checkedSegDescarteItalika}/>} label="Cartera Descarte del Dia Italika" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteCompleto" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null  || basePuraCF!==null || basePuraSF!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteJunt}/>} label="Cartera Descarte del Dia Juntas" />
+                       <br/>
+                       <br/>
+                       <br/>
+                       <FormControlLabel value="carteraJuntasSF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegCartsJunSF}/>} label="Carteras Puras Juntas Sin Filtros" />
                        <br/> 
-                       <FormControlLabel value="carteraJuntasCF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraSF!==null} onClick={checkedSegCartsJunCF}/>} label="Carteras Puras Juntas Con Filtros" />
+                       <FormControlLabel value="carteraJuntasCF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegCartsJunCF}/>} label="Carteras Puras Juntas Con Filtros" /> */}
                        {/* <FormControlLabel value="carteraManana" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartTarde!==null} onClick={checkedManana}/>} label="Cartera Mañana" />
                        <FormControlLabel value="carteraVespertino" control={<Checkbox disabled={carteraCompleta!==null ||carteraCompletaVIP!==null|| seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null} onClick={checkedTarde}/>} label="Cartera Tarde" /> */}
                     </FormControl>
                 </Grid>
 
-                <Grid item xl={5} lg={5} md={5} sm={5}></Grid>
+                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_4">Segmentos Elegibles</FormLabel>
+                       {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
+                       <br/>
+                       <FormControlLabel value="carteraDescarteImplant" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteImplant}/>} label="Cartera Descarte del Dia Implant" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteTAZ" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteTAZ}/>} label="Cartera Descarte del Dia TAZ" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteTOR" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteTOR}/>} label="Cartera Descarte del Dia TOR" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteSaldosAltos" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteItalika!==null} onClick={checkedSegDescarteSA}/>} label="Cartera Descarte del Saldos Altos" />
+                       <br/>
+                       <FormControlLabel value="carteraDescarteItalika" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null || basePuraSF!==null|| descarteCompleto!==null || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null} onClick={checkedSegDescarteItalika}/>} label="Cartera Descarte del Dia Italika" />
+                       {/* <FormControlLabel value="carteraManana" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartTarde!==null} onClick={checkedManana}/>} label="Cartera Mañana" />
+                       <FormControlLabel value="carteraVespertino" control={<Checkbox disabled={carteraCompleta!==null ||carteraCompletaVIP!==null|| seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null} onClick={checkedTarde}/>} label="Cartera Tarde" /> */}
+                    </FormControl>
+                </Grid>
+
+                <Grid item xl={2} lg={2} md={2} sm={2} className="bordeTarjeta">
+                    <FormControl >
+                        <FormLabel id="demo-radio-buttons-group-label_4">Segmentos Elegibles</FormLabel>
+                    
+                       {/* <FormControlLabel value="21" control={<Checkbox disabled={carteraCompleta!=null || preventa==="Preventa" || italika==="ITALIKA" || tor==="TOR" || cdt==="CDT" || maz==="MAZ" || normalidad==="Normalidad"} onClick={checkedSeg21}/>} label="JUDICIAL" /> */}
+                       <br/>
+                       <FormControlLabel value="carteraDescarteCompleto" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null  || basePuraCF!==null || basePuraSF!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegDescarteJunt}/>} label="Cartera Descarte del Dia Juntas" />
+                       <br/>
+                       <br/>
+                       <FormControlLabel value="carteraJuntasSF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraCF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegCartsJunSF}/>} label="Carteras Puras Juntas Sin Filtros" />
+                       <br/> 
+                       <FormControlLabel value="carteraJuntasCF" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||carteraCompletaTerritorios!==null||carteraCompletaDiezYears!==null||carteraCompletaAbandonados!==null||carteraCompletaImplant!==null||carteraCompletaTAZ!==null||carteraCompletaTOR!==null||carteraCompletaSaldosAltos!=null||carteraCompletaItalika!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null|| seg5VIP!==null || seg28VIP!==null || seg6VIP!==null|| descarteVIP!==null || descarteTerritorios!==null || descarteDiezYears!==null || basePuraSF!==null|| descarteCompleto!==null  || descarteAband!==null || descarteImplant!==null || descarteTAZ!==null || descarteTOR!==null || descarteSalAlt!==null || descarteItalika!==null} onClick={checkedSegCartsJunCF}/>} label="Carteras Puras Juntas Con Filtros" />
+                       {/* <FormControlLabel value="carteraManana" control={<Checkbox disabled={carteraCompleta!==null || carteraCompletaVIP!==null||seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartTarde!==null} onClick={checkedManana}/>} label="Cartera Mañana" />
+                       <FormControlLabel value="carteraVespertino" control={<Checkbox disabled={carteraCompleta!==null ||carteraCompletaVIP!==null|| seg5!==null || seg28!==null || seg6!==null || seg16!==null || descarte!==null || credimax!==null || italika!==null || tor!==null || tazcdt!==null || cartManana!==null} onClick={checkedTarde}/>} label="Cartera Tarde" /> */}
+                    </FormControl>
+                </Grid>
+
+                <Grid item xl={3} lg={3} md={3} sm={3}></Grid>
 
                 {/* <Grid item xl={1} lg={1} md={1} sm={1}></Grid> */}
             </Grid>
