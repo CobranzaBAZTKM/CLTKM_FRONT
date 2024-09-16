@@ -12,6 +12,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import GppBadIcon from '@mui/icons-material/GppBad';
+import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
 
 
 export default class Menu extends React.Component{
@@ -57,6 +58,9 @@ const Opciones=(props)=>{
         }
         else if(opcion===9){
             navigate("/CLTKM_FRONT/supervisores/historialSinContacto");
+        }
+        else if(opcion===10){
+            navigate("/CLTKM_FRONT/supervisores/archivosParaGestiones")
         }
     }
 
@@ -210,6 +214,28 @@ const Opciones=(props)=>{
                 <Grid item xl={2} lg={2} md={2} sm={2}/>
             </Grid>
             <br/><br/><br/><br/>
+            <Grid container spacing={1}>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                <Grid item xl={1} lg={1} md={1} sm={1}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        color="success"
+                        style={{height:"120px",width:"200px"}}
+                        startIcon={<BrowserUpdatedIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(10);
+                        }}
+                    >
+                        Archivos para gestiones
+                    </Button>
+                </Grid>
+                <Grid item xl={1} lg={1} md={1} sm={1}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                <Grid item xl={2} lg={2} md={2} sm={2}/>
+            </Grid>
         </div>
     )
 }
