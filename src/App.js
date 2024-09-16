@@ -17,6 +17,8 @@ import OperacionGestion from './views/gestores/operacionGestion';
 import ValidacionPromesas from './views/supervisores/validacionPromesas';
 import DescargaPromesasHistorial from './views/supervisores/descargaPromesasHistorial';
 import DescargaSinContactoHistorial from './views/supervisores/descargaSinContactoHistorial';
+import ArchivosMasivoGestiones from './views/supervisores/archivosMasivoGestiones';
+import BuscarTitularesNumero from './views/gestores/buscarTitularesNumero';
 
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
             <Route exact path='/CLTKM_FRONT/supervisores/validacionPromesas' Component={ValidacionPromesas}/>
             <Route exact path='/CLTKM_FRONT/supervisores/historialPromesas' Component={DescargaPromesasHistorial}/>
             <Route exact path='/CLTKM_FRONT/supervisores/historialSinContacto' Component={DescargaSinContactoHistorial}/>
+            <Route exact path='/CLTKM_FRONT/supervisores/archivosParaGestiones' Component={ArchivosMasivoGestiones}/>
 
             <Route exact path='/CLTKM_FRONT/gestores/menu' Component={MenuGestores}/>
             <Route exact path='/CLTKM_FRONT/gestores/insertarPlanPago' Component={InsertarPlanes}/>
@@ -45,7 +48,7 @@ function App() {
             <Route exact path='/CLTKM_FRONT/gestores/revisarPPGestor' Component={RevisarPPGest}/>
             {/* <Route exact path='/CLTKM_FRONT/gestores/operacionGestion/:clienteUnico/:telefonoTitular' Component={OperacionGestion}/> */}
             <Route exact path='/CLTKM_FRONT/gestores/operacionGestion/:datos' Component={OperacionGestion}/>
-            
+            <Route exact path='/CLTKM_FRONT/gestores/buscarTitularPorNumero' Component={BuscarTitularesNumero}/>
             
           </Routes>
         </BrowserRouter>
