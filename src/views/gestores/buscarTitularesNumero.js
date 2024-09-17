@@ -116,28 +116,36 @@ const Consulta=()=>{
                 servicio.consumirServiciosGET("service/carteraLocal/consultarTitularPorNumero/"+telefonoBus).then(
                     data=>{
                         if(data.code===1){
-                            if(data.data.length>0){
-                                let res=[]
-                                let bandera=1;
-                                data.data.forEach(function(element){
-                                    let json={
-                                        "id":bandera,
-                                        "cliente_UNICO":element.cliente_UNICO,
-                                        "nombre_CTE":element.nombre_CTE,
-                                        "saldo_TOTAL":element.saldo_TOTAL,
-                                        "telefono1":element.telefono1,
-                                        "telefono2":element.telefono2,
-                                        "telefono3":element.telefono3,
-                                        "telefono4":element.telefono4,
-                                        "tipocarteratkm":element.tipocarteratkm
-                                    }
-                                    res.push(json);
-                                    bandera=bandera+1;
-                                })
+                            let vienData=data.hasOwnProperty('data')
+                            if(vienData===true){
+                                if(data.data.length>0){
+                                    
+                                    let res=[]
+                                    let bandera=1;
+                                    data.data.forEach(function(element){
+                                        let json={
+                                            "id":bandera,
+                                            "cliente_UNICO":element.cliente_UNICO,
+                                            "nombre_CTE":element.nombre_CTE,
+                                            "saldo_TOTAL":element.saldo_TOTAL,
+                                            "telefono1":element.telefono1,
+                                            "telefono2":element.telefono2,
+                                            "telefono3":element.telefono3,
+                                            "telefono4":element.telefono4,
+                                            "tipocarteratkm":element.tipocarteratkm
+                                        }
+                                        res.push(json);
+                                        bandera=bandera+1;
+                                    })
 
-                                setResultadosTabla(res);
-                                setMostrarTabla(false);
-                                handleCloseCargando();
+                                    setResultadosTabla(res);
+                                    setMostrarTabla(false);
+                                    handleCloseCargando();
+                                }
+                                else{
+                                    handleCloseCargando();
+                                    handleOpenInfo("No se obtuvieron datos del numero, favor de validar y volver a intentar");
+                                }
                             }
                             else{
                                 handleCloseCargando();
