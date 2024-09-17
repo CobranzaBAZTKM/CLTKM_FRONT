@@ -119,7 +119,6 @@ const Consulta=()=>{
                             let vienData=data.hasOwnProperty('data')
                             if(vienData===true){
                                 if(data.data.length>0){
-                                    
                                     let res=[]
                                     let bandera=1;
                                     data.data.forEach(function(element){
