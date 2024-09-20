@@ -53,8 +53,8 @@ export default class Servicios extends Component{
 
     }
 
-    consultarCUServicioGET(cu){
-        const response=fetch("http://172.16.201.6:8080/api/v1/msvc-template/service/carteraLocal/consultarClienteUnico/"+cu,{
+    consultarServicioGETLlamadas(endPoint){
+        const response=fetch("http://172.16.201.6:8080/api/v1/msvc-template/"+endPoint,{
             method:"GET",
             cache: "no-cache",
             // headers:{

@@ -96,6 +96,13 @@ const Gestion=(props)=>{
     const [telefono,setTelefono]=useState(null);
     const [idTipificacion, setIdTipificacion]=useState(null);
     const [comentario, setComentario]=useState(null);
+    const [gestion1, setGestion1]=useState(null);
+    const [gestion2, setGestion2]=useState(null);
+    const [gestion3, setGestion3]=useState(null);
+    const [gestion4, setGestion4]=useState(null);
+    const [gestion5, setGestion5]=useState(null);
+    const [banderaGestion, setBanderaGestion]=useState(true);
+
 
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
     const [mensajeModalInfo, setMensajeModalInfo]=useState(null);
@@ -107,11 +114,12 @@ const Gestion=(props)=>{
             let telefonoOb=datosObtenidos[1].split("=");
             setClienteUnico(clienteUnicoOb[1]);
             setTelefono(telefonoOb[1])
-            servicio.consultarCUServicioGET(clienteUnicoOb[1]).then(
+            servicio.consultarServicioGETLlamadas("service/carteraLocal/consultarClienteUnico/"+clienteUnicoOb[1]).then(
                 data=>{
                     if(data.code===1){
                         setCuenta(data.data);
                         console.log(data.data);
+                        buscarGestion(telefonoOb[1]);
                     }
                 }
             )
@@ -123,6 +131,69 @@ const Gestion=(props)=>{
         //     }
         // })
     })
+
+    const buscarGestion=(telefono)=>{
+
+        servicio.consultarServicioGETLlamadas("service/operacion/gestionllamadas/consultarGestionLlamadasNumero/"+telefono).then(
+            data=>{
+                if(data.code===1){
+                    let valData=data.hasOwnProperty('data')
+                    if(valData===true){
+                        if(data.data.length>0){
+                            let gestiones=[];
+                            data.data.forEach(function(element){
+                                let nombreTip="";
+                                props.tipificaciones.forEach(function(element2){
+                                    if(element.idTipificacion===element2.id){
+                                        nombreTip=element2.tipificacion;
+                                    }
+                                })
+                                gestiones.push(element.fechaInserto+", "+nombreTip);
+                            })
+
+                            if(gestiones.length===1){
+                                setGestion1(gestiones[0]);
+                                setBanderaGestion(false);
+                            }else if(gestiones.length===2){
+                                setGestion1(gestiones[1]);
+                                setGestion2(gestiones[0]);
+                                setBanderaGestion(false);
+                            }else if(gestiones.length===3){
+                                setGestion1(gestiones[2]);
+                                setGestion2(gestiones[1]);
+                                setGestion3(gestiones[0]);
+                                setBanderaGestion(false);
+                            }else if(gestiones.length===4){
+                                setGestion1(gestiones[3]);
+                                setGestion2(gestiones[2]);
+                                setGestion3(gestiones[1]);
+                                setGestion4(gestiones[0]);
+                                setBanderaGestion(false);
+                            }else if(gestiones.length===5){
+                                setGestion1(gestiones[4]);
+                                setGestion2(gestiones[3]);
+                                setGestion3(gestiones[2]);
+                                setGestion4(gestiones[1]);
+                                setGestion5(gestiones[0]);
+                                setBanderaGestion(false);
+                            }else{
+                                setGestion1(gestiones[gestiones.length-1]);
+                                setGestion2(gestiones[gestiones.length-2]);
+                                setGestion3(gestiones[gestiones.length-3]);
+                                setGestion4(gestiones[gestiones.length-4]);
+                                setGestion5(gestiones[gestiones.length-5]);
+                                setBanderaGestion(false);
+                            }
+                        }
+                    }
+                        
+                }
+            }
+        )
+
+
+
+    }
 
     const handleOpenInfo = (mensaje) => {
         setMensajeModalInfo(mensaje);
@@ -242,7 +313,21 @@ const Gestion=(props)=>{
             ):(<></>)}
 
             <Grid container spacing={1}>
-                <Grid item xl={4} lg={4} md={4} sm={4}/>
+                <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
+                <Grid item xl={3} lg={3} md={3} sm={3} hidden={!banderaGestion}/>
+                <Grid item xl={3} lg={3} md={3} sm={3} hidden={banderaGestion} className="bordeTarjeta">
+                    <p><strong style={{color:'#06AA0D'}}>GESTION 1: </strong>{gestion1}</p>
+                   
+                    <p><strong style={{color:'#06AA0D'}}>GESTION 2: </strong>{gestion2}</p>
+                   
+                    <p><strong style={{color:'#06AA0D'}}>GESTION 3: </strong>{gestion3}</p>
+                    
+                    <p><strong style={{color:'#06AA0D'}}>GESTION 4: </strong>{gestion4}</p>
+                   
+                    <p><strong style={{color:'#06AA0D'}}>GESTION 5: </strong>{gestion5}</p>
+                   
+                </Grid>
+                <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
                 <Grid item xl={4} lg={4} md={4} sm={4}  style={{textAlign:'center'}}>
                     <br/>
                     <Autocomplete 
