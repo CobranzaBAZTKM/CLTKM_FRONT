@@ -316,16 +316,12 @@ const Gestion=(props)=>{
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
                 <Grid item xl={3} lg={3} md={3} sm={3} hidden={!banderaGestion}/>
                 <Grid item xl={3} lg={3} md={3} sm={3} hidden={banderaGestion} className="bordeTarjeta">
+                    <p><strong style={{color:'#06AA0D'}}>GESTIONES ANTERIORES </strong></p>
                     <p><strong style={{color:'#06AA0D'}}>GESTION 1: </strong>{gestion1}</p>
-                   
                     <p><strong style={{color:'#06AA0D'}}>GESTION 2: </strong>{gestion2}</p>
-                   
                     <p><strong style={{color:'#06AA0D'}}>GESTION 3: </strong>{gestion3}</p>
-                    
                     <p><strong style={{color:'#06AA0D'}}>GESTION 4: </strong>{gestion4}</p>
-                   
                     <p><strong style={{color:'#06AA0D'}}>GESTION 5: </strong>{gestion5}</p>
-                   
                 </Grid>
                 <Grid item xl={.5} lg={.5} md={.5} sm={.5}/>
                 <Grid item xl={4} lg={4} md={4} sm={4}  style={{textAlign:'center'}}>
