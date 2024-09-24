@@ -148,7 +148,7 @@ const Gestion=(props)=>{
                                         nombreTip=element2.tipificacion;
                                     }
                                 })
-                                gestiones.push(element.fechaInserto+", "+nombreTip);
+                                gestiones.push(element.fechaInserto+" | "+nombreTip+" | "+element.comentario);
                             })
 
                             if(gestiones.length===1){
