@@ -133,7 +133,7 @@ const Speeche=(props)=>{
     }
 
     const handleOnClickBuscarCU=()=>{
-        servicio.consultarCUServicioGET(clienteUnico).then(
+        servicio.consultarServicioGETLlamadas("service/carteraLocal/consultarClienteUnico/"+clienteUnico).then(
             data=>{
                 if(data.code===1){
                     if(data.data.cliente_UNICO!==null){
