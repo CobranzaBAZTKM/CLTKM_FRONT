@@ -27,6 +27,30 @@ const opcionesTipoCartera=[
         id:4,
         valor: "Diez Años"
     },
+    {
+        id:5,
+        valor: "Abandonados"
+    },
+    {
+        id:6,
+        valor: "Implant"
+    },
+    {
+        id:7,
+        valor: "TAZ"
+    },
+    {
+        id:8,
+        valor: "TOR"
+    },
+    {
+        id:9,
+        valor: "Saldos Altos"
+    },
+    {
+        id:10,
+        valor: "Italika"
+    },
 ]
 
 export default class DescargaPromesasHistorial extends React.Component{
@@ -83,12 +107,18 @@ const DescargaHistorialPromesas=()=>{
                 
                 data=>{
                     if(data.code===1){
-                        let respuesta=null;
-                        respuesta=descargarExcel.descargarExcel(data.data,"Promesas_Historial_"+nombretTipoCartera);
-                        if(respuesta!==null){
-                            handleCloseCargando();
-                            handleOpenInfo(respuesta);
+                        
+                        if(data.hasOwnProperty('data')){
+                            descargaArchivo(data.data)
                         }
+
+                        // let respuesta=null;
+                        // respuesta=descargarExcel.descargarExcel(data.data,"Promesas_Historial_"+nombretTipoCartera);
+
+                        // if(respuesta!==null){
+                        //     handleCloseCargando();
+                        //     handleOpenInfo(respuesta);
+                        // }
                         
                     }else{
                         handleCloseCargando();
@@ -98,6 +128,71 @@ const DescargaHistorialPromesas=()=>{
             )
         }else{
             handleOpenInfo("Favor de elegir un tipo de cartera");
+        }
+    }
+
+    const descargaArchivo=(datos)=>{
+        let arreglo=[];
+        datos.forEach(function(element){
+            let json={
+                "CLIENTE_UNICO":element.cliente_UNICO,
+                "NOMBRE_CTE":element.nombre_CTE,
+                "RFC_CTE":element.rfc_CTE,                
+                "GENERO_CLIENTE":element.genero_CLIENTE,                
+                "EDAD_CLIENTE":element.edad_CLIENTE,
+                "DIRECCION_CTE":element.direccion_CTE,
+                "NUM_EXT_CTE":element.num_EXT_CTE,
+                "NUM_INT_CTE":element.num_INT_CTE,                
+                "CP_CTE":element.cp_CTE,
+                "COLONIA_CTE":element.colonia_CTE,                
+                "POBLACION_CTE":element.poblacion_CTE,                
+                "ESTADO_CTE":element.estado_CTE,
+                "TERRITORIO":element.territorio,                
+                "DIQUE":element.dique,                
+                "ATRASO_MAXIMO":element.atraso_MAXIMO,
+                "DIAS_ATRASO":element.dias_ATRASO,
+                "SALDO":element.saldo,                
+                "MORATORIOS":element.moratorios,
+                "SALDO_TOTAL":element.saldo_TOTAL,                
+                "SALDO_ATRASADO":element.saldo_ATRASADO,
+                "SALDO_REQUERIDO":element.saldo_REQUERIDO,                
+                "PAGO_PUNTUAL":element.pago_PUNTUAL,                
+                "PAGO_NORMAL":element.pago_NORMAL,
+                "PRODUCTO":element.producto,                
+                "FECHA_ULTIMO_PAGO":element.fecha_ULTIMO_PAGO,
+                "IMP_ULTIMO_PAGO":element.imp_ULTIMO_PAGO,
+                "FIDIAPAGO":element.fidiapago,
+                "TELEFONO1":element.telefono1,
+                "TELEFONO2":element.telefono2,
+                "TELEFONO3":element.telefono3,
+                "TELEFONO4":element.telefono4,
+                "TIPOTEL1":element.tipotel1,
+                "TIPOTEL2":element.tipotel2,
+                "TIPOTEL3":element.tipotel3,
+                "TIPOTEL4":element.tipotel4,
+                "CAMPANIA_RELAMPAGO":element.campania_RELAMPAGO,
+                "CAMPANIA":element.campania,                
+                "TIPO_CARTERA":element.tipo_CARTERA,                
+                "ID_GRUPO":element.id_GRUPO,
+                "GRUPO_MAZ":element.grupo_MAZ,
+                "CLAVE_SPEI":element.clave_SPEI,                
+                "PAGOS_CLIENTE":element.pagos_CLIENTE,
+                "MONTO_PROMESA_PAGO":element.monto_PROMESA_PAGO,
+                "SEGMENTO":element.segmento,                
+                "TIPO_CARTERA_TKM":element.tipocarteratkm,
+                "FECHA_INSER_LOCAL":element.fecha_INSER_LOCAL,
+                "MONTO_PROMESA":element.estatus_PROMESA_PAGO,
+            }
+            arreglo.push(json);
+
+        })
+
+        let respuesta=null;
+        respuesta=descargarExcel.descargarExcel(arreglo,"Promesas_Historial_"+nombretTipoCartera);
+
+        if(respuesta!==null){
+            handleCloseCargando();
+            handleOpenInfo(respuesta);
         }
     }
 
