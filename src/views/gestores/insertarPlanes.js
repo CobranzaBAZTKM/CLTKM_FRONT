@@ -66,11 +66,6 @@ const tipoCarteraOpcion=[
         texto:"Territorios",
     },
     {
-        id:5,
-        valor:"DiezYears",
-        texto:"Diez Años",
-    },
-    {
         id:6,
         valor:"Abandonados",
         texto:"Abandonados",
@@ -152,9 +147,8 @@ const ColocarPromesas=(props)=>{
     const hoyDate = dayjs().add(0, 'day');
     const dosDiasDate=dayjs().add(2, 'day');
     // const tresDiasDate=dayjs().add(3, 'day');
-
     const [fechaPago, setFechaPago]=useState(null);
-    const [fechaVencePlan, setFechaVencePlan]=useState(null);
+    // const [fechaVencePlan, setFechaVencePlan]=useState(null);
     const [folio, setFolio]=useState(null);
     const [montoPago, setMontoPago]=useState(null);
     const [nombreCliente, setNombreCliente]=useState(null);
@@ -174,6 +168,9 @@ const ColocarPromesas=(props)=>{
     const [montoSemanal,setMontoSemanal]=useState(null);
 
     const [clienteUnicoInser,setClienteUnicoInser]=useState(null);
+
+    const [banderaCu,setBanderaCu]=useState(0);
+    const [tels, setTels]=useState([]);
 
     const [idSuperAut, setIdSuperAut]=useState("0");
     const [passSuperAut,setPassSuperAut]=useState(null);
@@ -236,11 +233,11 @@ const ColocarPromesas=(props)=>{
         setFechaPago(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
     }
     
-    const handleOnChangeFechaVencePlan=(event)=>{
-        let fechaRecuperado=String(event)
-        let preparandoFecha =fechaRecuperado.split(" ");
-        setFechaVencePlan(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
-    }
+    // const handleOnChangeFechaVencePlan=(event)=>{
+    //     let fechaRecuperado=String(event)
+    //     let preparandoFecha =fechaRecuperado.split(" ");
+    //     setFechaVencePlan(preparandoFecha[1]+"/"+preparandoFecha[2]+"/"+preparandoFecha[3])
+    // }
 
     const handleOnChangeFolio=(event)=>{
         setFolio(event.target.value);
@@ -262,8 +259,13 @@ const ColocarPromesas=(props)=>{
         setClienteUnico(event.target.value);
     }
 
-    const handleOnChangeTelefono=(event)=>{
-        setTelefono(event.target.value);
+    const handleOnChangeTelefono=(event,newValue)=>{
+        // setTelefono(event.target.value);
+        if(newValue===null){
+            setTelefono(null);
+        }else{
+            setTelefono(newValue.telefono);
+        }
     }
 
     const handleOnChangeGestor=(event,newValue)=>{
@@ -320,7 +322,7 @@ const ColocarPromesas=(props)=>{
             handleOpenInfo("Favor de revisar que el campo telefono cuente con 10 digitos");
         // }else if(fechaIngPP===null||fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){
         // }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null){ 
-        }else if(fechaPago===null||fechaVencePlan===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null||tipoCartera===null||montoSemanal===null){       
+        }else if(fechaPago===null||folio===null||montoPago===null||nombreCliente===null||clienteUnico===null||telefono===null||conWhatsApp===null||tipoLlamada===null||tipoCartera===null||montoSemanal===null){       
             handleClose();
             handleOpenInfo("Favor de revisar que todos los campos esten llenos correctamente");
         }
@@ -335,16 +337,16 @@ const ColocarPromesas=(props)=>{
             // if(fechaPago===valHoy||fechaPago===valD1||fechaPago===valD2||fechaPago===valD3){
                 // if(parseFloat(montoPago)>=800||idGestorTKM===3||idGestorTKM===7||idGestorTKM===12||idGestorTKM===14||idGestorTKM===15||idGestorTKM===16||idGestorTKM===19||idGestorTKM===20||idGestorTKM===40||idGestorTKM===46){
                 if(parseFloat(montoPago)>=800){
-                    let cuDiv=clienteUnico.split("-");
-                    let sucursalCU=cuDiv[1].split("");
+                    // let cuDiv=clienteUnico.split("-");
+                    // let sucursalCU=cuDiv[1].split("");
 
-                    if(sucursalCU[0]!=="0"&&sucursalCU[0]!==0){
-                        handleClose();
-                        handleOpenInfo("Favor de revisar que el Cliente Unico tenga el formato correcto");
-                    }else{
+                    // if(sucursalCU[0]!=="0"&&sucursalCU[0]!==0){
+                    //     handleClose();
+                    //     handleOpenInfo("Favor de revisar que el Cliente Unico tenga el formato correcto");
+                    // }else{
                         handleClose();
                         handleOpenSiNo("¿Esta seguro de insertar la Promesa?");
-                    }
+                    // }
                 }else{
                     handleClose();
                     handleOpenInfo("La promesa no puede ser menor a 800 pesos");
@@ -363,7 +365,7 @@ const ColocarPromesas=(props)=>{
 
     const handleOnClickInsertarPromesa=()=>{ 
         let cuDivi=clienteUnico.split("-");
-        let sucursalCU=cuDivi[1];
+        let sucursalCU="0"+cuDivi[1];
         let folioCU=cuDivi.length===3?cuDivi[2]:cuDivi[2]+cuDivi[3]
         let paisCanalCUDiv=cuDivi[0].split("");
         let paisCU=paisCanalCUDiv[1];
@@ -437,7 +439,7 @@ const ColocarPromesas=(props)=>{
         let json={
             "fechaIngesoPP":fechaIngreso,
             "fechaPago":fechaPago,
-            "fechaVencimientoPP":fechaVencePlan,
+            "fechaVencimientoPP":fechaPago,
             "folio":folio,
             "montoPago":montoPago,
             "nombreCliente":nombreCliente,
@@ -477,8 +479,10 @@ const ColocarPromesas=(props)=>{
                     // document.getElementById("whatsApp").value="";
                     // document.getElementById("adicional").value="";
                     document.getElementById("tipoLlamadaAutocomplete").value="";
+                    setBanderaCu(0);
                     setObservaciones(null);
                     setAdicional(null);
+
 
                 }else{
                     handleCloseSiNo();
@@ -495,7 +499,86 @@ const ColocarPromesas=(props)=>{
 
     const handleOnChangePasswAutoriza=(event)=>{
         setPassSuperAut(event.target.value);
-        
+    }
+
+    const handleClickBuscarTitular=()=>{
+        handleOpen();
+        if(clienteUnico!==null&&clienteUnico!==""){
+            let separarCU=clienteUnico.split("-")
+            if(separarCU.length=3){
+                let paisCanal=separarCU[0].split("");
+                let sucCompl=separarCU[1].split("");
+                let folio=separarCU[2];
+
+                let pais=paisCanal[1];
+                let canal=paisCanal[2]==="0"?paisCanal[3]:paisCanal[2]+paisCanal[3];
+                let sucursal=sucCompl[0]==="0"?sucCompl[1]+sucCompl[2]+sucCompl[3]:sucCompl[0]+sucCompl[1]+sucCompl[2]+sucCompl[3];
+                let cu=pais+"-"+canal+"-"+sucursal+"-"+folio;
+
+
+                servicio.consultarServicioGETLlamadas("service/carteraLocal/consultarClienteUnico/"+cu).then(
+                    data=>{
+                        if(data.code===1){
+                            if(data.data.cliente_UNICO!==null){                                
+                                setNombreCliente(data.data.nombre_CTE);
+                                setTipoCartera(data.data.tipocarteratkm);
+                                let telefonos=[];
+                                let tel1={
+                                    "valor":1,
+                                    "telefono":data.data.telefono1
+                                }
+                                let tel2={
+                                    "valor":2,
+                                    "telefono":data.data.telefono2
+                                }
+                                let tel3={
+                                    "valor":3,
+                                    "telefono":data.data.telefono3
+                                }
+                                let tel4={
+                                    "valor":4,
+                                    "telefono":data.data.telefono4
+                                }
+                                telefonos.push(tel1);
+                                telefonos.push(tel2);
+                                telefonos.push(tel3);
+                                telefonos.push(tel4);
+                                setTels(telefonos);
+                                handleClose();
+                                setBanderaCu(1);
+                            }else{
+                                handleClose();
+                                handleOpenInfo("Favor de validar el Cliente Unico, no se obtuvieron datos");
+                            }
+                        }else{
+                            handleClose();
+                            handleOpenInfo("Ocurrio algo inesperado, favor de avisar al supervisor");
+                        }
+                    }
+                )
+            }else{
+                handleClose();
+                handleOpenInfo("Favor de validar el Cliente Unico, no se encontraron resultados");  
+            }
+        }else{
+            handleClose();
+            handleOpenInfo("Favor de validar el Cliente Unico, no se encontraron resultados");        
+        }
+    }
+
+    const handleClickLimpieza=()=>{
+        setBanderaCu(0);
+        document.getElementById("folio").value="";
+        document.getElementById("montoPago").value="";
+        document.getElementById("nombreCliente").value="";
+        document.getElementById("clienteUnico").value="";
+        document.getElementById("telefono").value="";
+        document.getElementById("observaciones").value="";
+        // document.getElementById("whatsApp").value="";
+        // document.getElementById("adicional").value="";
+        document.getElementById("tipoLlamadaAutocomplete").value="";
+        setObservaciones(null);
+        setAdicional(null);
     }
 
     const handleClickRegresasr=()=>{
@@ -559,100 +642,6 @@ const ColocarPromesas=(props)=>{
                     <br/> */}
                     <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>FECHA DE PAGO</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker 
-                                    label="Selecciona Fecha" 
-                                    minDate={hoyDate}
-                                    // maxDate={tresDiasDate}
-                                    maxDate={dosDiasDate}
-                                    onChange={handleOnChangeFechaPago}
-                                    // onChange={(datePago)=>setFechaPago(datePago)}
-                                />
-                            </LocalizationProvider>
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>                  
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>FECHA QUE VENCE EL PLAN</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DatePicker 
-                                    disablePast
-                                    label="Selecciona Fecha" 
-                                    onChange={handleOnChangeFechaVencePlan}
-                                    //onChange={(dateVencePP)=>setFechaVencePlan(dateVencePP)}
-                                />
-                            </LocalizationProvider>
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid> 
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>FOLIO</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField
-                                id="folio"
-                                label="Folio" 
-                                onChange={handleOnChangeFolio}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>  
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>MONTO INICIAL</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
-                                id="montoPago" 
-                                label="Monto Pago"
-                                type="number"
-                                onChange={handleOnChangeMontoPago}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid> 
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>MONTO SEMANAL</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
-                                id="montoSemanal" 
-                                label="Monto Semanal"
-                                type="number"
-                                onChange={handleOnChangeMontoSemanal}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid> 
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>NOMBRE DEL CLIENTE</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
-                                id="nombreCliente" 
-                                label="Nombre del Cliente"  
-                                onChange={handleOnChangeNombreCliente}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>        
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>CLIENTE UNICO</strong></p>
                         </Grid>
                         <Grid item xl={4} lg={4} md={4} sm={4}>
@@ -673,51 +662,219 @@ const ColocarPromesas=(props)=>{
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid> 
                     <br/>
+                    {banderaCu===0?(
+                        <>
+                        <Grid container spacing={1}>
+                            <Grid item xl={12} lg={12} md={12} sm={12} textAlign={'left'}>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    size="large"
+                                    style={{height:"50px",width:"200px"}}
+                                    // startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                                    onClick={()=>{handleClickBuscarTitular()}}
+                                >
+                                    Buscar datos      
+                                </Button>
+                            </Grid>               
+                        </Grid>
+                        <br/>
+                        </>
+                        ):(
+                        <>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>FECHA DE PAGO</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DatePicker 
+                                        label="Selecciona Fecha" 
+                                        minDate={hoyDate}
+                                        // maxDate={tresDiasDate}
+                                        maxDate={dosDiasDate}
+                                        onChange={handleOnChangeFechaPago}
+                                        // onChange={(datePago)=>setFechaPago(datePago)}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>                  
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>FOLIO</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <TextField
+                                    id="folio"
+                                    label="Folio" 
+                                    onChange={handleOnChangeFolio}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>  
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>MONTO INICIAL</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <TextField 
+                                    id="montoPago" 
+                                    label="Monto Pago"
+                                    type="number"
+                                    onChange={handleOnChangeMontoPago}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid> 
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>MONTO SEMANAL</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <TextField 
+                                    id="montoSemanal" 
+                                    label="Monto Semanal"
+                                    type="number"
+                                    onChange={handleOnChangeMontoSemanal}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid> 
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>NOMBRE DEL CLIENTE</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <TextField 
+                                    id="nombreCliente" 
+                                    label="Nombre del Cliente"  
+                                    defaultValue={nombreCliente}
+                                    style={{width:"300px"}}
+                                    disabled
+                                    // onChange={handleOnChangeNombreCliente}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>        
+                        <br/>                    
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>TELEFONO A 10 DIGITOS</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <Autocomplete 
+                                    id="telefono"          
+                                    options={tels}
+                                    getOptionLabel={(option) => option.telefono}                                    
+                                    renderInput={(params) => <TextField {...params} label="Telefono" variant="outlined" />}
+                                    onChange={handleOnChangeTelefono}
+                                />
+                                {/* <TextField 
+                                    id="telefono" 
+                                    label="Telefono" 
+                                    type="number"
+                                    onChange={handleOnChangeTelefono}
+                                /> */}
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid> 
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>GESTOR</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <Autocomplete 
+                                    id="Gestor"          
+                                    options={props.gestores}
+                                    getOptionLabel={(option) => option.nombreGestor}
+                                    renderInput={(params) => <TextField {...params} label="Gestor" variant="outlined" />}
+                                    onChange={handleOnChangeGestor}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>  
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>OBSERVACIONES</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <TextField 
+                                    id="observaciones" 
+                                    label="Observaciones" 
+                                    onChange={handleOnChangeObservaciones}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>
+                        <br/>
+                        
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>TIPO LLAMADA</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                <Autocomplete 
+                                    id="tipoLlamadaAutocomplete"          
+                                    options={tipoLlamadaOpcion}
+                                    getOptionLabel={(option) => option.valor}
+                                    renderInput={(params) => <TextField {...params} label="Tipo Llamada" variant="outlined" />}
+                                    onChange={handleOnChangeTipoLlamada}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>  
+                        <br/>
+                        <Grid container spacing={1}>
+                            <Grid item xl={2} lg={2} md={2} sm={2}>
+                                <p><strong>TIPO CARTERA</strong></p>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                                {/* <Autocomplete 
+                                    id="tipoCarteraAutocomplete"          
+                                    options={tipoCarteraOpcion}
+                                    getOptionLabel={(option) => option.texto}
+                                    renderInput={(params) => <TextField {...params} label="Tipo Cartera" variant="outlined" />}
+                                    onChange={handleOnChangeTipoCartera}
+                                /> */}
+                                <TextField 
+                                    id="tipoCartera" 
+                                    label="Tipo Cartera"  
+                                    defaultValue={tipoCartera}
+                                    disabled
+                                    // onChange={handleOnChangeNombreCliente}
+                                />
+                            </Grid>  
+                            <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
+                        </Grid>  
+                        <br/>
+                        </>
+                        )
+                    }
+
+                    {/* <br/>
                     <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>TELEFONO A 10 DIGITOS</strong></p>
+                            <p><strong>FECHA QUE VENCE EL PLAN</strong></p>
                         </Grid>
                         <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
-                                id="telefono" 
-                                label="Telefono" 
-                                type="number"
-                                onChange={handleOnChangeTelefono}
-                            />
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DatePicker 
+                                    disablePast
+                                    label="Selecciona Fecha" 
+                                    onChange={handleOnChangeFechaVencePlan}
+                                    //onChange={(dateVencePP)=>setFechaVencePlan(dateVencePP)}
+                                />
+                            </LocalizationProvider>
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid> 
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>GESTOR</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <Autocomplete 
-                                id="Gestor"          
-                                options={props.gestores}
-                                getOptionLabel={(option) => option.nombreGestor}
-                                renderInput={(params) => <TextField {...params} label="Gestor" variant="outlined" />}
-                                onChange={handleOnChangeGestor}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>  
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>OBSERVACIONES</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <TextField 
-                                id="observaciones" 
-                                label="Observaciones" 
-                                onChange={handleOnChangeObservaciones}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>
-                    <br/>
+                    </Grid>  */}
                     {/* <Grid container spacing={1}>
                         <Grid item xl={2} lg={2} md={2} sm={2}>
                             <p><strong>CON WHATSAPP</strong></p>
@@ -757,63 +914,47 @@ const ColocarPromesas=(props)=>{
                         </Grid>  
                         <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                     </Grid>
-                    <br/> */}
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>TIPO LLAMADA</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <Autocomplete 
-                                id="tipoLlamadaAutocomplete"          
-                                options={tipoLlamadaOpcion}
-                                getOptionLabel={(option) => option.valor}
-                                renderInput={(params) => <TextField {...params} label="Tipo Llamada" variant="outlined" />}
-                                onChange={handleOnChangeTipoLlamada}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>  
-                    <br/>
-                    <Grid container spacing={1}>
-                        <Grid item xl={2} lg={2} md={2} sm={2}>
-                            <p><strong>TIPO CARTERA</strong></p>
-                        </Grid>
-                        <Grid item xl={4} lg={4} md={4} sm={4}>
-                            <Autocomplete 
-                                id="tipoCarteraAutocomplete"          
-                                options={tipoCarteraOpcion}
-                                getOptionLabel={(option) => option.texto}
-                                renderInput={(params) => <TextField {...params} label="Tipo Cartera" variant="outlined" />}
-                                onChange={handleOnChangeTipoCartera}
-                            />
-                        </Grid>  
-                        <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
-                    </Grid>  
-                    <br/>
-
-
-                  
+                    <br/> */}                  
                 </Grid>
-
                 <Grid item xl={2} lg={2} md={2} sm={2}/>
             </Grid>
 
-            <Grid container spacing={1}>
-                <Grid item xl={12} lg={12} md={12} sm={12} textAlign={'center'}>
-                    <Button
-                        variant="contained"
-                        color="success"
-                        size="large"
-                        style={{height:"50px",width:"200px"}}
-                        // startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
-                        onClick={()=>{handleClickGuardar()}}
 
-                    >
-                        Guardar Informacion                 
-                    </Button>
-                
-                </Grid>               
-            </Grid>
+            {banderaCu!==0?(<>
+                <Grid container spacing={1}>
+                    <Grid item xl={1} lg={1} md={1} sm={1}/>
+                    <Grid item xl={.5} lg={.5} md={.5} sm={.5} textAlign={'center'}>
+                        <Button
+                            variant="contained"
+                            color="warning"
+                            size="large"
+                            style={{height:"50px",width:"200px"}}
+                            // startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                            onClick={()=>{handleClickLimpieza()}}
+                        >
+                            Limpiar Datos                 
+                        </Button>
+                    </Grid>
+                    <Grid item xl={3.5} lg={3.5} md={3.5} sm={3.5}/>
+                    <Grid item xl={2} lg={2} md={2} sm={2} textAlign={'center'}>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="large"
+                            style={{height:"50px",width:"200px"}}
+                            // startIcon={<DownloadIcon style={{height:"40px",width:"50px"}} />}
+                            onClick={()=>{handleClickGuardar()}}
+
+                        >
+                            Guardar Informacion                 
+                        </Button>
+                    
+                    </Grid> 
+                    <Grid item xl={5} lg={5} md={5} sm={5}/>              
+                </Grid>
+                </>
+                ):(<></>)
+            }
             <br/><br/>
 
             <div>
@@ -844,7 +985,7 @@ const TextMaskCustom = (props) => {
     return (
       <IMaskInput
         {...other}
-        mask="0000-00000-0000-0000"
+        mask="0000-0000-0000000"
         definitions={{
           "#": /[1-9]/,
         }}

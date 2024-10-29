@@ -30,7 +30,7 @@ const opcionesFecha=[
     },
     {
         id:3,
-        valor: "Fecha que vence el plan"
+        valor: "Fecha de Ultimo Pago"
     }
 ]
 
@@ -65,7 +65,7 @@ const columnas=[
     },
     {
         field:"fechaVencimientoPP",
-        headerName: "Fecha de Vencimiento PP",
+        headerName: "Fecha de Ultimo Pago",
         width:150,
         editable:false,
     },
@@ -193,10 +193,6 @@ const opcionesTipoCartera=[
     {
         id:3,
         valor: "Territorios"
-    },
-    {
-        id:4,
-        valor: "DiezYears"
     },
     {
         id:5,
@@ -750,7 +746,7 @@ const SupervisarPP=(props)=>{
     const buscarGestiones=()=>{
         if(promesasPuras.length!==0){
             if(cookieBusq!==null&&cookieBusq!==""){
-                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"&&tipoCarteraBusq!=="Territorios"&&tipoCarteraBusq!=="DiezYears"&&tipoCarteraBusq!=="Abandonados"&&tipoCarteraBusq!=="Implant"&&tipoCarteraBusq!=="TAZ"&&tipoCarteraBusq!=="TOR"&&tipoCarteraBusq!=="SaldosAltos"&&tipoCarteraBusq!=="Italika"){
+                if(tipoCarteraBusq!==null&&tipoCarteraBusq!=="Ciceron"&&tipoCarteraBusq!=="Territorios"&&tipoCarteraBusq!=="Abandonados"&&tipoCarteraBusq!=="Implant"&&tipoCarteraBusq!=="TAZ"&&tipoCarteraBusq!=="TOR"&&tipoCarteraBusq!=="SaldosAltos"&&tipoCarteraBusq!=="Italika"){
 
 
                     handleOpen();

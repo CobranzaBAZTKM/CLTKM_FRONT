@@ -26,7 +26,7 @@ const opcionesFecha=[
     },
     {
         id:3,
-        valor: "Fecha que vence el plan"
+        valor: "Fecha de Ultimo Pago"
     }
 ]
 
@@ -50,7 +50,7 @@ const columnas=[
     },
     {
         field:"fechaVencimientoPP",
-        headerName: "Fecha de Vencimiento PP",
+        headerName: "Fecha de Ultimo Pago",
         width:150,
         editable:false,
     },
@@ -540,7 +540,7 @@ const RevisarPromesasGes=(props)=>{
                 "nota":estatusAct,
                 "pagoFinal":pagoAct,
                 "fechaPago":fechaPagoAct,
-                "fechaVencimientoPP":fechaPagoAct,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
                 "recurrencia":"Seguimiento",
                 "montoPago":montoPagoAct
 
@@ -552,7 +552,7 @@ const RevisarPromesasGes=(props)=>{
                 "nota":estatusAct,
                 "pagoFinal":elegible210i2e,
                 "fechaPago":fechaPagoAct,
-                "fechaVencimientoPP":fechaPagoAct,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
                 "recurrencia":"Seguimiento",
                 "montoPago":montoSemanalAct
 
@@ -564,7 +564,7 @@ const RevisarPromesasGes=(props)=>{
                 "nota":elegible110i2e,
                 "pagoFinal":pagoAct,
                 "fechaPago":fechaPagoAct,
-                "fechaVencimientoPP":fechaPagoAct,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
                 "recurrencia":"Seguimiento",
                 "montoPago":montoSemanalAct
 
@@ -576,7 +576,7 @@ const RevisarPromesasGes=(props)=>{
                 "nota":estatusAct,
                 "pagoFinal":pagoAct,
                 "fechaPago":fechaPagoAct,
-                "fechaVencimientoPP":fechaPagoAct,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
                 "recurrencia":"Seguimiento",
                 "montoPago":montoSemanalAct
 
@@ -588,7 +588,7 @@ const RevisarPromesasGes=(props)=>{
                 "nota":elegible110i2e,
                 "pagoFinal":elegible210i2e,
                 "fechaPago":fechaPagoAct,
-                "fechaVencimientoPP":fechaPagoAct,
+                "fechaVencimientoPP":fechaVencimientoPPAct,
                 "recurrencia":"Seguimiento",
                 "montoPago":montoSemanalAct
             }
