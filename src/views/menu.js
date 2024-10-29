@@ -13,6 +13,8 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import BrowserUpdatedIcon from '@mui/icons-material/BrowserUpdated';
+import GradingIcon from '@mui/icons-material/Grading';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 
 
 export default class Menu extends React.Component{
@@ -33,7 +35,7 @@ const Opciones=(props)=>{
     const navigate = useNavigate()
     const handleClick=(opcion)=>{
         if(opcion===1){
-            navigate("/CLTKM_FRONT/supervisores/bajarCartera");
+            navigate("/CLTKM_FRONT/supervisores/cartera");
         }
         else if(opcion===2){
             navigate("/CLTKM_FRONT/supervisores/validacionPromesas");
@@ -61,6 +63,12 @@ const Opciones=(props)=>{
         }
         else if(opcion===10){
             navigate("/CLTKM_FRONT/supervisores/archivosParaGestiones")
+        }        
+        else if(opcion===11){
+            navigate("/CLTKM_FRONT/supervisores/layoutSemanal")
+        }
+        else if(opcion===12){
+            navigate("/CLTKM_FRONT/supervisores/avanceMomento")
         }
     }
 
@@ -100,7 +108,7 @@ const Opciones=(props)=>{
                 </Grid> 
                 <Grid item xl={1} lg={1} md={1} sm={1}></Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}>
-                    <Button
+                    {/* <Button
                         variant="outlined"
                         size="large"
                         color="success"
@@ -111,6 +119,18 @@ const Opciones=(props)=>{
                         }}
                     >
                         Descargar Reporte de Pagos
+                    </Button> */}
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        color="success"
+                        style={{height:"120px",width:"200px"}}
+                        startIcon={<CurrencyExchangeIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(2);
+                        }}
+                    >
+                        Validacion Promesas
                     </Button>
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}></Grid>                    
@@ -154,13 +174,13 @@ const Opciones=(props)=>{
                         size="large"
                         color="success"
                         style={{height:"120px",width:"200px"}}
-                        startIcon={<CurrencyExchangeIcon style={{height:"40px",width:"50px"}} />}
+                        startIcon={<BrowserUpdatedIcon style={{height:"40px",width:"50px"}} />}
                         onClick={()=>{
-                            handleClick(2);
+                            handleClick(10);
                         }}
                     >
-                        Validacion Promesas
-                    </Button>
+                        Archivos para gestiones
+                    </Button> 
                 </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}></Grid>
             </Grid>
@@ -216,26 +236,43 @@ const Opciones=(props)=>{
             <br/><br/><br/><br/>
             <Grid container spacing={1}>
                 <Grid item xl={2} lg={2} md={2} sm={2}/>
-                <Grid item xl={2} lg={2} md={2} sm={2}/>
-                <Grid item xl={1} lg={1} md={1} sm={1}/>
+                <Grid item xl={1.5} lg={1.5} md={1.5} sm={1.5}>
+                   
+                </Grid>
+                {/* <Grid item xl={1} lg={1} md={1} sm={1}/> */}
                 <Grid item xl={2} lg={2} md={2} sm={2}>
                     <Button
                         variant="outlined"
                         size="large"
                         color="success"
                         style={{height:"120px",width:"200px"}}
-                        startIcon={<BrowserUpdatedIcon style={{height:"40px",width:"50px"}} />}
+                        startIcon={<GradingIcon style={{height:"40px",width:"50px"}} />}
                         onClick={()=>{
-                            handleClick(10);
+                            handleClick(11);
                         }}
                     >
-                        Archivos para gestiones
+                        Layout Semanal
                     </Button>
                 </Grid>
                 <Grid item xl={1} lg={1} md={1} sm={1}/>
-                <Grid item xl={2} lg={2} md={2} sm={2}/>
+                
+                <Grid item xl={2} lg={2} md={2} sm={2}>
+                    <Button 
+                        variant="outlined"
+                        size="large"
+                        color="success"
+                        style={{height:"120px",width:"200px"}}
+                        startIcon={<ContentPasteGoIcon style={{height:"40px",width:"50px"}} />}
+                        onClick={()=>{
+                            handleClick(12);
+                        }}
+                    >
+                        Avance Momento
+                    </Button>
+                </Grid>
                 <Grid item xl={2} lg={2} md={2} sm={2}/>
             </Grid>
+            <br/><br/><br/><br/>
         </div>
     )
 }

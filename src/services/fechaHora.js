@@ -38,4 +38,8 @@ export default class FechaHora extends Component{
     ObtenerYear(){
         return fecha.getFullYear();
     }
+
+    ObtenerHoraCompleta(){
+        return fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+    }
 }
