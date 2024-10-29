@@ -27,10 +27,6 @@ const opcionesTipoCartera=[
         id:3,
         valor: "Territorios"
     },
-    {
-        id:4,
-        valor: "Diez Años"
-    },
 ]
 
 export default class ReportePagos extends React.Component{

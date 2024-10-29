@@ -6,6 +6,7 @@ import {ModalEspera,ModalInfo} from '../../services/modals';
 import { useNavigate  } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DescargaExcel from "../descargarExcel";
+import * as XLSX from 'xlsx';
 
 const servicio=new Servicios();
 const descargarExcel=new DescargaExcel();
@@ -24,8 +25,34 @@ const opcionesTipoCartera=[
         valor: "Territorios"
     },
     {
-        id:4,
-        valor: "Diez Años"
+        id:5,
+        valor: "Abandonados",
+        despacho:"60160"
+    },
+    {
+        id:6,
+        valor: "Implant",
+        despacho:"60163"
+    },
+    {
+        id:7,
+        valor: "TAZ",
+        despacho:"60167"
+    },
+    {
+        id:8,
+        valor: "TOR",
+        despacho:"60170"
+    },
+    {
+        id:9,
+        valor: "Saldos Altos",
+        despacho:"60176"
+    },
+    {
+        id:10,
+        valor: "Italika",
+        despacho:"60178"
     },
 ]
 
@@ -45,9 +72,16 @@ const Validacion=()=>{
 
     const navigate = useNavigate();
 
+    let semanaAnte;
+    let semanaPas;
+
     const [cookieBusq,setCookieBusq]=useState(null);
     const [tipoCartera,setTipoCartera]=useState(null);
     const [nombretTipoCartera,setNombreTipoCartera]=useState(null);
+
+    const [archs,setArchs]=useState([])
+    // const [semanaAnte, setSemanaAnte] = useState([]);
+    // const [semanaPas, setSemanaPas] = useState([]);
 
     const [openModalCargando, setOpenModalCargando] = React.useState(false);
     const [openModalInfo, setOpenModalInfo] = React.useState(false);
@@ -85,11 +119,17 @@ const Validacion=()=>{
 
 
     const handleClickBuscarDescargaValidacion=()=>{
-        if(cookieBusq!==null&&tipoCartera!==null){
+        // if(cookieBusq!==null&&tipoCartera!==null){
+        if(tipoCartera!==null){
             let endPoint="service/pagos/validacionPromesasLocal/"+tipoCartera;
             handleOpenCargando();
+            // let json={
+            //     "cokkie":cookieBusq
+            // }
+
             let json={
-                "cokkie":cookieBusq
+                "semanaPasada":semanaPas,
+                "semanaAntePasada":semanaAnte
             }
 
             servicio.consumirServicios(json,endPoint).then(
@@ -140,6 +180,90 @@ const Validacion=()=>{
     }
 
 
+    const handleFileChange = (e) => {
+        setArchs(e.target.files)
+
+    };
+
+    const handleFileUpload = (e) => {
+        console.log("Leyendo Excel con el boton "+e)
+
+        e.preventDefault();
+
+        for(let i=0;i<2;i++){
+            let fi=archs[i];
+            try{
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    const data = e.target.result;
+                    const excel = XLSX.read(data, { type: 'binary' });
+                    const sheetName = excel.SheetNames[0];
+                    const sheet = excel.Sheets[sheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+                    
+                    transformarDatos(jsonData,i);
+                    // setExcelData.push(jsonData);
+                    
+                };
+                
+                const d=fileReader.readAsBinaryString(fi);
+                console.log(d)
+            } catch (error) {
+                console.error("Error leyendo el archivo");
+            }
+        }
+        
+        
+
+
+        // e.preventDefault();
+        // if (file) {
+        //     try {
+        //         const fileReader = new FileReader();
+        //         fileReader.onload = (e) => {
+        //             const data = e.target.result;
+        //             const excel = XLSX.read(data, { type: 'binary' });
+        //             const sheetName = excel.SheetNames[0];
+        //             const sheet = excel.Sheets[sheetName];
+        //             const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });
+                    
+        //             // datosPrepararGuardar(jsonData);
+        //             setExcelData(jsonData);
+        //             console.log(jsonData)
+        //         };
+                
+        //         const d=fileReader.readAsBinaryString(file);
+        //         console.log(d)
+        //     } catch (error) {
+        //         console.error("Error leyendo el archivo");
+        //     }
+        // } else {
+        //     alert('No has seleccionado un archivo');
+        // }
+    };
+
+    const transformarDatos=(archivos,tipo)=>{
+        let pagos=[];
+        archivos.forEach(function(element){
+            let json={
+                "recupporgestion":element["Recuperación por Gestión"],
+                "clienteUnico":element["CU Completo"],
+                "fdfecharecepcion":element["Fecha Recepción"],
+                "gestor":element["Gestor"]
+            }
+            pagos.push(json)
+        })
+
+        if(tipo===0){
+            // setSemanaAnte(pagos);
+            semanaAnte=pagos;
+        }else{
+            // setSemanaPas(pagos);
+            semanaPas=pagos;
+            handleClickBuscarDescargaValidacion()
+        }
+    }
+
     return(
         <div>
             <Grid container spacing={1}>
@@ -160,14 +284,29 @@ const Validacion=()=>{
 
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
                 <Grid item xl={4} lg={4} md={4} sm={4} style={{textAlign:'center'}}>
-                    <TextField 
+                    {/* <TextField 
                         id="Cookie"
                         label="Cookie"
                         style={{width:"250px"}}                        
                         onChange={handleOnChangeBusqCookie}
                     />                   
+                    <br/><br/><br/> */}
+                    <form  onSubmit={handleFileUpload}>
+                        <input type="file" onChange={handleFileChange} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple/>
+                        <br/><br/><br/>
+                        <Autocomplete 
+                            id="seleccionCartera"          
+                            options={opcionesTipoCartera}
+                            style={{width:"250px", textAlign:'center',marginLeft:'auto',marginRight:'auto'}}
+                            getOptionLabel={(option) => option.valor}
+                            renderInput={(params) => <TextField {...params} label="Tipo de Cartera" variant="outlined" />}
+                            onChange={handleOnChangeCartera}
+                        />
+                        <br/><br/><br/>
+                        <button class="button_1">Subir archivo</button>
+                    </form>
                     <br/><br/><br/>
-                    <Autocomplete 
+                    {/* <Autocomplete 
                         id="seleccionCartera"          
                         options={opcionesTipoCartera}
                         style={{width:"250px", textAlign:'center',marginLeft:'auto',marginRight:'auto'}}
@@ -175,8 +314,8 @@ const Validacion=()=>{
                         renderInput={(params) => <TextField {...params} label="Tipo de Cartera" variant="outlined" />}
                         onChange={handleOnChangeCartera}
                     />
-                    <br/><br/><br/>
-                    <Button
+                    <br/><br/><br/> */}
+                    {/* <Button
                         variant="contained"
                         color="success"
                         size="large"
@@ -186,7 +325,7 @@ const Validacion=()=>{
         
                     >
                         Descargar Validacion        
-                    </Button>
+                    </Button> */}
 
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
