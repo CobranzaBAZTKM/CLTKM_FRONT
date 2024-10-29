@@ -29,11 +29,6 @@ const opcionesTipoCartera=[
         despacho:"60174"
     },
     {
-        id:4,
-        valor: "Diez Años",
-        despacho:"60187"
-    },
-    {
         id:5,
         valor: "Abandonados",
         despacho:"60160"
@@ -120,7 +115,8 @@ const ObtenerArchivos=()=>{
     const handleClickDescargaArchivos=()=>{
         if(tipoCartera!==null){
             handleOpenCargando();
-            servicio.consumirServiciosGET("service/carteraLocal/consultarBaseLocalPorCartera/"+tipoCartera).then(
+            let json={"":""}
+            servicio.consumirServicios(json,"service/carteraLocal/consultarBaseLocalPorCartera/"+tipoCartera).then(
                 data=>{
                     if(data.code===1){
                         descargarArchivos(data.data);
@@ -151,7 +147,8 @@ const ObtenerArchivos=()=>{
           arreglo.push(json);
           bandera=bandera+1
 
-          if(arreglo.length===9999){
+        //   if(arreglo.length===9999){
+          if(arreglo.length===5000){
             let nombreArchivo=dia+mes+year+"_Gestiones_"+nombretTipoCartera;
             let archivo=descargarExcel.descargarExcelCSV(arreglo,nombreArchivo);
             console.log(archivo);
@@ -164,6 +161,7 @@ const ObtenerArchivos=()=>{
             arreglo=[];
             console.log(arreglo.length);
           }
+          
 
         
         })

@@ -25,10 +25,6 @@ const opcionesTipoCartera=[
         valor: "Territorios"
     },
     {
-        id:4,
-        valor: "Diez Años"
-    },
-    {
         id:5,
         valor: "Abandonados"
     },

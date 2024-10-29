@@ -15,7 +15,6 @@ export default class OperacionGestion extends React.Component{
         this.state={
             personal:[],
             tipificaciones:[],
-            // cartera:[]
         }
     }
 
@@ -47,35 +46,15 @@ export default class OperacionGestion extends React.Component{
                 }
             }
         )
-
-        // let json={
-        //     "":""
-        // }
-
-        // servicio.consumirServicios(json,"service/carteraLocal/carteraCompletaDia").then(
-        //     data=>{  
-        //         if(data.code===1){
-        //             this.setState({
-        //                 cartera:data.data
-        //             })
-        //         }
-        //     }
-            
-        // )
-
-
-
     }
 
     render(){
-        // if(this.state.personal.length!==0&&this.state.tipificaciones.length!==0&&this.state.cartera.length!==0){
         if(this.state.personal.length!==0&&this.state.tipificaciones.length!==0){
             return(
                 <div>
                     <Gestion
                         personal={this.state.personal}
                         tipificaciones={this.state.tipificaciones}
-                        // cartera={this.state.cartera}
                     />
                 </div>
             )
@@ -124,12 +103,6 @@ const Gestion=(props)=>{
                 }
             )
         }
-        // props.cartera.forEach(function(element){
-        //     if(element.cliente_UNICO===params.clienteUnico){
-        //         setCuenta(element);
-        //         console.log(element);
-        //     }
-        // })
     })
 
     const buscarGestion=(telefono)=>{
