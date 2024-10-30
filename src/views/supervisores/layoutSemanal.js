@@ -257,16 +257,16 @@ const LeerLayout=()=>{
         }
         console.log(json);
         
-        // servicio.consumirServicios(json,"service/pagos/layoutSemanal").then(
-        //     data=>{
-        //         if(data.code===1){
+        servicio.consumirServicios(json,"service/pagos/layoutSemanal").then(
+            data=>{
+                if(data.code===1){
                     setPagosDiasAtrasA(pagosDiaAtras)
                     handleCloseEsperar();
                     setValorModelInfo(1)
                     handleOpenInfo("Correo(s) con la recuperacion semanal enviado(s) correctamente, presiona OK para continuar");
-        //         }
-        //     }
-        // )
+                }
+            }
+        )
 
     }
 
