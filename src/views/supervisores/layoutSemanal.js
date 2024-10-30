@@ -42,6 +42,7 @@ const LeerLayout=()=>{
     let recuTOR=0;
     let recuSaldAlt=0;
     let recuItalika=0;
+    let recuEspejo=0;
 
     let cantPagNorm=0;
     let cantPagVIP=0;
@@ -52,6 +53,7 @@ const LeerLayout=()=>{
     let cantPagTOR=0;
     let cantPagSaldAlt=0;
     let cantPagItalika=0;
+    let cantPagEspejo=0;
 
     let pagosDiaAtras=[];
 
@@ -193,6 +195,10 @@ const LeerLayout=()=>{
                 recuItalika=recuperacion;
                 cantPagItalika=cantidadPagos;
                 break;
+            case "60187":
+                recuEspejo=recuperacion;
+                cantPagEspejo=cantidadPagos;
+                break;
             default:
                 console.log("Vacio");
         }    
@@ -221,7 +227,7 @@ const LeerLayout=()=>{
     const armarLayout=(cartera)=>{
         let cantidadCartera=cartera.length;
         let cantidadCarteraNormalidad=0;
-        let cobranzaTotal=recuNormalidad+recuVIP+recuTerritorios+recuAbandonados+recuImplant+recuTAZ+recuTOR+recuSaldAlt+recuItalika;
+        let cobranzaTotal=recuNormalidad+recuVIP+recuTerritorios+recuAbandonados+recuImplant+recuTAZ+recuTOR+recuSaldAlt+recuItalika+recuEspejo;
         cartera.forEach(function(element){
             if(element.tipocarteratkm==="Normalidad"){
                 cantidadCarteraNormalidad=cantidadCarteraNormalidad+1;
@@ -251,8 +257,10 @@ const LeerLayout=()=>{
             "recuperacionTOR":"$"+new Intl.NumberFormat('es-MX').format(recuTOR)+"",
             "pagosSaldAlt":cantPagSaldAlt+"",
             "recuperacionSaldAlt":"$"+new Intl.NumberFormat('es-MX').format(recuSaldAlt)+"",
-            "pagosItalika":+cantPagItalika+"",
+            "pagosItalika":cantPagItalika+"",
             "recuperacionItalika":"$"+new Intl.NumberFormat('es-MX').format(recuItalika)+"",
+            "pagosEspejo":cantPagEspejo+"",
+            "recuperacionEspejo":"$"+new Intl.NumberFormat('es-MX').format(recuEspejo)+"",
             "total":"$"+new Intl.NumberFormat('es-MX').format(cobranzaTotal)+"",
         }
         console.log(json);
