@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import IframeComm from "react-iframe-comm";
-import Iframe from 'react-iframe'
 import {Grid,TextField,Autocomplete} from '@mui/material';
-import Tarjeta from "./tarjeta";
-// import Embed from 'react-embed';
-import "../assests/estilos.css"
-import DoneOutlineSharpIcon from '@mui/icons-material/DoneOutlineSharp';
-import CloseIcon from '@mui/icons-material/Close';
+import "../assests/estilos.css";
 import { Button } from "@mui/material";
 import Servicios from '../services/servicios';
 import {ModalInfo} from '../services/modals';
@@ -75,9 +69,7 @@ export default class Operacion extends React.Component{
 
 const Speeche=(props)=>{
     const navigate = useNavigate();
-    // let params=useParams();
-
-    // const [clienteUnico,setClienteUnico]=useState(params.clienteUnico);
+    
     const [idGestorTKM,setIdGestorTKM]=useState(null);
     const [clienteUnico, setClienteUnico]=useState(null);
     const [telefono, setTelefono]=useState(null);
@@ -175,7 +167,6 @@ const Speeche=(props)=>{
 
 
     const handleOnClickInsertarGestion=()=>{
-        //if((idGestorTKM!==""||idGestorTKM!==null)&&(clienteUnico!==""||clienteUnico!==null)&&(telefono!==""||telefono!==null)&&(idTipificacion!==""||idTipificacion!==null)&&(comentario!==""||comentario!==null)){
         if((idGestorTKM!==""&&idGestorTKM!==null)&&(clienteUnico!==""&&clienteUnico!==null)&&(telefono!==""&&telefono!==null)&&(idTipificacion!==""&&idTipificacion!==null)&&(comentario!==""&&comentario!==null)){
             if(String(telefono).length===10){
                 let endPoint="service/operacion/gestionllamadas/insertarGestionLlamadas";
@@ -273,22 +264,6 @@ const Speeche=(props)=>{
                                 renderInput={(params) => <TextField {...params} label="Telefono" variant="outlined" />}
                                 onChange={handleOnChangeTelefono}
                             />
-                        
-                            {/* <FormControl variant="outlined">
-                                <InputLabel htmlFor="formatted-text-mask-input">Cliente Unico</InputLabel>
-                                <Input                                                                   
-                                    onChange={handleOnChangeCU}                                   
-                                    id="clienteUnico"
-                                    inputComponent={TextMaskCustom}
-                                />
-                            </FormControl> */}
-                            {/* <br/><br/>
-                            <TextField 
-                                id="telefono" 
-                                label="Telefono"  
-                                type="number"
-                                onChange={handleOnChangeTelefono}
-                            /> */}
                             <br/><br/>
                             <Autocomplete 
                                 id="Gestor"          
@@ -332,27 +307,6 @@ const Speeche=(props)=>{
                         ):(<></>)
                     }   
                     
-                    {/* <p>Buen dia mi nombre es: <strong>NOMBRE_GESTOR</strong> </p>
-                    <p>Me comunico de TKM en representacion de de Banco Azteca</p>
-                    <p>¿Es usted <strong>NOMBRE_CLIENTE</strong>?</p>
-                    <br/>
-                    &nbsp;&nbsp;  &nbsp;  &nbsp;  &nbsp;      
-
-
-                    &nbsp;&nbsp;  &nbsp;  &nbsp;  &nbsp;   */}
-                    
-
-                    {/* <Button
-                            variant="contained"
-                            color="error"
-                            size="large"
-                            style={{height:"50px",width:"200px"}}
-                            startIcon={<CloseIcon style={{height:"50px",width:"80px"}}/>}
-                    >                          
-                    </Button> */}
-
-
-
                 </Grid>
                 <Grid item xl={4} lg={4} md={4} sm={4}/>
 
@@ -377,18 +331,3 @@ const Speeche=(props)=>{
         </div>
     )
 }
-
-// const TextMaskCustom = (props) => {
-//     const { onChange, ...other } = props;
-//     return (
-//       <IMaskInput
-//         {...other}
-//         mask="0000-00000-0000-0000"
-//         definitions={{
-//           "#": /[1-9]/,
-//         }}
-//         onAccept={(value) => onChange({ target: { name: props.name, value } })}
-//         overwrite
-//       />
-//     );
-//   };
