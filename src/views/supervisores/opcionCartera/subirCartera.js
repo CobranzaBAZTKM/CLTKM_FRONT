@@ -50,6 +50,7 @@ const SubirBase=()=>{
         if(file2){
             let x=file2.length;
             let finArr=x-1;
+            let sumArr=0;
             for(let i=0;i<x;i++){
                 console.log(x);
                 let archivo=file2[i];                
@@ -61,7 +62,8 @@ const SubirBase=()=>{
                         const sheetName = excel.SheetNames[0];
                         const sheet = excel.Sheets[sheetName];
                         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 0 });                        
-                        datosPrepararGuardar(jsonData,archivo,i,finArr);
+                        datosPrepararGuardar(jsonData,archivo,sumArr,finArr);
+                        sumArr=sumArr+1;
                     };
                     
                     const d=fileReader.readAsBinaryString(archivo);

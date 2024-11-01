@@ -5,7 +5,6 @@ import Menu from './views/menu';
 import Header from './assests/header';
 import Operacion from './views/operacion';
 import Tipificaciones from './views/supervisores/tipificaciones'
-import DescargaCartera from './views/supervisores/descargaCartera';
 import InsertarPlanes from './views/gestores/insertarPlanes';
 import RevisarPP from './views/supervisores/revisarPP';
 import PersonalBazTkm from './views/supervisores/personalBazTkm';
@@ -39,10 +38,7 @@ function App() {
             <Route exact path='/CLTKM_FRONT/menu' Component={Menu}/>
             
             <Route exact path='/CLTKM_FRONT/supervisores/tipificaciones' Component={Tipificaciones}/>
-            
-            <Route exact path='/CLTKM_FRONT/supervisores/bajarCartera' Component={DescargaCartera}/>
             <Route exact path='/CLTKM_FRONT/supervisores/cartera' Component={Cartera}/>
-
             <Route exact path='/CLTKM_FRONT/supervisores/revisarPP' Component={RevisarPP}/>
             <Route exact path='/CLTKM_FRONT/supervisores/personal' Component={PersonalBazTkm}/>
             <Route exact path='/CLTKM_FRONT/supervisores/reportePagos' Component={ReportePagos}/>
@@ -61,14 +57,6 @@ function App() {
             <Route exact path='/CLTKM_FRONT/gestores/operacionGestion/:datos' Component={OperacionGestion}/>
             <Route exact path='/CLTKM_FRONT/gestores/buscarTitularPorNumero' Component={BuscarTitularesNumero}/>
 
-
-
-
-
-            
-
-
-            
           </Routes>
         </BrowserRouter>
 
