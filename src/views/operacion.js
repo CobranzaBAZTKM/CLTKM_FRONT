@@ -69,7 +69,7 @@ export default class Operacion extends React.Component{
 
 const Speeche=(props)=>{
     const navigate = useNavigate();
-    
+
     const [idGestorTKM,setIdGestorTKM]=useState(null);
     const [clienteUnico, setClienteUnico]=useState(null);
     const [telefono, setTelefono]=useState(null);
@@ -155,7 +155,8 @@ const Speeche=(props)=>{
                         setTipoCartera(data.data.tipocarteratkm);
                         setNombreTitular(data.data.nombre_CTE)
                     }else{
-                        handleOpenInfo("Favor de validar el Cliente Unico, no se obtuvieron datos");
+                        setCuValidado(0);
+                        handleOpenInfo("Favor de validar el Cliente Unico, no se obtuvieron datos");                        
                     }
 
                 }else{
