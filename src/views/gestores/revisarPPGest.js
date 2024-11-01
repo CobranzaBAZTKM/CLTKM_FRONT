@@ -470,7 +470,7 @@ const RevisarPromesasGes=(props)=>{
         let mensaje1="FECHA INGRESO PP: "+params.row.fechaIngesoPP;
         // let mensaje2="FECHA PAGO: "+params.row.fechaPago;
         let mensaje2="FECHA PAGO: ";
-        let mensaje3="FECHA VENCIMIENTO: "+params.row.fechaVencimientoPP;
+        let mensaje3="FECHA ULTIMO PAGO: "+params.row.fechaVencimientoPP;
         let mensaje4="FOLIO: "+params.row.folio;
         let mensaje5="MONTO PAGO: "+params.row.montoPago;
         let mensaje6="NOMBRE DE CLIENTE: "+params.row.nombreCliente;

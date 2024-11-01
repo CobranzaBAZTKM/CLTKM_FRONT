@@ -1292,7 +1292,7 @@ const SupervisarPP=(props)=>{
                     valor3={fechaPagoAct}
                     handleChangeV3={handleOnChangeFechaPagoAct}
 
-                    nombreValor4={"Fecha Vence"}
+                    nombreValor4={"Fecha Ultimo Pago"}
                     valor4={fechaVencPPAct}
                     handleChangeV4={handleOnChangeFechaVenAct}
 

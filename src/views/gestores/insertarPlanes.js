@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {TextField, Button, Grid,Autocomplete,Input,InputLabel,FormControl} from '@mui/material';
+import {TextField, Button, Grid,Autocomplete,Input,InputLabel,FormControl,Link} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -42,61 +42,6 @@ const tipoLlamadaOpcion=[
         id:"Sms",
         valor:"Mensaje"
     },
-]
-
-const tipoCarteraOpcion=[
-    {
-        id:1,
-        valor:"Normalidad",
-        texto:"Normalidad"
-    },
-    {
-        id:2,
-        valor:"VIP",
-        texto:"VIP",
-    },
-    {
-        id:3,
-        valor:"Ciceron",
-        texto:"Ciceron",
-    },
-    {
-        id:4,
-        valor:"Territorios",
-        texto:"Territorios",
-    },
-    {
-        id:6,
-        valor:"Abandonados",
-        texto:"Abandonados",
-    },
-    {
-        id:7,
-        valor:"Implant",
-        texto:"Implant",
-    },
-    {
-        id:8,
-        valor:"TAZ",
-        texto:"TAZ",
-    },
-    {
-        id:9,
-        valor:"TOR",
-        texto:"TOR",
-    },
-    {
-        id:10,
-        valor:"SaldosAltos",
-        texto:"Saldos Altos",
-    },
-    {
-        id:11,
-        valor:"Italika",
-        texto:"Italika",
-    },
-
-
 ]
 
 export default class InsertarPlanes extends React.Component{
@@ -171,6 +116,8 @@ const ColocarPromesas=(props)=>{
 
     const [banderaCu,setBanderaCu]=useState(0);
     const [tels, setTels]=useState([]);
+    const [banderaTel, setBanderaTel]=useState(false);
+    const [telAutoEle,setTelAutoEle]=useState(null);
 
     const [idSuperAut, setIdSuperAut]=useState("0");
     const [passSuperAut,setPassSuperAut]=useState(null);
@@ -259,14 +206,20 @@ const ColocarPromesas=(props)=>{
         setClienteUnico(event.target.value);
     }
 
-    const handleOnChangeTelefono=(event,newValue)=>{
-        // setTelefono(event.target.value);
+    const handleOnChangeTelefono=(event,newValue)=>{     
         if(newValue===null){
             setTelefono(null);
+            setTelAutoEle(null);
         }else{
-            setTelefono(newValue.telefono);
+            setTelefono(newValue.telefonos);
+            setTelAutoEle(newValue.telefonos);
         }
     }
+
+    const handleOnChangeTelefono2=(event)=>{
+        setTelefono(event.target.value);
+    }
+    
 
     const handleOnChangeGestor=(event,newValue)=>{
         if(newValue===null){
@@ -474,7 +427,7 @@ const ColocarPromesas=(props)=>{
                     document.getElementById("montoPago").value="";
                     document.getElementById("nombreCliente").value="";
                     document.getElementById("clienteUnico").value="";
-                    document.getElementById("telefono").value="";
+                    document.getElementById("telefono2").value="";
                     document.getElementById("observaciones").value="";
                     // document.getElementById("whatsApp").value="";
                     // document.getElementById("adicional").value="";
@@ -482,7 +435,9 @@ const ColocarPromesas=(props)=>{
                     setBanderaCu(0);
                     setObservaciones(null);
                     setAdicional(null);
-
+                    setTelefono(null);
+                    setMontoPago(null);
+                    setBanderaTel(false);
 
                 }else{
                     handleCloseSiNo();
@@ -525,19 +480,19 @@ const ColocarPromesas=(props)=>{
                                 let telefonos=[];
                                 let tel1={
                                     "valor":1,
-                                    "telefono":data.data.telefono1
+                                    "telefonos":data.data.telefono1
                                 }
                                 let tel2={
                                     "valor":2,
-                                    "telefono":data.data.telefono2
+                                    "telefonos":data.data.telefono2
                                 }
                                 let tel3={
                                     "valor":3,
-                                    "telefono":data.data.telefono3
+                                    "telefonos":data.data.telefono3
                                 }
                                 let tel4={
                                     "valor":4,
-                                    "telefono":data.data.telefono4
+                                    "telefonos":data.data.telefono4
                                 }
                                 telefonos.push(tel1);
                                 telefonos.push(tel2);
@@ -572,13 +527,28 @@ const ColocarPromesas=(props)=>{
         document.getElementById("montoPago").value="";
         document.getElementById("nombreCliente").value="";
         document.getElementById("clienteUnico").value="";
-        document.getElementById("telefono").value="";
+        document.getElementById("telefono2").value="";
         document.getElementById("observaciones").value="";
         // document.getElementById("whatsApp").value="";
         // document.getElementById("adicional").value="";
         document.getElementById("tipoLlamadaAutocomplete").value="";
         setObservaciones(null);
         setAdicional(null);
+        setTelefono(null);
+        setMontoPago(null);
+        setBanderaTel(false);
+    }
+
+    const bandTel=()=>{
+        if(banderaTel){
+            document.getElementById("telefono1A").value=null;
+            setTelefono(telAutoEle);
+            setBanderaTel(false);
+        }else{
+            document.getElementById("telefono2").value=null;
+            setTelefono(null);
+            setBanderaTel(true);
+        }
     }
 
     const handleClickRegresasr=()=>{
@@ -766,21 +736,26 @@ const ColocarPromesas=(props)=>{
                             <Grid item xl={2} lg={2} md={2} sm={2}>
                                 <p><strong>TELEFONO A 10 DIGITOS</strong></p>
                             </Grid>
-                            <Grid item xl={4} lg={4} md={4} sm={4}>
+                            <Grid item xl={4} lg={4} md={4} sm={4} hidden={banderaTel}>
                                 <Autocomplete 
-                                    id="telefono"          
+                                    id="telefono1A"
                                     options={tels}
-                                    getOptionLabel={(option) => option.telefono}                                    
+                                    getOptionLabel={(option) => option.telefonos}                                    
                                     renderInput={(params) => <TextField {...params} label="Telefono" variant="outlined" />}
                                     onChange={handleOnChangeTelefono}
                                 />
-                                {/* <TextField 
-                                    id="telefono" 
+                                <Link href="#" onClick={bandTel}>Colocar telefono de forma manual</Link>                                                                            
+                            </Grid>  
+                            <Grid item xl={4} lg={4} md={4} sm={4} hidden={!banderaTel}>
+                                <TextField 
+                                    id="telefono2" 
                                     label="Telefono" 
                                     type="number"
-                                    onChange={handleOnChangeTelefono}
-                                /> */}
-                            </Grid>  
+                                    onChange={handleOnChangeTelefono2}
+                                />
+                                <br/>
+                                <Link href="#" onClick={bandTel}>Elegir Telefono</Link>
+                            </Grid> 
                             <Grid item xl={6} lg={6} md={6} sm={6}></Grid>
                         </Grid> 
                         <br/>
