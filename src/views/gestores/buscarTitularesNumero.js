@@ -142,11 +142,13 @@ const Consulta=()=>{
                                     handleCloseCargando();
                                 }
                                 else{
+                                    setMostrarTabla(true);
                                     handleCloseCargando();
                                     handleOpenInfo("No se obtuvieron datos del numero, favor de validar y volver a intentar");
                                 }
                             }
                             else{
+                                setMostrarTabla(true);
                                 handleCloseCargando();
                                 handleOpenInfo("No se obtuvieron datos del numero, favor de validar y volver a intentar");
                             }
